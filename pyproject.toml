@@ -30,6 +30,7 @@ dependencies = [
     "ruamel.yaml>=0.16.5",
     "scipy",
     "utm",
+    "typing-extensions ; python_version < '3.12'",
 ]
 dynamic = ["version"]
 
