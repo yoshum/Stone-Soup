@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence, Iterator
 from typing import Any
 
-from stonesoup.base import Base, Property
+from stonesoup.base import Base, PropertySpec, Property
 
 
 class Action(Base):
@@ -94,7 +94,7 @@ class RealNumberActionGenerator(ActionGenerator):
         raise NotImplementedError
 
 
-class ActionableProperty(Property):
+class ActionableProperty(PropertySpec):
     """Property that is modified via an :class:`~.Action` with defined, non-equal start and end
     times."""
 

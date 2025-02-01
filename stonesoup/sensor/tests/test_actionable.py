@@ -5,7 +5,7 @@ import pytest
 
 from ..action.dwell_action import DwellActionsGenerator, ChangeDwellAction
 from ...sensormanager.action import Actionable, ActionableProperty
-from ..base import Property
+from ...base import Property, PropertySpec
 from ...types.angle import Bearing
 from ...types.array import StateVector
 
@@ -40,7 +40,7 @@ def test_actionable():
     assert isinstance(actionable_properties, dict)
     assert len(actionable_properties) == 1
     assert 'dwell_centre' in actionable_properties.keys()
-    assert isinstance(actionable_properties['dwell_centre'], Property)
+    assert isinstance(actionable_properties['dwell_centre'], PropertySpec)
 
     end_time = start + timedelta(minutes=2)
 
