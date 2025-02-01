@@ -54,6 +54,7 @@ This is equivalent to the following:
 
 """
 import inspect
+import sys
 import textwrap
 from reprlib import Repr
 from abc import ABCMeta
@@ -62,6 +63,10 @@ from copy import copy
 from functools import cached_property
 from types import MappingProxyType
 from typing import Any, get_args, get_origin
+if sys.version_info < (3, 12):
+    from typing_extensions import dataclass_transform  # noqa
+else:
+    from typing import dataclass_transform  # noqa
 
 
 class Property:
@@ -249,6 +254,7 @@ class BaseRepr(Repr):
         return val
 
 
+@dataclass_transform(field_specifiers=(Property,), eq_default=False)
 class BaseMeta(ABCMeta):
     """Base metaclass for Stone Soup components.
 
