@@ -62,14 +62,14 @@ from collections import OrderedDict
 from copy import copy
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any, get_args, get_origin
+from typing import Any, TypeVar, get_args, get_origin, overload
 if sys.version_info < (3, 12):
     from typing_extensions import dataclass_transform  # noqa
 else:
     from typing import dataclass_transform  # noqa
 
 
-class Property:
+class PropertySpec:
     """Property(cls, default=inspect.Parameter.empty)
     Property class for definition of attributes on component classes.
 
@@ -185,6 +185,24 @@ class Property:
         return new_property
 
 
+T = TypeVar("T")
+
+
+@overload
+def Property(cls: type[T], *, default=inspect.Parameter.empty, doc=None, readonly=False) -> T:
+    ...
+
+
+@overload
+def Property(*, default=inspect.Parameter.empty, doc=None, readonly=False) -> Any:
+    ...
+
+
+def Property(cls=None, *, default=inspect.Parameter.empty, doc=None,  # type: ignore
+             readonly=False):
+    return PropertySpec(cls, default=default, doc=doc, readonly=readonly)
+
+
 def _format_note(property_names):
     multiple = len(property_names) > 1
     prop_str = [f":attr:`{prop_name}`" for prop_name in property_names]
@@ -254,7 +272,7 @@ class BaseRepr(Repr):
         return val
 
 
-@dataclass_transform(field_specifiers=(Property,), eq_default=False)
+@dataclass_transform(field_specifiers=(PropertySpec, Property), eq_default=False)
 class BaseMeta(ABCMeta):
     """Base metaclass for Stone Soup components.
 
@@ -281,7 +299,7 @@ class BaseMeta(ABCMeta):
                     properties.update(base_class._properties)
 
         for key, value in namespace.items():
-            if isinstance(value, Property):
+            if isinstance(value, PropertySpec):
                 annotation_cls = namespace.get('__annotations__', {}).get(key, None)
                 if value.cls is not None and annotation_cls is not None:
                     raise ValueError(f'Type was specified both by type hint '
@@ -321,7 +339,7 @@ class BaseMeta(ABCMeta):
 
         for prop_name in list(properties):
             # Optional arguments must follow mandatory
-            if properties[prop_name].default is not Property.empty:
+            if properties[prop_name].default is not PropertySpec.empty:
                 properties.move_to_end(prop_name)
 
         if '__init__' not in namespace:
@@ -441,7 +459,7 @@ class Base(metaclass=BaseMeta):
 
         for name, prop in prop_iter:
             value = kwargs.pop(name, prop.default)
-            if value is Property.empty:
+            if value is PropertySpec.empty:
                 raise TypeError(f'{cls.__name__} is missing a required argument: {name!r}')
             setattr(self, name, value)
 
