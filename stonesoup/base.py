@@ -343,12 +343,18 @@ class BaseMeta(ABCMeta):
                 properties.move_to_end(prop_name)
 
         if '__init__' not in namespace:
-            # Must replace init so we don't overwrite parent class's
-            # and blank line below so this doesn't become its docstring!
+            if '__post_init__' not in namespace:
+                # Must replace init so we don't overwrite parent class's
+                # and blank line below so this doesn't become its docstring!
 
-            def __init__(self, *args, **kwargs):
-                super(cls, self).__init__(*args, **kwargs)
-            namespace['__init__'] = __init__
+                def __init__(self, *args, **kwargs):
+                    super(cls, self).__init__(*args, **kwargs)
+                namespace['__init__'] = __init__
+            else:
+                def __init__(self, *args, **kwargs):
+                    super(cls, self).__init__(*args, **kwargs)
+                    cls.__post_init__(self)
+                namespace['__init__'] = __init__
 
         namespace['_properties'] = properties
         namespace['_subclasses'] = set()
