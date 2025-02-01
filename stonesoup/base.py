@@ -189,12 +189,13 @@ T = TypeVar("T")
 
 
 @overload
-def Property(cls: type[T], *, default=inspect.Parameter.empty, doc=None, readonly=False) -> T:
+def Property(cls: type[T], *, default: Any = inspect.Parameter.empty, doc=None,
+             readonly=False) -> T:
     ...
 
 
 @overload
-def Property(*, default=inspect.Parameter.empty, doc=None, readonly=False) -> Any:
+def Property(*, default: Any = inspect.Parameter.empty, doc=None, readonly=False) -> Any:
     ...
 
 
