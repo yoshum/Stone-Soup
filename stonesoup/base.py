@@ -53,6 +53,7 @@ This is equivalent to the following:
 
 
 """
+from collections.abc import Callable
 import inspect
 import sys
 import textwrap
@@ -126,7 +127,7 @@ class Property:
         # Fix for when ":" in doc string being interpreted as type in NumpyDoc
         if doc is not None and ':' in doc:
             self.__doc__ = ": " + doc
-        self._property_name = None
+        self._property_name: str = None  # type: ignore
         self._setter = None
         self._getter = None
         self._deleter = None
@@ -218,7 +219,11 @@ def _format_note(property_names):
         """)
 
 
-def clearable_cached_property(*property_names: str):
+class _clearable_cached_property(cached_property):
+    _property_names: tuple[str, ...]
+
+
+def clearable_cached_property(*property_names: str) -> Callable[[Callable], cached_property]:
     """cached property which is cleared on provided properties being modified
 
     This decorator will use the standard library functools.cached_property
@@ -233,7 +238,7 @@ def clearable_cached_property(*property_names: str):
         if func.__doc__ is None:
             func.__doc__ = ""
         func.__doc__ = func.__doc__ + _format_note(property_names)
-        cached_method = cached_property(func)
+        cached_method = _clearable_cached_property(func)
         cached_method._property_names = property_names
         return cached_method
     return decorator
@@ -289,6 +294,8 @@ class BaseMeta(ABCMeta):
     """
 
     _repr = BaseRepr()
+    _properties: dict[str, Property]
+    _subclasses: set['BaseMeta']
 
     def __new__(mcls, name, bases, namespace):
 
