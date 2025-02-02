@@ -62,7 +62,7 @@ from collections import OrderedDict
 from copy import copy
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any, get_args, get_origin
+from typing import Any, TypeVar, get_args, get_origin, overload
 if sys.version_info < (3, 12):
     from typing_extensions import dataclass_transform  # noqa
 else:
@@ -185,6 +185,26 @@ class Property:
         return new_property
 
 
+T = TypeVar("T")
+
+
+@overload
+def prop(*, default: Any = inspect.Parameter.empty, doc=None,
+         readonly=False) -> Any:
+    ...
+
+
+@overload
+def prop(cls: type[T], *, default: Any = inspect.Parameter.empty, doc=None,
+         readonly=False) -> T:
+    ...
+
+
+def prop(cls=None, *, default=inspect.Parameter.empty, doc=None,
+         readonly=False):
+    return Property(cls, default=default, doc=doc, readonly=readonly)
+
+
 def _format_note(property_names):
     multiple = len(property_names) > 1
     prop_str = [f":attr:`{prop_name}`" for prop_name in property_names]
@@ -254,7 +274,7 @@ class BaseRepr(Repr):
         return val
 
 
-@dataclass_transform(field_specifiers=(Property,), eq_default=False)
+@dataclass_transform(field_specifiers=(prop, Property), eq_default=False)
 class BaseMeta(ABCMeta):
     """Base metaclass for Stone Soup components.
 
