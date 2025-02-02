@@ -9,7 +9,7 @@ import numpy as np
 import scipy
 from ordered_set import OrderedSet
 
-from ..base import Property
+from ..base import prop
 from ..measures import Euclidean, Measure
 from ..types.association import AssociationSet, TimeRangeAssociation
 from ..types.groundtruth import GroundTruthPath
@@ -43,10 +43,10 @@ class ClearMotAssociator(TwoTrackToTrackAssociator):
             Bernardin et al, 2008
     """
 
-    association_threshold: float = Property(
+    association_threshold: float = prop(
         doc="Threshold distance measure which states must be within for an "
             "association to be recorded")
-    measure: Measure = Property(
+    measure: Measure = prop(
         default=Euclidean(),
         doc="Distance measure to use. Default :class:`~.measures.Euclidean()`")
 

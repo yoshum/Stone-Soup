@@ -19,29 +19,29 @@ from dateutil.parser import parse
 
 from .base import GroundTruthReader, DetectionReader
 from .file import BinaryFileReader
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.detection import Detection
 from ..types.groundtruth import GroundTruthPath, GroundTruthState
 
 
 class _HDF5Reader(BinaryFileReader):
-    state_vector_fields: Sequence[str] = Property(
+    state_vector_fields: Sequence[str] = prop(
         doc="Paths of datasets to be used in state vector"
     )
-    time_field: str = Property(doc="Path of dataset to be used as time field")
-    time_field_format: str = Property(default=None, doc="Optional datetime format")
-    timestamp: bool = Property(
+    time_field: str = prop(doc="Path of dataset to be used as time field")
+    time_field_format: str = prop(default=None, doc="Optional datetime format")
+    timestamp: bool = prop(
         default=False, doc="Treat time field as a timestamp from epoch"
     )
-    time_res_second: int = Property(
+    time_res_second: int = prop(
         default=1, doc="Desired maximum resolution of time values in seconds",
     )
-    time_res_micro: int = Property(
+    time_res_micro: int = prop(
         default=1e6,
         doc="Desired maximum sub-second resolution of time values in microseconds",
     )
-    metadata_fields: Collection[str] = Property(
+    metadata_fields: Collection[str] = prop(
         default=None, doc="Paths of datasets to be saved as metadata, default all"
     )
 
@@ -151,7 +151,7 @@ class HDF5GroundTruthReader(GroundTruthReader, _HDF5Reader):
     ----------
     """
 
-    path_id_field: str = Property(doc="Path of dataset to be used as path ID")
+    path_id_field: str = prop(doc="Path of dataset to be used as path ID")
 
     @BufferedGenerator.generator_method
     def groundtruth_paths_gen(self):

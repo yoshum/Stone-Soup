@@ -6,15 +6,15 @@ from .base import MetricGenerator
 from ..types.state import State, StateMutableSequence
 from ..types.metric import SingleTimeMetric, TimeRangeMetric
 from ..types.time import TimeRange
-from ..base import Property
+from ..base import prop
 
 
 class _CovarianceNormsMetric(MetricGenerator):
     _type = None
-    tracks_key: str = Property(doc='Key to access set of tracks added to MetricManager',
+    tracks_key: str = prop(doc='Key to access set of tracks added to MetricManager',
                                default='tracks')
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated "
-                                       "metrics from MultiManager",
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated "
+                                   "metrics from MultiManager",
                                    default='covNorms_generator')
 
     def compute_metric(self, manager, **kwargs):
@@ -117,8 +117,8 @@ class SumofCovarianceNormsMetric(_CovarianceNormsMetric):
     """
 
     _type = "Sum"
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated "
-                                       "metrics from MultiManager",
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated "
+                                   "metrics from MultiManager",
                                    default='sumCovNorms_generator')
 
     def compute_covariancenorms(self, track_states):

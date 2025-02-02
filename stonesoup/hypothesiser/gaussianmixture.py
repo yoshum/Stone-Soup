@@ -1,5 +1,5 @@
 from . import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..dataassociator.tree import DetectionKDTreeMixIn
 from ..types.detection import MissedDetection
 from ..types.multihypothesis import MultipleHypothesis
@@ -15,9 +15,9 @@ class GaussianMixtureHypothesiser(Hypothesiser):
     pertaining to an individual component-detection hypothesis
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Underlying hypothesiser used to generate detection-target pairs")
-    order_by_detection: bool = Property(
+    order_by_detection: bool = prop(
         default=False,
         doc="Flag to order the :class:`~.MultipleHypothesis` "
             "list by detection or component")

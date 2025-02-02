@@ -1,6 +1,6 @@
 from typing import Union
 
-from ..base import Property
+from ..base import prop
 from ..hypothesiser import Hypothesiser
 
 
@@ -11,5 +11,5 @@ class Gater(Hypothesiser):
     returned hypotheses.
     """
 
-    hypothesiser: Union[Hypothesiser, 'Gater'] = Property(
+    hypothesiser: Union[Hypothesiser, 'Gater'] = prop(
         doc="Hypothesiser or Gater that is being wrapped.")

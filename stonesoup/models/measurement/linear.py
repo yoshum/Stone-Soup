@@ -1,6 +1,6 @@
 import numpy as np
 
-from ...base import Property
+from ...base import prop
 from ...types.array import CovarianceMatrix
 from ..base import LinearModel, GaussianModel
 from .base import MeasurementModel
@@ -22,7 +22,7 @@ class LinearGaussian(MeasurementModel, LinearModel, GaussianModel):
 
     """
 
-    noise_covar: CovarianceMatrix = Property(doc="Noise covariance")
+    noise_covar: CovarianceMatrix = prop(doc="Noise covariance")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

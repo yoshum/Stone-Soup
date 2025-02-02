@@ -2,7 +2,7 @@ import copy
 import datetime
 from itertools import combinations, permutations
 
-from ..base import Property
+from ..base import prop
 from ..types.interval import Interval, Intervals
 
 
@@ -23,8 +23,8 @@ class TimeRange(Interval):
     True
     """
 
-    start: datetime.datetime = Property(doc="Start of the time range")
-    end: datetime.datetime = Property(doc="End of the time range")
+    start: datetime.datetime = prop(doc="Start of the time range")
+    end: datetime.datetime = prop(doc="End of the time range")
 
     @property
     def start_timestamp(self) -> datetime.datetime:

@@ -6,7 +6,7 @@ import scipy.linalg as la
 from ..types.array import CovarianceMatrix, StateVector
 from .base import Predictor
 from ._utils import predict_lru_cache
-from ..base import Property
+from ..base import prop
 from ..types.prediction import Prediction, SqrtGaussianStatePrediction
 from ..models.base import LinearModel
 from ..models.transition import TransitionModel
@@ -37,9 +37,9 @@ class KalmanPredictor(Predictor):
 
     """
 
-    transition_model: LinearGaussianTransitionModel = Property(
+    transition_model: LinearGaussianTransitionModel = prop(
         doc="The transition model to be used.")
-    control_model: LinearControlModel = Property(
+    control_model: LinearControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
             "will create a zero-effect linear :class:`~.ControlModel`.")
@@ -217,8 +217,8 @@ class ExtendedKalmanPredictor(KalmanPredictor):
     # In this version the models can be non-linear, but must have access to the
     # :attr:`jacobian()` function
     # TODO: Enforce the presence of :attr:`jacobian()`
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
-    control_model: ControlModel = Property(
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
+    control_model: ControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
             "will create a zero-effect linear :class:`~.ControlModel`.")
@@ -295,20 +295,20 @@ class UnscentedKalmanPredictor(KalmanPredictor):
     Gaussian mean and covariance, then putting these through the (in general
     non-linear) transition function, then reconstructing the Gaussian.
     """
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
-    control_model: ControlModel = Property(
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
+    control_model: ControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
             "will create a zero-effect linear :class:`~.ControlModel`.")
-    alpha: float = Property(
+    alpha: float = prop(
         default=0.5,
         doc="Primary sigma point spread scaling parameter. Default is 0.5.")
-    beta: float = Property(
+    beta: float = prop(
         default=2,
         doc="Used to incorporate prior knowledge of the distribution. If the "
             "true distribution is Gaussian, the value of 2 is optimal. "
             "Default is 2")
-    kappa: float = Property(
+    kappa: float = prop(
         default=None,
         doc="Secondary spread scaling parameter. Default is calculated as "
             "3-Ns")
@@ -415,7 +415,7 @@ class SqrtKalmanPredictor(ExtendedKalmanPredictor):
        Springfield, VA.
 
     """
-    qr_method: bool = Property(
+    qr_method: bool = prop(
         default=False,
         doc="A switch to do the prediction via a QR decomposition, rather than using a Cholesky "
             "decomposition.")
@@ -484,12 +484,12 @@ class CubatureKalmanPredictor(KalmanPredictor):
     :meth:`cubature_transform` function.
 
     """
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
-    control_model: ControlModel = Property(
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
+    control_model: ControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
             "will create a zero-effect linear :class:`~.ControlModel`.")
-    alpha: float = Property(
+    alpha: float = prop(
         default=1.0,
         doc="Scaling parameter. Default is 1.0. Lower values select points closer to the mean and "
             "vice versa.")
@@ -569,19 +569,19 @@ class StochasticIntegrationPredictor(KalmanPredictor):
     integration approximation.
     """
 
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
-    control_model: ControlModel = Property(
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
+    control_model: ControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
         "will create a zero-effect linear :class:`~.ControlModel`.",
     )
-    Nmax: int = Property(default=10, doc="maximal number of iterations of SIR")
-    Nmin: int = Property(
+    Nmax: int = prop(default=10, doc="maximal number of iterations of SIR")
+    Nmin: int = prop(
         default=5,
         doc="minimal number of iterations of stochastic integration rule (SIR)",
     )
-    Eps: float = Property(default=5e-3, doc="allowed threshold for integration error")
-    SIorder: int = Property(
+    Eps: float = prop(default=5e-3, doc="allowed threshold for integration error")
+    SIorder: int = prop(
         default=5, doc="order of SIR (orders 1, 3, 5 are currently supported)"
     )
 

@@ -5,14 +5,14 @@ import utm
 from pymap3d import geodetic2enu, geodetic2ned
 
 from .base import DetectionFeeder, GroundTruthFeeder
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 
 
 class _LLARefConverter(DetectionFeeder, GroundTruthFeeder):
-    reference_point: tuple[float, float, float] = Property(
+    reference_point: tuple[float, float, float] = prop(
         doc="(Long, Lat, Altitude)")
-    mapping: tuple[int, int, int] = Property(
+    mapping: tuple[int, int, int] = prop(
         default=(0, 1, 2),
         doc="Indexes of long, lat, altitude. Default (0, 1, 2)")
 
@@ -75,14 +75,14 @@ class LongLatToUTMConverter(DetectionFeeder, GroundTruthFeeder):
 
     """
 
-    mapping: tuple[int, int] = Property(
+    mapping: tuple[int, int] = prop(
         default=(0, 1),
         doc="Indexes of long, lat. Default (0, 1)")
-    zone_number: int = Property(
+    zone_number: int = prop(
         default=None,
         doc="UTM zone number to carry out conversion. Default `None`, where it will select the "
             "zone based on the first yielded data.")
-    northern: bool = Property(
+    northern: bool = prop(
         default=None,
         doc="UTM northern for northern or southern grid. Default `None`, where it will be based "
             "on the first yielded data.")

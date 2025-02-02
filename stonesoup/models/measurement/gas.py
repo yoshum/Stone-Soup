@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import norm
 from scipy.special import erf
 
-from ...base import Property
+from ...base import prop
 from ...types.numeric import Probability
 
 from ...types.array import StateVector, CovarianceMatrix, StateVectors
@@ -72,37 +72,37 @@ class IsotropicPlume(GaussianModel, MeasurementModel):
            Robotics, Vol. 36, 797-917, 2019
     """
 
-    ndim_state: int = Property(
+    ndim_state: int = prop(
         default=8,
         doc="Number of state dimensions"
     )
 
-    mapping: Sequence[int] = Property(
+    mapping: Sequence[int] = prop(
         default=tuple(range(0, 8)),
         doc="Mapping between measurement and state dims"
     )
 
-    min_noise: float = Property(
+    min_noise: float = prop(
         default=1e-4,
         doc="Minimum sensor noise"
     )
 
-    standard_deviation_percentage: float = Property(
+    standard_deviation_percentage: float = prop(
         default=0.5,
         doc="Standard deviation as a percentage of the concentration level"
     )
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the Cartesian origin offset in terms of :math:`x,y,z` "
             "coordinates.")
 
-    missed_detection_probability: Probability = Property(
+    missed_detection_probability: Probability = prop(
         default=0.1,
         doc="The probability that the detection has detection has been affected by turbulence."
     )
 
-    sensing_threshold: float = Property(
+    sensing_threshold: float = prop(
         default=0.1,
         doc="Measurement threshold. Should be set high enough to minimise false detections."
     )

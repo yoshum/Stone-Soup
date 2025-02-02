@@ -1,5 +1,5 @@
 from .base import PlotGenerator
-from ..base import Property
+from ..base import prop
 from ..models.measurement import MeasurementModel
 from ..types.metric import TimeRangePlottingMetric
 from ..types.prediction import Prediction
@@ -13,31 +13,31 @@ class TwoDPlotter(PlotGenerator):
     Plots of :class:`~.Track`, :class:`~.Detection` and
     :class:`~.GroundTruthPath` objects in two dimensions.
     """
-    track_indices: tuple[int, int] = Property(
+    track_indices: tuple[int, int] = prop(
         doc="Elements of track state vector to plot as x and y")
-    gtruth_indices: tuple[int, int] = Property(
+    gtruth_indices: tuple[int, int] = prop(
         doc="Elements of ground truth path state vector to plot as x and y")
-    detection_indices: tuple[int, int] = Property(
+    detection_indices: tuple[int, int] = prop(
         doc="Elements of detection state vector to plot as x and y")
-    uncertainty: bool = Property(default=False,
-                                 doc='If True the plot includes uncertainty ellipses')
-    particle: bool = Property(default=False,
-                              doc='If True the plot includes particles')
-    tracks_key: str = Property(doc='Key to access set of tracks added to MetricManager',
-                               default='tracks')
-    truths_key: str = Property(doc="Key to access set of ground truths added to MetricManager. "
-                                   "Or key to access a second set of tracks for track-to-track "
-                                   "metric generation",
-                               default='groundtruth_paths')
-    detections_key: str = Property(doc="Key to access desired set of detections added "
-                                       "to MetricManager",
-                                   default='detections')
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated "
-                                       "plots from MultiManager",
-                                   default='tracker_plot')
-    measurement_model: MeasurementModel = Property(doc="Default mesaurement mode to use for "
-                                                       "detections without own model",
-                                                   default=None)
+    uncertainty: bool = prop(default=False,
+                             doc='If True the plot includes uncertainty ellipses')
+    particle: bool = prop(default=False,
+                          doc='If True the plot includes particles')
+    tracks_key: str = prop(doc='Key to access set of tracks added to MetricManager',
+                           default='tracks')
+    truths_key: str = prop(doc="Key to access set of ground truths added to MetricManager. "
+                               "Or key to access a second set of tracks for track-to-track "
+                               "metric generation",
+                           default='groundtruth_paths')
+    detections_key: str = prop(doc="Key to access desired set of detections added "
+                                   "to MetricManager",
+                               default='detections')
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated "
+                                   "plots from MultiManager",
+                               default='tracker_plot')
+    measurement_model: MeasurementModel = prop(doc="Default mesaurement mode to use for "
+                                                   "detections without own model",
+                                               default=None)
 
     def compute_metric(self, manager, *args, **kwargs):
         """Compute the metric using the data in the metric manager

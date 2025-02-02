@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..types.state import State
 from . import FixedMovable
 from .action.move_position_action import NStepDirectionalGridActionGenerator
@@ -15,19 +15,19 @@ class _GridActionableMovable(FixedMovable):
     generator = None
     _generator_kwargs = {'action_space', 'action_mapping', 'resolution'}
 
-    action_space: np.ndarray = Property(
+    action_space: np.ndarray = prop(
         default=None,
         doc="The bounds of the action space that should not be exceeded. Of shape (ndim, 2) "
             "where ndim is the length of the action_mapping. For example, "
             ":code:`np.array([[xmin, xmax], [ymin, ymax]])`."
     )
 
-    action_mapping: Sequence[int] = Property(
+    action_mapping: Sequence[int] = prop(
         default=(0, 1),
         doc="The state dimensions that actions are applied to."
     )
 
-    resolution: float = Property(
+    resolution: float = prop(
         default=1,
         doc="The size of each grid cell. Cells are assumed square."
     )
@@ -90,13 +90,13 @@ class NStepDirectionalGridMovable(_GridActionableMovable):
     generator = NStepDirectionalGridActionGenerator
     _generator_kwargs = _GridActionableMovable._generator_kwargs | {'n_steps', 'step_size'}
 
-    n_steps: int = Property(
+    n_steps: int = prop(
         default=1,
         doc="The number of steps that can be moved in either direction "
             "along specified dimensions"
     )
 
-    step_size: int = Property(
+    step_size: int = prop(
         default=1,
         doc="The number of grid cells per step"
     )

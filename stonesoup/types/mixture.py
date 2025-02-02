@@ -3,7 +3,7 @@ from collections.abc import MutableSequence
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..functions import gm_reduce_single
 from .base import Type
 from .array import StateVectors
@@ -20,7 +20,7 @@ class GaussianMixture(Type, MutableSequence):
     :class:`WeightedGaussianState`.
     """
 
-    components: MutableSequence[WeightedGaussianState] = Property(
+    components: MutableSequence[WeightedGaussianState] = prop(
         default=None,
         doc="""The initial list of :class:`WeightedGaussianState` components.
         Default `None` which initialises with empty list.""")

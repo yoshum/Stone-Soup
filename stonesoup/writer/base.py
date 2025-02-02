@@ -1,4 +1,4 @@
-from ..base import Base, Property
+from ..base import Base, prop
 from ..tracker import Tracker
 from ..metricgenerator import MetricGenerator
 
@@ -13,7 +13,7 @@ class MetricsWriter(Writer):
     Writes out metrics to some form of storage for analysis.
     """
 
-    metric_generator: MetricGenerator = Property(doc="Source of metric to be written out")
+    metric_generator: MetricGenerator = prop(doc="Source of metric to be written out")
 
 
 class TrackWriter(Writer):
@@ -22,4 +22,4 @@ class TrackWriter(Writer):
     Writes out tracks to some form of storage for analysis.
     """
 
-    tracker: Tracker = Property(doc="Source of tracks to be written out")
+    tracker: Tracker = prop(doc="Source of tracks to be written out")

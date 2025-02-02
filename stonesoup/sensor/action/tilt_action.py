@@ -2,7 +2,7 @@ from typing import Iterator
 
 import numpy as np
 
-from ...base import Property
+from ...base import prop
 from ...types.angle import Angle, Elevation
 from ...functions import mod_elevation
 from .base import ChangeAngleAction, AngleActionsGenerator
@@ -38,8 +38,8 @@ class TiltActionsGenerator(AngleActionsGenerator):
     """Generates possible actions for changing the tilt centre of a sensor in a given
     time period."""
 
-    max_tilt: float = Property(default=np.radians(90))
-    min_tilt: float = Property(default=np.radians(-90))
+    max_tilt: float = prop(default=np.radians(90))
+    min_tilt: float = prop(default=np.radians(-90))
 
     @property
     def default_action(self):

@@ -8,7 +8,7 @@ from .base import Regulariser
 from ..functions import cholesky_eps
 from ..types.state import ParticleState
 from ..models.transition import TransitionModel
-from ..base import Property
+from ..base import prop
 
 
 class MCMCRegulariser(Regulariser):
@@ -31,9 +31,9 @@ class MCMCRegulariser(Regulariser):
     .. [2] Ristic, Branko & Arulampalam, Sanjeev & Gordon, Neil, Beyond the Kalman Filter:
         Particle Filters for Target Tracking Applications, Artech House, 2004. """
 
-    transition_model: TransitionModel = Property(doc="Transition model used for prediction",
+    transition_model: TransitionModel = prop(doc="Transition model used for prediction",
                                                  default=None)
-    constraint_func: Callable = Property(
+    constraint_func: Callable = prop(
         default=None,
         doc="Callable, user defined function for applying "
             "constraints to particle states. This is done by reverting particles "

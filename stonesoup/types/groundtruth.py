@@ -2,12 +2,12 @@ import uuid
 from collections.abc import MutableSequence, MutableMapping, Sequence
 
 from .state import State, StateMutableSequence, CategoricalState, CompositeState
-from ..base import Property
+from ..base import prop
 
 
 class GroundTruthState(State):
     """Ground Truth State type"""
-    metadata: MutableMapping = Property(
+    metadata: MutableMapping = prop(
         default=None, doc='Dictionary of metadata items for Detections.')
 
     def __init__(self, state_vector, *args, **kwargs):
@@ -26,11 +26,11 @@ class GroundTruthPath(StateMutableSequence):
     A :class:`~.StateMutableSequence` representing a track.
     """
 
-    states: MutableSequence[GroundTruthState] = Property(
+    states: MutableSequence[GroundTruthState] = prop(
         default=None,
         doc="List of groundtruth states to initialise path with. Default "
             "`None` which initialises with an empty list.")
-    id: str = Property(
+    id: str = prop(
         default=None,
         doc="The unique path ID. Default `None` where random UUID is "
             "generated.")
@@ -48,7 +48,7 @@ class CompositeGroundTruthState(CompositeState):
     representing a true object with a state for (potentially) multiple, distinct state spaces.
     """
 
-    sub_states: Sequence[GroundTruthState] = Property(
+    sub_states: Sequence[GroundTruthState] = prop(
         doc="Sequence of sub-states comprising the composite state. All sub-states must have "
             "matching timestamp and `metadata` attributes. Must not be empty.")
 

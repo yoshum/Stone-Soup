@@ -1,6 +1,6 @@
 from scipy.stats import multinomial
 
-from ..base import Property
+from ..base import prop
 from ..models.measurement.categorical import MarkovianMeasurementModel
 from ..sensor.sensor import Sensor
 from ..types.array import StateVector
@@ -14,7 +14,7 @@ class HMMSensor(Sensor):
     :math:`Z = \{\zeta^n|n\in \mathbf{N}, n\le N\}` (for some finite :math:`N`).
     """
 
-    measurement_model: MarkovianMeasurementModel = Property(
+    measurement_model: MarkovianMeasurementModel = prop(
         doc="Measurement model to generate detection vectors from"
     )
 

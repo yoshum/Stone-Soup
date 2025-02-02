@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 import numpy as np
 import pytest
 
+from stonesoup.base import Property
+
 from ..action.dwell_action import DwellActionsGenerator, ChangeDwellAction
 from ...sensormanager.action import Actionable, ActionableProperty
-from ..base import Property
+from ..base import prop
 from ...types.angle import Bearing
 from ...types.array import StateVector
 
@@ -15,8 +17,8 @@ class DummyActionable(Actionable):
         doc="Actionable dwell centre.",
         generator_cls=DwellActionsGenerator,
         generator_kwargs_mapping={'rpm': 'rpm'})
-    timestamp: datetime = Property(doc="Current time that actionable exists at.")
-    rpm: float = Property(doc="Dwell centre revolutions per minute")
+    timestamp: datetime = prop(doc="Current time that actionable exists at.")
+    rpm: float = prop(doc="Dwell centre revolutions per minute")
 
     def validate_timestamp(self):
         if self.timestamp:

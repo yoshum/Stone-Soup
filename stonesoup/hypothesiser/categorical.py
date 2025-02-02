@@ -1,5 +1,5 @@
 from .base import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..measures import ObservationAccuracy
 from ..predictor.categorical import HMMPredictor
 from ..types.detection import MissedDetection
@@ -17,13 +17,13 @@ class HMMHypothesiser(Hypothesiser):
     prediction compared to the detection.
     """
 
-    predictor: HMMPredictor = Property(doc="Predictor used to predict tracks to detection times")
-    updater: HMMUpdater = Property(doc="Updater used to get measurement prediction")
-    prob_detect: Probability = Property(default=Probability(0.99),
-                                        doc="Target Detection Probability")
-    prob_gate: Probability = Property(default=Probability(0.95),
-                                      doc="Gate Probability - prob. gate contains true "
-                                          "measurement if detected")
+    predictor: HMMPredictor = prop(doc="Predictor used to predict tracks to detection times")
+    updater: HMMUpdater = prop(doc="Updater used to get measurement prediction")
+    prob_detect: Probability = prop(default=Probability(0.99),
+                                    doc="Target Detection Probability")
+    prob_gate: Probability = prop(default=Probability(0.95),
+                                  doc="Gate Probability - prob. gate contains true "
+                                      "measurement if detected")
 
     def hypothesise(self, track, detections, timestamp, **kwargs):
         """ Evaluate and return all track association hypotheses.

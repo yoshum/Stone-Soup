@@ -3,7 +3,7 @@ from functools import lru_cache
 import numpy as np
 from scipy.stats import multivariate_normal
 
-from ..base import Property
+from ..base import prop
 from ..types.prediction import (
     MeasurementPrediction,
 )
@@ -19,7 +19,7 @@ class PointMassUpdater(Updater):
     model
     """
 
-    sFactor: float = Property(default=4.0, doc="How many sigma to cover by the grid")
+    sFactor: float = prop(default=4.0, doc="How many sigma to cover by the grid")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

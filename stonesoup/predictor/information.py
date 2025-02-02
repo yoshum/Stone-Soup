@@ -1,7 +1,7 @@
 import numpy as np
 
 from ._utils import predict_lru_cache
-from ..base import Property
+from ..base import prop
 from .kalman import KalmanPredictor
 from ..types.prediction import Prediction
 from ..models.transition.linear import LinearGaussianTransitionModel
@@ -67,9 +67,9 @@ class InformationKalmanPredictor(KalmanPredictor):
         pp. 479-486
 
     """
-    transition_model: LinearGaussianTransitionModel = Property(
+    transition_model: LinearGaussianTransitionModel = prop(
         doc="The transition model to be used.")
-    control_model: LinearControlModel = Property(
+    control_model: LinearControlModel = prop(
         default=None,
         doc="The control model to be used. Default `None` where the predictor "
             "will create a zero-effect linear :class:`~.ControlModel`.")

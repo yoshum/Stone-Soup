@@ -10,7 +10,7 @@ from typing import Any, Optional
 import numpy as np
 from scipy.stats import multivariate_normal
 
-from ..base import Property, clearable_cached_property
+from ..base import prop, clearable_cached_property
 from .array import StateVector, CovarianceMatrix, PrecisionMatrix, StateVectors
 from .base import Type
 from .particle import Particle, MultiModelParticle, RaoBlackwellisedParticle
@@ -21,9 +21,9 @@ class State(Type):
     """State type.
 
     Most simple state type, which only has time and a state vector."""
-    timestamp: datetime.datetime = Property(
+    timestamp: datetime.datetime = prop(
         default=None, doc="Timestamp of the state. Default None.")
-    state_vector: StateVector = Property(doc='State vector.')
+    state_vector: StateVector = prop(doc='State vector.')
 
     def __init__(self, state_vector, *args, **kwargs):
         # Don't cast away subtype of state_vector if not necessary
@@ -174,18 +174,18 @@ class PointMassState(State):
     For the Lagrangina Point Mass filter.
     """
 
-    state_vector: StateVectors = Property(doc="State vectors.")
-    weight: MutableSequence[Probability] = Property(
+    state_vector: StateVectors = prop(doc="State vectors.")
+    weight: MutableSequence[Probability] = prop(
         default=None, doc="Masses of grid points"
     )
-    grid_delta: np.ndarray = Property(default=None, doc="Grid step per dim")
-    grid_dim: np.ndarray = Property(
+    grid_delta: np.ndarray = prop(default=None, doc="Grid step per dim")
+    grid_dim: np.ndarray = prop(
         default=None,
         doc="Grid coordinates per dimension before rotation and translation",
     )
-    center: np.ndarray = Property(default=None, doc="Center of the grid")
-    eigVec: np.ndarray = Property(default=None, doc="Eigenvectors of the grid")
-    Npa: np.ndarray = Property(default=None, doc="Points per dim")
+    center: np.ndarray = prop(default=None, doc="Center of the grid")
+    eigVec: np.ndarray = prop(default=None, doc="Eigenvectors of the grid")
+    Npa: np.ndarray = prop(default=None, doc="Points per dim")
 
     def __len__(self):
         return self.state_vector.shape[1]
@@ -217,11 +217,11 @@ class ASDState(Type):
     For the use of Accumulated State Densities.
     """
 
-    multi_state_vector: StateVector = Property(
+    multi_state_vector: StateVector = prop(
         doc="State vector of all timestamps")
-    timestamps: Sequence[datetime.datetime] = Property(
+    timestamps: Sequence[datetime.datetime] = prop(
         doc="List of all timestamps which have a state in the ASDState")
-    max_nstep: int = Property(
+    max_nstep: int = prop(
         doc="Decides when the state is pruned in a prediction step. If 0 then there is no pruning")
 
     def __init__(self, multi_state_vector, timestamps,
@@ -304,7 +304,7 @@ class StateMutableSequence(Type, MutableSequence):
     [[1]] 2018-01-01 14:01:00
     """
 
-    states: MutableSequence[State] = Property(
+    states: MutableSequence[State] = prop(
         default=None,
         doc="The initial list of states. Default `None` which initialises with empty list.")
 
@@ -422,7 +422,7 @@ class GaussianState(State):
     This is a simple Gaussian state object, which, as the name suggests,
     is described by a Gaussian state distribution.
     """
-    covar: CovarianceMatrix = Property(doc='Covariance matrix of state.')
+    covar: CovarianceMatrix = prop(doc='Covariance matrix of state.')
 
     def __init__(self, state_vector, covar, *args, **kwargs):
         # Don't cast away subtype of covar if not necessary
@@ -447,8 +447,8 @@ class SqrtGaussianState(State):
     taste. No checks are undertaken to ensure that a sensible square root form has been chosen.
 
     """
-    sqrt_covar: CovarianceMatrix = Property(doc="A square root form of the Gaussian covariance "
-                                                "matrix.")
+    sqrt_covar: CovarianceMatrix = prop(doc="A square root form of the Gaussian covariance "
+                                            "matrix.")
 
     def __init__(self, state_vector, sqrt_covar, *args, **kwargs):
         sqrt_covar = CovarianceMatrix(sqrt_covar)
@@ -475,7 +475,7 @@ class InformationState(State):
     covariance, respectively, of a Gaussian state.
 
     """
-    precision: PrecisionMatrix = Property(doc='precision matrix of state.')
+    precision: PrecisionMatrix = prop(doc='precision matrix of state.')
 
     @clearable_cached_property('state_vector', 'precision')
     def gaussian_state(self):
@@ -532,8 +532,8 @@ class ASDGaussianState(ASDState):
     This is a simple Accumulated State Density Gaussian state object, which as
     the name suggests is described by a Gaussian state distribution.
     """
-    multi_covar: CovarianceMatrix = Property(doc="Covariance of all timesteps")
-    correlation_matrices: MutableSequence[MutableMapping[str, np.ndarray]] = Property(
+    multi_covar: CovarianceMatrix = prop(doc="Covariance of all timesteps")
+    correlation_matrices: MutableSequence[MutableMapping[str, np.ndarray]] = prop(
         default=None,
         doc="Sequence of Correlation Matrices, consisting of :math:`P_{l|l}`, :math:`P_{l|l+1}` "
             "and :math:`F_{l+1|l}` built in the Kalman predictor and Kalman updater, aligned to "
@@ -582,7 +582,7 @@ class WeightedGaussianState(GaussianState):
     Gaussian State object with an associated weight.  Used as components
     for a GaussianMixtureState.
     """
-    weight: Probability = Property(default=0, doc="Weight of the Gaussian State.")
+    weight: Probability = prop(default=0, doc="Weight of the Gaussian State.")
 
     @clearable_cached_property('state_vector', 'covar')
     def gaussian_state(self):
@@ -633,7 +633,7 @@ class TaggedWeightedGaussianState(WeightedGaussianState):
     Gaussian State object with an associated weight and tag. Used as components
     for a GaussianMixtureState.
     """
-    tag: str = Property(default=None, doc="Unique tag of the Gaussian State.")
+    tag: str = prop(default=None, doc="Unique tag of the Gaussian State.")
 
     BIRTH = 'birth'
     '''Tag value used to signify birth component'''
@@ -650,7 +650,7 @@ class ASDWeightedGaussianState(ASDGaussianState):
     ASD Gaussian State object with an associated weight.  Used as components
     for a GaussianMixtureState.
     """
-    weight: Probability = Property(default=0, doc="Weight of the Gaussian State.")
+    weight: Probability = prop(default=0, doc="Weight of the Gaussian State.")
 
 
 class ParticleState(State):
@@ -660,15 +660,15 @@ class ParticleState(State):
     distribution of particles
     """
 
-    state_vector: StateVectors = Property(doc='State vectors.')
-    weight: MutableSequence[Probability] = Property(default=None, doc='Weights of particles')
-    log_weight: np.ndarray = Property(default=None, doc='Log weights of particles')
-    parent: 'ParticleState' = Property(default=None, doc='Parent particles')
-    particle_list: MutableSequence[Particle] = Property(default=None,
-                                                        doc='List of Particle objects')
-    fixed_covar: CovarianceMatrix = Property(default=None,
-                                             doc='Fixed covariance value. Default `None`, where'
-                                                 'weighted sample covariance is then used.')
+    state_vector: StateVectors = prop(doc='State vectors.')
+    weight: MutableSequence[Probability] = prop(default=None, doc='Weights of particles')
+    log_weight: np.ndarray = prop(default=None, doc='Log weights of particles')
+    parent: 'ParticleState' = prop(default=None, doc='Parent particles')
+    particle_list: MutableSequence[Particle] = prop(default=None,
+                                                    doc='List of Particle objects')
+    fixed_covar: CovarianceMatrix = prop(default=None,
+                                         doc='Fixed covariance value. Default `None`, where'
+                                             'weighted sample covariance is then used.')
 
     def __init__(self, *args, **kwargs):
         weight = next(
@@ -831,7 +831,7 @@ class MultiModelParticleState(ParticleState):
     dynamics model
     """
 
-    dynamic_model: np.ndarray = Property(
+    dynamic_model: np.ndarray = prop(
         default=None,
         doc="Array of indices that identify which model is associated with each particle.")
 
@@ -877,7 +877,7 @@ class MultiModelParticleState(ParticleState):
 
 class RaoBlackwellisedParticleState(ParticleState):
 
-    model_probabilities: np.ndarray = Property(
+    model_probabilities: np.ndarray = prop(
         default=None,
         doc="2d NumPy array containing probability of particle belong to particular model. "
             "Shape (n-models, m-particles)."
@@ -938,7 +938,7 @@ class BernoulliParticleState(ParticleState):
 
     """
 
-    existence_probability: Probability = Property(
+    existence_probability: Probability = prop(
         default=None,
         doc="Target existence probability estimate"
     )
@@ -986,11 +986,11 @@ class KernelParticleState(State):
     distribution of particles and kernel covariance.
     """
 
-    state_vector: StateVectors = Property(doc='State vectors.')
-    weight: np.ndarray = Property(default=None, doc='Weights of particles. Defaults to [1/N]*N.')
-    kernel_covar: CovarianceMatrix = Property(default=None,
-                                              doc='Kernel covariance value. Default `None`.'
-                                                  'If None, the identity matrix is used.')
+    state_vector: StateVectors = prop(doc='State vectors.')
+    weight: np.ndarray = prop(default=None, doc='Weights of particles. Defaults to [1/N]*N.')
+    kernel_covar: CovarianceMatrix = prop(default=None,
+                                          doc='Kernel covariance value. Default `None`.'
+                                              'If None, the identity matrix is used.')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1034,9 +1034,9 @@ class EnsembleState(State):
 
     """
 
-    state_vector: StateVectors = Property(doc="An ensemble of state vectors which represent the "
-                                              "state")
-    timestamp: datetime.datetime = Property(
+    state_vector: StateVectors = prop(doc="An ensemble of state vectors which represent the "
+                                          "state")
+    timestamp: datetime.datetime = prop(
         default=None, doc="Timestamp of the state. Default None.")
 
     @classmethod
@@ -1127,7 +1127,7 @@ class CategoricalState(State):
     of discrete categories :math:`\Phi = \{\phi^m|m\in \mathbf{N}, m\le M\}` for some finite
     :math:`M`."""
 
-    categories: Sequence[float] = Property(doc="Category names. Defaults to a list of integers.",
+    categories: Sequence[float] = prop(doc="Category names. Defaults to a list of integers.",
                                            default=None)
 
     def __init__(self, *args, **kwargs):
@@ -1162,10 +1162,10 @@ class CompositeState(Type):
     representing an object with a state for (potentially) multiple, distinct state spaces.
     """
 
-    sub_states: Sequence[State] = Property(
+    sub_states: Sequence[State] = prop(
         doc="Sequence of sub-states comprising the composite state. All sub-states must have "
             "matching timestamp. Must not be empty.")
-    default_timestamp: datetime.datetime = Property(
+    default_timestamp: datetime.datetime = prop(
         default=None,
         doc="Default timestamp if no sub-states exist to attain timestamp from. Defaults to "
             "`None`, whereby sub-states will be required to have timestamps.")

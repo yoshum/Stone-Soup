@@ -1,7 +1,7 @@
 import weakref
 from collections.abc import Sequence
 
-from ..base import Property
+from ..base import prop
 from .array import StateVector
 from .base import Type
 
@@ -12,9 +12,9 @@ class Particle(Type):
 
     A particle type which contains a state and weight
     """
-    state_vector: StateVector = Property(doc="State vector")
-    weight: float = Property(doc='Weight of particle')
-    parent: 'Particle' = Property(default=None, doc='Parent particle')
+    state_vector: StateVector = prop(doc="State vector")
+    weight: float = prop(doc='Weight of particle')
+    parent: 'Particle' = prop(default=None, doc='Parent particle')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,8 +41,8 @@ class MultiModelParticle(Particle):
 
     A MultiModelParticle type which contains a state, weight and the dynamic_model
     """
-    dynamic_model: int = Property(doc='Assigned dynamic model')
-    parent: 'MultiModelParticle' = Property(default=None, doc='Parent particle')
+    dynamic_model: int = prop(doc='Assigned dynamic model')
+    parent: 'MultiModelParticle' = prop(default=None, doc='Parent particle')
 
 
 class RaoBlackwellisedParticle(Particle):
@@ -52,6 +52,6 @@ class RaoBlackwellisedParticle(Particle):
     A RaoBlackwellisedParticle type which contains a state, weight, dynamic_model and
     associated model probabilities
     """
-    model_probabilities: Sequence[float] = Property(
+    model_probabilities: Sequence[float] = prop(
         doc="The dynamic probabilities of changing models")
-    parent: 'RaoBlackwellisedParticle' = Property(default=None, doc='Parent particle')
+    parent: 'RaoBlackwellisedParticle' = prop(default=None, doc='Parent particle')

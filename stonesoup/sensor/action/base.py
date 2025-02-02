@@ -6,7 +6,7 @@ from abc import abstractmethod
 import numpy as np
 
 from ...sensormanager.action import Action, RealNumberActionGenerator
-from ...base import Property
+from ...base import prop
 from ...types.angle import Angle
 
 
@@ -14,10 +14,10 @@ class ChangeAngleAction(Action):
     """The base action for changing a sensor's :class:`~.ActionableProperty` where the property is
     described in terms of an angle."""
 
-    rotation_end_time: datetime.datetime = Property(readonly=True,
-                                                    doc="End time of rotation.")
-    increasing_angle: bool = Property(default=None, readonly=True,
-                                      doc="Indicates the direction of change in the angle.")
+    rotation_end_time: datetime.datetime = prop(readonly=True,
+                                                doc="End time of rotation.")
+    increasing_angle: bool = prop(default=None, readonly=True,
+                                  doc="Indicates the direction of change in the angle.")
 
     def act(self, current_time, timestamp, init_value, **kwargs):
         """Assumes that duration keeps within the action end time
@@ -66,12 +66,12 @@ class AngleActionsGenerator(RealNumberActionGenerator):
     """Generates possible actions for changing an actionable property of a sensor in a given
     time period."""
 
-    owner: object = Property(doc="Object with `timestamp`, `rpm` (revolutions per minute) and "
-                                 "`resolution`.")
-    resolution: Angle = Property(default=np.radians(1),
-                                 doc="Resolution of the action space.")
-    rpm: float = Property(default=60,
-                          doc="The number of rotations per minute (RPM).")
+    owner: object = prop(doc="Object with `timestamp`, `rpm` (revolutions per minute) and "
+                             "`resolution`.")
+    resolution: Angle = prop(default=np.radians(1),
+                             doc="Resolution of the action space.")
+    rpm: float = prop(default=60,
+                      doc="The number of rotations per minute (RPM).")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

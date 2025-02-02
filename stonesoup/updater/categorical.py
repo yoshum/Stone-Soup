@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..models.measurement.categorical import MarkovianMeasurementModel
 from ..types.prediction import MeasurementPrediction
 from ..types.update import Update
@@ -10,7 +10,7 @@ from ..updater import Updater
 class HMMUpdater(Updater):
     r"""Hidden Markov model updater"""
 
-    measurement_model: MarkovianMeasurementModel = Property(
+    measurement_model: MarkovianMeasurementModel = prop(
         default=None,
         doc="The measurement model used to predict measurement vectors. If no model is specified "
             "on construction, or in a measurement, then an error will be thrown.")

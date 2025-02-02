@@ -15,24 +15,24 @@ from dateutil.parser import parse
 
 from .base import GroundTruthReader, DetectionReader
 from .file import TextFileReader
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.detection import Detection
 from ..types.groundtruth import GroundTruthPath, GroundTruthState
 
 
 class _CSVReader(TextFileReader):
-    state_vector_fields: Sequence[str] = Property(
+    state_vector_fields: Sequence[str] = prop(
         doc='List of columns names to be used in state vector')
-    time_field: str = Property(
+    time_field: str = prop(
         doc='Name of column to be used as time field')
-    time_field_format: str = Property(
+    time_field_format: str = prop(
         default=None, doc='Optional datetime format')
-    timestamp: bool = Property(
+    timestamp: bool = prop(
         default=False, doc='Treat time field as a timestamp from epoch')
-    metadata_fields: Collection[str] = Property(
+    metadata_fields: Collection[str] = prop(
         default=None, doc='List of columns to be saved as metadata, default all')
-    csv_options: Mapping = Property(
+    csv_options: Mapping = prop(
         default={}, doc='Keyword arguments for the underlying csv reader')
 
     def _get_metadata(self, row):
@@ -71,7 +71,7 @@ class CSVGroundTruthReader(GroundTruthReader, _CSVReader):
     Parameters
     ----------
     """
-    path_id_field: str = Property(doc='Name of column to be used as path ID')
+    path_id_field: str = prop(doc='Name of column to be used as path ID')
 
     @BufferedGenerator.generator_method
     def groundtruth_paths_gen(self):

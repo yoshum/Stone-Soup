@@ -2,7 +2,7 @@ from functools import lru_cache
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..types.prediction import GaussianMeasurementPrediction
 from ..types.update import Update
 from ..models.measurement.linear import LinearGaussian
@@ -31,7 +31,7 @@ class InformationKalmanUpdater(KalmanUpdater):
     inverted.
 
     """
-    measurement_model: LinearGaussian = Property(
+    measurement_model: LinearGaussian = prop(
         default=None,
         doc="A linear Gaussian measurement model. This need not be defined if "
             "a measurement model is provided in the measurement. If no model "

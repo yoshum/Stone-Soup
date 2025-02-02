@@ -1,5 +1,5 @@
 from .base import Initiator
-from ..base import Property
+from ..base import prop
 from ..types.hypothesis import SingleHypothesis
 from ..types.state import CategoricalState
 from ..types.track import Track
@@ -13,8 +13,8 @@ class SimpleCategoricalMeasurementInitiator(Initiator):
     Initialises a new track on every detection received.
     """
 
-    prior_state: CategoricalState = Property(doc="Prior state information")
-    updater: HMMUpdater = Property(doc="Hidden Markov model updater")
+    prior_state: CategoricalState = prop(doc="Prior state information")
+    updater: HMMUpdater = prop(doc="Hidden Markov model updater")
 
     def initiate(self, detections, *args, **kwargs):
         """Create a new track for each detection. Updating the :attr:`prior-state` with a

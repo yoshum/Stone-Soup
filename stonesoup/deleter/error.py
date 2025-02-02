@@ -3,7 +3,7 @@ from collections.abc import Sequence
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from .base import Deleter
 
 
@@ -14,12 +14,12 @@ class CovarianceBasedDeleter(Deleter):
     exceeds a given threshold.
     """
 
-    covar_trace_thresh: float = Property(doc="Covariance matrix trace threshold")
-    mapping: Sequence[int] = Property(default=None,
-                                      doc="Track state vector indices whose corresponding "
-                                          "covariances' sum is to be considered. Defaults to"
-                                          "None, whereby the entire track covariance trace is "
-                                          "considered.")
+    covar_trace_thresh: float = prop(doc="Covariance matrix trace threshold")
+    mapping: Sequence[int] = prop(default=None,
+                                  doc="Track state vector indices whose corresponding "
+                                      "covariances' sum is to be considered. Defaults to"
+                                      "None, whereby the entire track covariance trace is "
+                                      "considered.")
 
     def check_for_deletion(self, track, **kwargs):
         """Check if a given track should be deleted

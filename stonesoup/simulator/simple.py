@@ -5,7 +5,7 @@ from collections.abc import Sequence, Collection
 import numpy as np
 from ordered_set import OrderedSet
 
-from ..base import Property
+from ..base import prop
 from ..models.measurement import MeasurementModel
 from ..models.transition import TransitionModel
 from ..reader import GroundTruthReader
@@ -20,13 +20,13 @@ from stonesoup.buffered_generator import BufferedGenerator
 
 class SingleTargetGroundTruthSimulator(GroundTruthSimulator):
     """Target simulator that produces a single target"""
-    transition_model: TransitionModel = Property(
+    transition_model: TransitionModel = prop(
         doc="Transition Model used as propagator for track.")
-    initial_state: State = Property(doc="Initial state to use to generate ground truth")
-    timestep: datetime.timedelta = Property(
+    initial_state: State = prop(doc="Initial state to use to generate ground truth")
+    timestep: datetime.timedelta = prop(
         default=datetime.timedelta(seconds=1),
         doc="Time step between each state. Default one second.")
-    number_steps: int = Property(default=100, doc="Number of time steps to run for")
+    number_steps: int = prop(default=100, doc="Number of time steps to run for")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -56,14 +56,14 @@ class SwitchOneTargetGroundTruthSimulator(SingleTargetGroundTruthSimulator):
     """Target simulator that produces a single target. This target switches
     between multiple transition models based on a markov matrix
     (:attr:`model_probs`)"""
-    transition_models: Sequence[TransitionModel] = Property(
+    transition_models: Sequence[TransitionModel] = prop(
         doc="List of transition models to be used, ensure that they all have the same dimensions.")
-    model_probs: np.ndarray = Property(doc="A matrix of probabilities.\
+    model_probs: np.ndarray = prop(doc="A matrix of probabilities.\
     The element in the ith row and the jth column is the probability of\
      switching from the ith transition model in :attr:`transition_models`\
      to the jth")
-    seed: Optional[int] = Property(default=None, doc="Seed for random number generation."
-                                                     " Default None")
+    seed: Optional[int] = prop(default=None, doc="Seed for random number generation."
+                                                 " Default None")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,20 +84,20 @@ class MultiTargetGroundTruthSimulator(SingleTargetGroundTruthSimulator):
 
     Targets are created and destroyed randomly, as defined by the birth rate
     and death probability."""
-    transition_model: TransitionModel = Property(
+    transition_model: TransitionModel = prop(
         doc="Transition Model used as propagator for track.")
-    initial_state: GaussianState = Property(doc="Initial state to use to generate states")
-    birth_rate: float = Property(
+    initial_state: GaussianState = prop(doc="Initial state to use to generate states")
+    birth_rate: float = prop(
         default=1.0, doc="Rate at which tracks are born. Expected number of occurrences (λ) in "
                          "Poisson distribution. Default 1.0.")
-    death_probability: Probability = Property(
+    death_probability: Probability = prop(
         default=0.1, doc="Probability of track dying in each time step. Default 0.1.")
-    seed: Optional[int] = Property(default=None, doc="Seed for random number generation."
-                                                     " Default None")
-    preexisting_states: Collection[StateVector] = Property(
+    seed: Optional[int] = prop(default=None, doc="Seed for random number generation."
+                                                 " Default None")
+    preexisting_states: Collection[StateVector] = prop(
         default=list(), doc="State vectors at time 0 for "
                             "groundtruths which should exist at the start of simulation.")
-    initial_number_targets: int = Property(
+    initial_number_targets: int = prop(
         default=0, doc="Initial number of targets to be "
                        "simulated. These simulated targets will be made in addition to those "
                        "defined by :attr:`preexisting_states`.")
@@ -180,14 +180,14 @@ class SwitchMultiTargetGroundTruthSimulator(MultiTargetGroundTruthSimulator):
     """Functions identically to :class:`~.MultiTargetGroundTruthSimulator`,
     but has the transition model switching ability from
     :class:`.SwitchOneTargetGroundTruthSimulator`"""
-    transition_models: Sequence[TransitionModel] = Property(
+    transition_models: Sequence[TransitionModel] = prop(
         doc="List of transition models to be used, ensure that they all have the same dimensions.")
-    model_probs: np.ndarray = Property(doc="A matrix of probabilities.\
+    model_probs: np.ndarray = prop(doc="A matrix of probabilities.\
         The element in the ith row and the jth column is the probability of\
          switching from the ith transition model in :attr:`transition_models`\
          to the jth")
-    seed: Optional[int] = Property(default=None, doc="Seed for random number generation."
-                                                     " Default None")
+    seed: Optional[int] = prop(default=None, doc="Seed for random number generation."
+                                                 " Default None")
 
     @property
     def transition_model(self, random_state=None):
@@ -207,13 +207,13 @@ class SimpleDetectionSimulator(DetectionSimulator):
     measurement_model : MeasurementModel
         Measurement model used in generating detections.
     """
-    groundtruth: GroundTruthReader = Property()
-    measurement_model: MeasurementModel = Property()
-    meas_range: np.ndarray = Property()
-    detection_probability: Probability = Property(default=0.9)
-    clutter_rate: float = Property(default=2.0)
-    seed: Optional[int] = Property(default=None, doc="Seed for random number generation."
-                                                     " Default None")
+    groundtruth: GroundTruthReader = prop()
+    measurement_model: MeasurementModel = prop()
+    meas_range: np.ndarray = prop()
+    detection_probability: Probability = prop(default=0.9)
+    clutter_rate: float = prop(default=2.0)
+    seed: Optional[int] = prop(default=None, doc="Seed for random number generation."
+                                                 " Default None")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -279,7 +279,7 @@ class SwitchDetectionSimulator(SimpleDetectionSimulator):
     For example, if you wanted a higher detection probability when the
     simulated object makes a turn"""
 
-    detection_probabilities: Sequence[Probability] = Property(
+    detection_probabilities: Sequence[Probability] = prop(
         doc="List of probabilities that correspond to the detection probability of the simulated "
             "object while undergoing each transition model")
 
@@ -295,7 +295,7 @@ class DummyGroundTruthSimulator(GroundTruthSimulator):
      It returns an empty set at each time step.
     """
 
-    times: Sequence[datetime.datetime] = Property(doc='list of times to return')
+    times: Sequence[datetime.datetime] = prop(doc='list of times to return')
 
     @BufferedGenerator.generator_method
     def groundtruth_paths_gen(self):

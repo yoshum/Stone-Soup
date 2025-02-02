@@ -178,14 +178,14 @@ set_axes_limits()
 from collections.abc import Sequence
 from typing import Union
 
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.sensor.sensor import Sensor
 from stonesoup.types.detection import CompositeDetection
 
 
 class CompositeSensor(Sensor):
-    sensors: Sequence[Sensor] = Property(doc="A list of sensors.")
-    mapping: Sequence = Property(default=None,
+    sensors: Sequence[Sensor] = prop(doc="A list of sensors.")
+    mapping: Sequence = prop(default=None,
                                  doc="Mapping of which component states in the composite truth "
                                      "state is measured.")
 

@@ -1,5 +1,5 @@
 from .base import MetricGenerator
-from ..base import Property
+from ..base import prop
 from ..measures import Measure
 from ..types.metric import SingleTimeMetric, TimeRangeMetric
 from ..types.time import TimeRange
@@ -41,19 +41,19 @@ class SIAPMetrics(MetricGenerator):
         [1] Single Integrated Air Picture (SIAP) Metrics Implementation, Votruba et al., 29-10-2001
     """
 
-    position_measure: Measure = Property(
+    position_measure: Measure = prop(
         doc="Distance measure used in calculating position accuracy scores.")
-    velocity_measure: Measure = Property(
+    velocity_measure: Measure = prop(
         doc="Distance measure used in calculating velocity accuracy scores.")
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated metrics "
-                                       "from MultiManager",
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated metrics "
+                                   "from MultiManager",
                                    default='siap_generator')
-    tracks_key: str = Property(doc='Key to access set of tracks added to MetricManager',
+    tracks_key: str = prop(doc='Key to access set of tracks added to MetricManager',
                                default='tracks')
-    truths_key: str = Property(doc="Key to access set of ground truths added to MetricManager. "
-                                   "Or key to access a second set of tracks for track-to-track "
-                                   "metric generation",
-                               default='groundtruth_paths')
+    truths_key: str = prop(doc="Key to access set of ground truths added to MetricManager. "
+                               "Or key to access a second set of tracks for track-to-track "
+                               "metric generation",
+                           default='groundtruth_paths')
 
     def compute_metric(self, manager, **kwargs):
         r"""Compute metrics:
@@ -524,10 +524,10 @@ class IDSIAPMetrics(SIAPMetrics):
         [1] Single Integrated Air Picture (SIAP) Metrics Implementation, Votruba et al., 29-10-2001
     """
 
-    truth_id: str = Property(doc="Metadata key for ID of each ground truth path in data-set")
-    track_id: str = Property(doc="Metadata key for ID of each track in data-set")
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated metrics "
-                                       "from MultiManager",
+    truth_id: str = prop(doc="Metadata key for ID of each ground truth path in data-set")
+    track_id: str = prop(doc="Metadata key for ID of each track in data-set")
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated metrics "
+                                   "from MultiManager",
                                    default='Id_siap_generator')
 
     def compute_metric(self, manager, **kwargs):

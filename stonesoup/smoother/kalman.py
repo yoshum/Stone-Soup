@@ -3,7 +3,7 @@ from functools import partial
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..functions import (gauss2sigma, unscented_transform, cub_points_and_tf)
 from ..models.base import LinearModel
 from ..models.transition.base import TransitionModel
@@ -53,7 +53,7 @@ class KalmanSmoother(Smoother):
 
     """
 
-    transition_model: LinearGaussianTransitionModel = Property(
+    transition_model: LinearGaussianTransitionModel = prop(
         doc="The transition model. The :meth:`smooth` function will initially look for a "
         "transition model in the prediction. If that is not found then this one is used."
     )
@@ -235,7 +235,7 @@ class ExtendedKalmanSmoother(KalmanSmoother):
 
     """
 
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
 
     def _transition_matrix(
         self, state, transition_model, linearisation_point=None, **kwargs
@@ -275,18 +275,18 @@ class UnscentedKalmanSmoother(KalmanSmoother):
 
     """
 
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
 
-    alpha: float = Property(
+    alpha: float = prop(
         default=0.5, doc="Primary sigma point spread scaling parameter. Default is 0.5."
     )
-    beta: float = Property(
+    beta: float = prop(
         default=2,
         doc="Used to incorporate prior knowledge of the distribution. If the "
         "true distribution is Gaussian, the value of 2 is optimal. "
         "Default is 2",
     )
-    kappa: float = Property(
+    kappa: float = prop(
         default=0,
         doc="Secondary spread scaling parameter. Default is calculated as " "3-Ns",
     )
@@ -333,15 +333,15 @@ class StochasticIntegrationSmoother(KalmanSmoother):
     The stochastic integration is used to calculate the smoothing gain.
     """
 
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
 
-    Nmax: int = Property(default=10, doc="maximal number of iterations of SIR")
-    Nmin: int = Property(
+    Nmax: int = prop(default=10, doc="maximal number of iterations of SIR")
+    Nmin: int = prop(
         default=5,
         doc="minimal number of iterations of stochastic integration rule (SIR)",
     )
-    Eps: float = Property(default=5e-3, doc="allowed threshold for integration error")
-    SIorder: int = Property(
+    Eps: float = prop(default=5e-3, doc="allowed threshold for integration error")
+    SIorder: int = prop(
         default=5, doc="order of SIR (orders 1, 3, 5 are currently supported)"
     )
 

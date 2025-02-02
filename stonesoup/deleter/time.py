@@ -1,7 +1,7 @@
 """Contains collection of time based deleters"""
 from datetime import timedelta
 
-from ..base import Property
+from ..base import prop
 from ..types.update import Update
 from .base import Deleter
 
@@ -13,7 +13,7 @@ class UpdateTimeStepsDeleter(Deleter):
     last :attr:`time_steps_since_update`.
     """
 
-    time_steps_since_update: int = Property(doc="Maximum time steps since last update")
+    time_steps_since_update: int = prop(doc="Maximum time steps since last update")
 
     def check_for_deletion(self, track, **kwargs):
         """Delete track without update with measurements within time steps
@@ -49,7 +49,7 @@ class UpdateTimeDeleter(Deleter):
     measurements is greater than :attr:`time_since_update`.
     """
 
-    time_since_update: timedelta = Property(doc="Maximum time since last update")
+    time_since_update: timedelta = prop(doc="Maximum time since last update")
 
     def check_for_deletion(self, track, timestamp=None, **kwargs):
         """Delete track based on time of last update with measurements

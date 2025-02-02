@@ -27,7 +27,7 @@ except ImportError as error:
 from .base import FrameReader
 from .file import FileReader
 from .url import UrlReader
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.sensordata import ImageFrame
 
@@ -60,13 +60,13 @@ class VideoClipReader(FileReader, FrameReader):
     .. _MoviePy: https://zulko.github.io/moviepy/index.html
     .. _documentation: https://zulko.github.io/moviepy/getting_started/effects.html
      """  # noqa:E501
-    start_time: datetime.timedelta = Property(
+    start_time: datetime.timedelta = prop(
         doc="Start time expressed as duration from the start of the clip",
         default=datetime.timedelta(seconds=0))
-    end_time: datetime.timedelta = Property(
+    end_time: datetime.timedelta = prop(
         doc="End time expressed as duration from the start of the clip",
         default=None)
-    timestamp: datetime.datetime = Property(
+    timestamp: datetime.datetime = prop(
         doc="Timestamp given to the first frame",
         default=None)
 
@@ -114,29 +114,29 @@ class FFmpegVideoStreamReader(UrlReader, FrameReader):
 
     """
 
-    url: ParseResult = Property(
+    url: ParseResult = prop(
         doc="Input source to read video stream from, passed as input url argument. This can "
             "include any valid FFmpeg input e.g. rtsp URL, device name when using 'dshow'/'v4l2'")
-    buffer_size: int = Property(
+    buffer_size: int = prop(
         default=1,
         doc="Size of the frame buffer. The frame buffer is used to cache frames in cases where "
             "the stream generates frames faster than they are ingested by the reader. If "
             "`buffer_size` is less than or equal to zero, the buffer size is infinite.")
-    input_opts: Mapping[str, str] = Property(
+    input_opts: Mapping[str, str] = prop(
         default=None,
         doc="FFmpeg input options, provided in the form of a dictionary, whose keys correspond to "
             "option names. (e.g. ``{'fflags': 'nobuffer'}``). The default is ``{}``.")
-    output_opts: Mapping[str, str] = Property(
+    output_opts: Mapping[str, str] = prop(
         default=None,
         doc="FFmpeg output options, provided in the form of a dictionary, whose keys correspond "
             "to option names. The default is ``{'f': 'rawvideo', 'pix_fmt': 'rgb24'}``.")
-    filters: Sequence[tuple[str, Sequence[Any], Mapping[Any, Any]]] = Property(
+    filters: Sequence[tuple[str, Sequence[Any], Mapping[Any, Any]]] = prop(
         default=None,
         doc="FFmpeg filters, provided in the form of a list of filter name, sequence of "
             "arguments, mapping of key/value pairs (e.g. ``[('scale', ('320', '240'), {})]``). "
             "Default `None` where no filter will be applied. Note that :attr:`frame_size` may "
             "need to be set in when video size changed by filter.")
-    frame_size: tuple[int, int] = Property(
+    frame_size: tuple[int, int] = prop(
         default=None,
         doc="Tuple of frame width and height. Default `None` where it will be detected using "
             "`ffprobe` against the input, but this may yield wrong width/height (e.g. when "

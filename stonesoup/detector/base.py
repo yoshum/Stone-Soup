@@ -1,4 +1,4 @@
-from ..base import Property
+from ..base import prop
 from ..reader import DetectionReader, SensorDataReader
 
 
@@ -9,4 +9,4 @@ class Detector(DetectionReader):
     data.
     """
 
-    sensor: SensorDataReader = Property(doc="Source of sensor data")
+    sensor: SensorDataReader = prop(doc="Source of sensor data")

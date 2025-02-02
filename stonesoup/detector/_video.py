@@ -3,7 +3,7 @@ from abc import abstractmethod
 from copy import copy
 
 from .base import Detector
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 
 
@@ -15,7 +15,7 @@ class _VideoAsyncBoxDetector(Detector):
     frame (applicable when processing live video).
     """
 
-    run_async: bool = Property(
+    run_async: bool = prop(
         doc="If set to ``True``, the detector will digest frames from the reader asynchronously "
             "and only perform detection on the last frame digested. This is suitable when the "
             "detector is applied to readers generating a live feed (e.g. "

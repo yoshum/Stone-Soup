@@ -1,7 +1,7 @@
 """Base classes for Stone Soup Predictor interface"""
 from abc import abstractmethod
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..models.transition import TransitionModel
 from ..models.control import ControlModel
 
@@ -26,8 +26,8 @@ class Predictor(Base):
     transition and control model noise respectively.
     """
 
-    transition_model: TransitionModel = Property(doc="transition model")
-    control_model: ControlModel = Property(default=None, doc="control model")
+    transition_model: TransitionModel = prop(doc="transition model")
+    control_model: ControlModel = prop(default=None, doc="control model")
 
     @abstractmethod
     def predict(self, prior, timestamp=None, **kwargs):

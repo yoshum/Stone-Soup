@@ -7,7 +7,7 @@ import scipy.linalg
 from numpy.linalg import inv
 from scipy.stats import multivariate_normal
 
-from ...base import Property
+from ...base import prop
 from ...functions import grid_creation
 from ..angle import Bearing
 from ..array import CovarianceMatrix, StateVector, StateVectors
@@ -534,7 +534,7 @@ def test_state_mutable_sequence_error_message():
     """Test that __getattr__ doesn't incorrectly identify the source of a missing attribute"""
 
     class TestSMS(StateMutableSequence):
-        test_property: int = Property(default=3)
+        test_property: int = prop(default=3)
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -602,8 +602,8 @@ def test_state_mutable_sequence_copy():
 
 def test_state_mutable_sequence_subclass():
     class TestSMS(StateMutableSequence):
-        test_property = Property(cls=int)
-        test_property_with_default = Property(default=2, cls=int)
+        test_property = prop(cls=int)
+        test_property_with_default = prop(default=2, cls=int)
 
     state = State(StateVector([[0]]), timestamp=datetime.datetime.now())
 

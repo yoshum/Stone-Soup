@@ -3,7 +3,7 @@ from typing import Union
 import numpy as np
 
 from .sensor import Sensor
-from ..base import Property
+from ..base import prop
 from ..types.detection import TrueDetection
 from ..types.groundtruth import GroundTruthState
 from ..models.measurement.gas import IsotropicPlume
@@ -16,23 +16,23 @@ class GasIntensitySensor(Sensor):
     model for calculating concentration.
     """
 
-    min_noise: float = Property(
+    min_noise: float = prop(
         default=1e-4,
         doc="The minimum noise added to sensor measurements"
     )
 
-    standard_deviation_percentage: float = Property(
+    standard_deviation_percentage: float = prop(
         default=0.5,
         doc="Standard deviation as a percentage of the concentration level"
     )
 
-    missed_detection_probability: Probability = Property(
+    missed_detection_probability: Probability = prop(
         default=0.1,
         doc="The probability that the detection has detection has been affected by turbulence "
             "and therefore not sensed the gas."
     )
 
-    sensing_threshold: float = Property(
+    sensing_threshold: float = prop(
         default=1e-4,
         doc="Measurement threshold. Should be set high enough to minimise false detections."
     )

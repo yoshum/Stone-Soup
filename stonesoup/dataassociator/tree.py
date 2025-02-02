@@ -14,7 +14,7 @@ except (ImportError, AttributeError, OSError) as err:  # pragma: no cover
     warnings.warn(f"Failed to import 'rtree': {err!r}")
     rtree = None
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..hypothesiser import Hypothesiser
 from ..models.base import LinearModel
 from ..models.measurement import MeasurementModel
@@ -43,20 +43,20 @@ class DetectionKDTreeMixIn(Base):
     This is only suitable where measurements are in same space as each other
     (i.e. have the same measurement model) and at the same timestamp.
     """
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Underlying hypothesiser used to generate detection-target pairs")
-    predictor: Predictor = Property(
+    predictor: Predictor = prop(
         doc="Predict tracks to detection times")
-    updater: Updater = Property(
+    updater: Updater = prop(
         doc="Updater used to get measurement prediction")
-    number_of_neighbours: int = Property(
+    number_of_neighbours: int = prop(
         default=None,
         doc="Number of neighbours to find. Default `None`, which means all "
             "points within the :attr:`max_distance` are returned.")
-    max_distance: float = Property(
+    max_distance: float = prop(
         default=np.inf,
         doc="Max distance to return points. Default `inf`")
-    max_distance_covariance_multiplier: float = Property(
+    max_distance_covariance_multiplier: float = prop(
         default=None,
         doc="If set, the max distance will be limited to maximum of covariance "
             "diagonal of the track state, multiplied by this attribute, or "
@@ -133,17 +133,17 @@ class TPRTreeMixIn(Base):
     This requires that track state has a mean (position and velocity) and covariance, which
     is then approximated to a TPR node (position, velocity and time bounding box).
     """
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Underlying hypothesiser used to generate detection-target pairs")
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         doc="Measurement model used within the TPR tree")
-    horizon_time: datetime.timedelta = Property(
+    horizon_time: datetime.timedelta = prop(
         doc="How far the TPR tree should look into the future")
-    pos_mapping: Sequence[int] = Property(
+    pos_mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping for position coordinates. Default `None`, which uses the measurement model"
             "mapping")
-    vel_mapping: Sequence[int] = Property(
+    vel_mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping for velocity coordinates. Default `None`, which uses the position mapping "
             "adding offset of 1 to each")

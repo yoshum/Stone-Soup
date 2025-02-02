@@ -5,7 +5,7 @@ from itertools import combinations
 from numbers import Real
 from typing import Union
 
-from ..base import Property
+from ..base import prop
 from ..types import Type
 
 
@@ -16,8 +16,8 @@ class Interval(Type):
     Represents a continuous, closed interval of real numbers.
     Represented by a lower and upper bound.
     """
-    start: Union[int, float] = Property(doc="Lower bound of interval")
-    end: Union[int, float] = Property(doc="Upper bound of interval")
+    start: Union[int, float] = prop(doc="Lower bound of interval")
+    end: Union[int, float] = prop(doc="Upper bound of interval")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -164,7 +164,7 @@ class Intervals(Type):
     :class:`Interval` types.
     """
 
-    intervals: MutableSequence[Interval] = Property(
+    intervals: MutableSequence[Interval] = prop(
         default=None,
         doc="Container of :class:`Interval`")
 

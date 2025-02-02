@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 
 from .kalman import KalmanUpdater
-from ..base import Property
+from ..base import prop
 from ..types.state import State, EnsembleState
 from ..types.array import StateVectors
 from ..types.prediction import MeasurementPrediction
@@ -66,7 +66,7 @@ class EnsembleUpdater(KalmanUpdater):
     arXiv preprint arXiv:0901.3725 (2009).
     """
 
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="A measurement model. This need not be defined if a measurement "
             "model is provided in the measurement. If no model specified on "
@@ -312,7 +312,7 @@ class LinearisedEnsembleUpdater(EnsembleUpdater):
     1. K. Michaelson, A. A. Popov and R. Zanetti,
     "Ensemble Kalman Filter with Bayesian Recursive Update"
     """
-    inflation_factor: float = Property(
+    inflation_factor: float = prop(
         default=1.,
         doc="Parameter to control inflation")
 

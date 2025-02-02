@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 
-from ..base import Property
+from ..base import prop
 from ..predictor import Predictor
 from ..predictor._utils import predict_lru_cache
 from ..types.prediction import CompositePrediction
@@ -14,7 +14,7 @@ class CompositePredictor(Predictor):
     sub-state of a :class:`CompositeState` forward using a corresponding sub-predictor.
     """
 
-    sub_predictors: Sequence[Predictor] = Property(
+    sub_predictors: Sequence[Predictor] = prop(
         doc="Sequence of sub-predictors comprising the composite predictor. Must not be empty.")
 
     def __init__(self, *args, **kwargs):

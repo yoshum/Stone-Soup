@@ -9,7 +9,7 @@ from ..measures import KLDivergence
 from ..platform import Platform
 from ..sensormanager.action import Actionable
 from ..types.detection import TrueDetection
-from ..base import Base, Property
+from ..base import Base, prop
 from ..predictor.base import Predictor
 from ..predictor.particle import ParticlePredictor
 from ..predictor.kalman import KalmanPredictor
@@ -65,20 +65,20 @@ class UncertaintyRewardFunction(RewardFunction):
     uncertainty.
     """
 
-    predictor: KalmanPredictor = Property(doc="Predictor used to predict the track to a new state")
-    updater: ExtendedKalmanUpdater = Property(doc="Updater used to update "
-                                                  "the track to the new state.")
-    method_sum: bool = Property(default=True, doc="Determines method of calculating reward."
-                                                  "Default calculates sum across all targets."
-                                                  "Otherwise calculates mean of all targets.")
-    return_tracks: bool = Property(default=False,
-                                   doc="A flag for allowing the predicted track, "
-                                       "used to calculate the reward, to be "
-                                       "returned.")
-    measurement_noise: bool = Property(default=False,
-                                       doc="Decide whether or not to apply measurement model "
-                                           "noise to the predicted measurements for sensor "
-                                           "management.")
+    predictor: KalmanPredictor = prop(doc="Predictor used to predict the track to a new state")
+    updater: ExtendedKalmanUpdater = prop(doc="Updater used to update "
+                                              "the track to the new state.")
+    method_sum: bool = prop(default=True, doc="Determines method of calculating reward."
+                                              "Default calculates sum across all targets."
+                                              "Otherwise calculates mean of all targets.")
+    return_tracks: bool = prop(default=False,
+                               doc="A flag for allowing the predicted track, "
+                                   "used to calculate the reward, to be "
+                                   "returned.")
+    measurement_noise: bool = prop(default=False,
+                                   doc="Decide whether or not to apply measurement model "
+                                       "noise to the predicted measurements for sensor "
+                                       "management.")
 
     def __call__(self, config: Mapping[Sensor, Sequence[Action]], tracks: set[Track],
                  metric_time: datetime.datetime, *args, **kwargs):
@@ -182,33 +182,33 @@ class ExpectedKLDivergence(RewardFunction):
     the action and resulting measurement from that action.
     """
 
-    predictor: Predictor = Property(default=None,
-                                    doc="Predictor used to predict the track to a "
-                                        "new state. This reward function is only "
-                                        "compatible with :class:`~.ParticlePredictor` "
-                                        "types.")
-    updater: Updater = Property(default=None,
-                                doc="Updater used to update the track to the new state. "
-                                    "This reward function is only compatible with "
-                                    ":class:`~.ParticleUpdater` types.")
-    method_sum: bool = Property(default=True,
-                                doc="Determines method of calculating reward."
-                                    "Default calculates sum across all targets."
-                                    "Otherwise calculates mean of all targets.")
-    data_associator: DataAssociator = Property(default=None,
-                                               doc="Data associator for associating "
-                                                   "detections to tracks when "
-                                                   "multiple sensors are managed.")
+    predictor: Predictor = prop(default=None,
+                                doc="Predictor used to predict the track to a "
+                                    "new state. This reward function is only "
+                                    "compatible with :class:`~.ParticlePredictor` "
+                                    "types.")
+    updater: Updater = prop(default=None,
+                            doc="Updater used to update the track to the new state. "
+                                "This reward function is only compatible with "
+                                ":class:`~.ParticleUpdater` types.")
+    method_sum: bool = prop(default=True,
+                            doc="Determines method of calculating reward."
+                                "Default calculates sum across all targets."
+                                "Otherwise calculates mean of all targets.")
+    data_associator: DataAssociator = prop(default=None,
+                                           doc="Data associator for associating "
+                                               "detections to tracks when "
+                                               "multiple sensors are managed.")
 
-    return_tracks: bool = Property(default=False,
-                                   doc="A flag for allowing the predicted track, "
-                                       "used to calculate the reward, to be "
-                                       "returned.")
+    return_tracks: bool = prop(default=False,
+                               doc="A flag for allowing the predicted track, "
+                                   "used to calculate the reward, to be "
+                                   "returned.")
 
-    measurement_noise: bool = Property(default=False,
-                                       doc="Decide whether or not to apply measurement model "
-                                           "noise to the predicted measurements for sensor "
-                                           "management.")
+    measurement_noise: bool = prop(default=False,
+                                   doc="Decide whether or not to apply measurement model "
+                                       "noise to the predicted measurements for sensor "
+                                       "management.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -351,21 +351,21 @@ class MultiUpdateExpectedKLDivergence(ExpectedKLDivergence):
     of them.
     """
 
-    predictor: ParticlePredictor = Property(default=None,
-                                            doc="Predictor used to predict the track to a "
-                                                "new state. This reward function is only "
-                                                "compatible with :class:`~.ParticlePredictor` "
-                                                "types.")
-    updater: ParticleUpdater = Property(default=None,
-                                        doc="Updater used to update the track to the new state. "
-                                            "This reward function is only compatible with "
-                                            ":class:`~.ParticleUpdater` types.")
+    predictor: ParticlePredictor = prop(default=None,
+                                        doc="Predictor used to predict the track to a "
+                                            "new state. This reward function is only "
+                                            "compatible with :class:`~.ParticlePredictor` "
+                                            "types.")
+    updater: ParticleUpdater = prop(default=None,
+                                    doc="Updater used to update the track to the new state. "
+                                        "This reward function is only compatible with "
+                                        ":class:`~.ParticleUpdater` types.")
 
-    updates_per_track: int = Property(default=2,
-                                      doc="Number of measurements to generate from each "
-                                          "track prediction. This should be > 1.")
+    updates_per_track: int = prop(default=2,
+                                  doc="Number of measurements to generate from each "
+                                      "track prediction. This should be > 1.")
 
-    measurement_noise: bool = Property(default=True)
+    measurement_noise: bool = prop(default=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

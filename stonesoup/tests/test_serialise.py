@@ -7,7 +7,7 @@ from ruamel.yaml.constructor import ConstructorError
 from .conftest import _TestBase
 from ..sensor.sensor import Sensor
 from ..serialise import YAML
-from ..base import Property
+from ..base import prop
 from ..types.array import Matrix, StateVector, CovarianceMatrix
 from ..types.angle import Angle, Bearing, Elevation, Longitude, Latitude
 
@@ -111,7 +111,7 @@ def test_probability(serialised_file):
 
 
 class _TestNumpy(_TestBase):
-    property_d: np.ndarray = Property()
+    property_d: np.ndarray = prop()
 
 
 def test_numpy(serialised_file):
@@ -152,7 +152,7 @@ def test_numpy_dtypes(serialised_file, values):
 
 
 class _TestDatetime(_TestBase):
-    property_d: datetime.datetime = Property()
+    property_d: datetime.datetime = prop()
 
 
 def test_datetime(serialised_file):

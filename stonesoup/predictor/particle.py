@@ -9,7 +9,7 @@ from ordered_set import OrderedSet
 from .base import Predictor
 from ._utils import predict_lru_cache
 from .kalman import KalmanPredictor, ExtendedKalmanPredictor
-from ..base import Property
+from ..base import prop
 from ..models.transition import TransitionModel
 from ..proposal.base import Proposal
 from ..proposal.simple import PriorAsProposal
@@ -27,7 +27,7 @@ class ParticlePredictor(Predictor):
 
     An implementation of a Particle Filter predictor.
     """
-    proposal: Proposal = Property(
+    proposal: Proposal = prop(
         default=None,
         doc="A proposal object that generates samples from the proposal distribution. If `None`,"
             "the transition model is used to generate samples.")
@@ -92,7 +92,7 @@ class ParticleFlowKalmanPredictor(ParticlePredictor):
     .. [1] Ding, Tao & Coates, Mark J., "Implementation of the Daum-Huang
        Exact-Flow Particle Filter" 2012
     """
-    kalman_predictor: KalmanPredictor = Property(
+    kalman_predictor: KalmanPredictor = prop(
         default=None,
         doc="Kalman predictor to use. Default `None` where a new instance of"
             ":class:`~.ExtendedKalmanPredictor` will be created utilising the"
@@ -127,15 +127,15 @@ class MultiModelPredictor(Predictor):
     An implementation of a Particle Filter predictor utilising multiple models.
     """
     transition_model = None
-    transition_models: Sequence[TransitionModel] = Property(
+    transition_models: Sequence[TransitionModel] = prop(
         doc="Transition models used to for particle transition, selected by model index on "
             "particle. Models dimensions can be subset of the overall state space, by "
             "using :attr:`model_mappings`."
     )
-    transition_matrix: np.ndarray = Property(
+    transition_matrix: np.ndarray = prop(
         doc="n-model by n-model transition matrix."
     )
-    model_mappings: Sequence[Sequence[int]] = Property(
+    model_mappings: Sequence[Sequence[int]] = prop(
         doc="Sequence of mappings associated with each transition model. This enables mapping "
             "between model and state space, enabling use of models that may have different "
             "dimensions (e.g. velocity or acceleration). Parts of the state that aren't mapped "
@@ -275,13 +275,13 @@ class BernoulliParticlePredictor(ParticlePredictor):
        2013, IEEE Transactions on Signal Processing, 61(13), 3406-3430.
     """
 
-    birth_probability: float = Property(
+    birth_probability: float = prop(
         default=0.01,
         doc="Probability of target birth.")
-    survival_probability: float = Property(
+    survival_probability: float = prop(
         default=0.98,
         doc="Probability of target survival")
-    birth_sampler: Sampler = Property(
+    birth_sampler: Sampler = prop(
         default=None,
         doc="Sampler object used for sampling birth particles. "
             "Currently implementation assumes the :class:`~.DetectionSampler` is used")
@@ -425,26 +425,26 @@ class SMCPHDPredictor(Predictor):
             doi: 10.1109/ICIF.2003.177320
 
     """
-    death_probability: Probability = Property(
+    death_probability: Probability = prop(
         doc="The probability of death per unit time. This is used to calculate the probability "
             r"of survival as :math:`1 - \exp(-\lambda \Delta t)` where :math:`\lambda` is the "
             r"probability of death and :math:`\Delta t` is the time interval")
-    birth_probability: Probability = Property(
+    birth_probability: Probability = prop(
         doc="Probability of target birth. In the current implementation, this is used to calculate"
             "the number of birth particles, as per the explanation under :py:attr:`~birth_scheme`")
-    birth_rate: float = Property(
+    birth_rate: float = prop(
         doc="The expected number of new/born targets at each iteration. This is used to calculate"
             "the weight of the birth particles")
-    birth_sampler: ParticleSampler = Property(
+    birth_sampler: ParticleSampler = prop(
         doc="Sampler object used for sampling birth particles. The weight of the sampled birth "
             "particles is ignored and calculated internally based on the :py:attr:`~birth_rate` "
             "and number of particles")
-    birth_func_num_samples_field: str = Property(
+    birth_func_num_samples_field: str = prop(
         default='num_samples',
         doc="The field name of the number of samples parameter for the birth sampler. This is "
             "required since the number of samples required for the birth sampler may be vary"
             "between iterations. Default is ``'num_samples'``")
-    birth_scheme: SMCPHDBirthSchemeEnum = Property(
+    birth_scheme: SMCPHDBirthSchemeEnum = prop(
         default=SMCPHDBirthSchemeEnum.EXPANSION,
         doc="The scheme for birth particles. Options are ``'expansion'`` | ``'mixture'``. Default "
             "is ``'expansion'``.\n\n"

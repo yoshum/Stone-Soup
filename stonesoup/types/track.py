@@ -5,7 +5,7 @@ from collections.abc import MutableSequence, MutableMapping
 from .multihypothesis import MultipleHypothesis
 from .state import State, StateMutableSequence
 from .update import Update
-from ..base import Property
+from ..base import prop
 
 
 class Track(StateMutableSequence):
@@ -21,13 +21,13 @@ class Track(StateMutableSequence):
         manual metadata modifications being lost.
     """
 
-    states: MutableSequence[State] = Property(
+    states: MutableSequence[State] = prop(
         default=None,
         doc="The initial states of the track. Default `None` which initialises with empty list.")
 
-    id: str = Property(default=None, doc="The unique track ID")
+    id: str = prop(default=None, doc="The unique track ID")
 
-    init_metadata: MutableMapping = Property(
+    init_metadata: MutableMapping = prop(
         default={}, doc="Initial dictionary of metadata items for track. Default `None` which "
                         "initialises track metadata as an empty dictionary.")
 

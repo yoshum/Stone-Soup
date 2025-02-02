@@ -3,15 +3,15 @@ from typing import Any
 
 from .base import Type
 from .time import TimeRange
-from ..base import Property
+from ..base import prop
 
 
 class Metric(Type):
     """Metric type"""
 
-    title: str = Property(doc='Name of the metric')
-    value: Any = Property(doc='Value of the metric')
-    generator: Any = Property(doc='Generator used to create the metric')
+    title: str = prop(doc='Name of the metric')
+    value: Any = prop(doc='Value of the metric')
+    generator: Any = prop(doc='Generator used to create the metric')
 
 
 class PlottingMetric(Metric):
@@ -22,14 +22,14 @@ class PlottingMetric(Metric):
 class SingleTimeMetric(Metric):
     """Metric for a specific timestamp"""
 
-    timestamp: datetime.datetime = Property(
+    timestamp: datetime.datetime = prop(
         default=None, doc="Timestamp of the state. Default None.")
 
 
 class TimeRangeMetric(Metric):
     """ Metric for a range of times (e.g. for example an entire run)"""
 
-    time_range: TimeRange = Property(
+    time_range: TimeRange = prop(
         default=None,
         doc="Time range over which metric assessment will be conducted over. Default is None")
 

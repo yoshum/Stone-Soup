@@ -2,14 +2,14 @@ from abc import abstractmethod, ABC
 from collections.abc import Sequence
 
 from ..base import Model
-from ...base import Property
+from ...base import prop
 
 
 class MeasurementModel(Model, ABC):
     """Measurement Model base class"""
 
-    ndim_state: int = Property(doc="Number of state dimensions")
-    mapping: Sequence[int] = Property(doc="Mapping between measurement and state dims")
+    ndim_state: int = prop(doc="Number of state dimensions")
+    mapping: Sequence[int] = prop(doc="Mapping between measurement and state dims")
 
     @property
     def ndim(self) -> int:

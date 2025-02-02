@@ -2,7 +2,7 @@ from functools import lru_cache
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from .base import Updater
 from ..types.prediction import MeasurementPrediction
 from ..types.update import Update
@@ -76,7 +76,7 @@ class ChernoffUpdater(Updater):
        Security Symposium 2023.
     """
 
-    omega: float = Property(
+    omega: float = prop(
         default=0.5,
         doc="A weighting parameter in the range :math:`(0,1]`")
 

@@ -6,7 +6,7 @@ import numpy as np
 from scipy.linalg import block_diag
 
 from ..base import Model, GaussianModel
-from ...base import Property
+from ...base import prop
 from ...types.array import StateVector, StateVectors
 
 
@@ -32,7 +32,7 @@ class CombinedGaussianTransitionModel(TransitionModel, GaussianModel):
     If any of the models are time variant the keyword argument "time_interval"
     must be supplied to all methods
     """
-    model_list: Sequence[GaussianModel] = Property(doc="List of Transition Models.")
+    model_list: Sequence[GaussianModel] = prop(doc="List of Transition Models.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -25,7 +25,7 @@ try:
 except ImportError:
     go = None
 
-from .base import Base, Property
+from .base import Base, prop
 from .models.base import LinearModel, Model
 from .types import detection
 from .types.array import StateVector
@@ -1859,9 +1859,9 @@ class PolarPlotterly(_Plotter):
 
 
 class _AnimationPlotterDataClass(Base):
-    plotting_data: Iterable[State] = Property()
-    plotting_label: str = Property()
-    plotting_keyword_arguments: dict = Property()
+    plotting_data: Iterable[State] = prop()
+    plotting_label: str = prop()
+    plotting_keyword_arguments: dict = prop()
 
 
 class AnimationPlotter(_Plotter):

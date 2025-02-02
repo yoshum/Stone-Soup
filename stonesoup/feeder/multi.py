@@ -2,7 +2,7 @@ import heapq
 from collections.abc import Collection
 
 from .base import DetectionFeeder, GroundTruthFeeder
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..reader import Reader
 
@@ -14,7 +14,7 @@ class MultiDataFeeder(DetectionFeeder, GroundTruthFeeder):
     yielding from the reader yielding the lowest timestamp first.
     """
     reader = None
-    readers: Collection[Reader] = Property(doc='Readers to yield from')
+    readers: Collection[Reader] = prop(doc='Readers to yield from')
 
     @BufferedGenerator.generator_method
     def data_gen(self):

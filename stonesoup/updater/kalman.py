@@ -4,7 +4,7 @@ import numpy as np
 import scipy.linalg as la
 from functools import lru_cache
 
-from ..base import Property
+from ..base import prop
 from .base import Updater
 from ..types.array import CovarianceMatrix, StateVector
 from ..types.prediction import MeasurementPrediction
@@ -61,17 +61,17 @@ class KalmanUpdater(Updater):
 
     # TODO: at present this will throw an error if a measurement model is not
     # TODO: specified in either individual measurements or the Updater object
-    measurement_model: LinearGaussian = Property(
+    measurement_model: LinearGaussian = prop(
         default=None,
         doc="A linear Gaussian measurement model. This need not be defined if "
             "a measurement model is provided in the measurement. If no model "
             "specified on construction, or in the measurement, then error "
             "will be thrown.")
-    force_symmetric_covariance: bool = Property(
+    force_symmetric_covariance: bool = prop(
         default=False,
         doc="A flag to force the output covariance matrix to be symmetric by way of a simple "
             "geometric combination of the matrix and transpose. Default is False.")
-    use_joseph_cov: bool = Property(
+    use_joseph_cov: bool = prop(
         default=False,
         doc="Bool dictating the method of covariance calculation. If use_joseph_cov is True then "
             "the Joseph form of the covariance equation is used.")
@@ -335,7 +335,7 @@ class ExtendedKalmanUpdater(KalmanUpdater):
     """
     # TODO: Enforce the fact that this version of MeasurementModel must be
     # TODO: capable of executing :attr:`jacobian()`
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="A measurement model. This need not be defined if a measurement "
             "model is provided in the measurement. If no model specified on "
@@ -385,21 +385,21 @@ class UnscentedKalmanUpdater(KalmanUpdater):
 
     """
     # Can be non-linear and non-differentiable
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="The measurement model to be used. This need not be defined if a "
             "measurement model is provided in the measurement. If no model "
             "specified on construction, or in the measurement, then error "
             "will be thrown.")
-    alpha: float = Property(
+    alpha: float = prop(
         default=0.5,
         doc="Primary sigma point spread scaling parameter. Default is 0.5.")
-    beta: float = Property(
+    beta: float = prop(
         default=2,
         doc="Used to incorporate prior knowledge of the distribution. If the "
             "true distribution is Gaussian, the value of 2 is optimal. "
             "Default is 2")
-    kappa: float = Property(
+    kappa: float = prop(
         default=None,
         doc="Secondary spread scaling parameter. Default is calculated as "
             "3-Ns")
@@ -467,7 +467,7 @@ class SqrtKalmanUpdater(ExtendedKalmanUpdater):
        Journal, 6:6, 1165-1166
 
     """
-    qr_method: bool = Property(
+    qr_method: bool = prop(
         default=False,
         doc="A switch to do the update via a QR decomposition, rather than using the (vector form "
             "of) the Potter method.")
@@ -632,14 +632,14 @@ class IteratedKalmanUpdater(ExtendedKalmanUpdater):
     function via the :meth:`_measurement_matrix()` function.
     """
 
-    tolerance: float = Property(
+    tolerance: float = prop(
         default=1e-6,
         doc="The value of the difference in the measure used as a stopping criterion.")
-    measure: Measure = Property(
+    measure: Measure = prop(
         default=Euclidean(),
         doc="The measure to use to test the iteration stopping criterion. Defaults to the "
             "Euclidean distance between current and prior posterior state estimate.")
-    max_iterations: int = Property(
+    max_iterations: int = prop(
         default=1000,
         doc="Number of iterations before while loop is exited and a non-convergence warning is "
             "returned")
@@ -766,11 +766,11 @@ class SchmidtKalmanUpdater(ExtendedKalmanUpdater):
     10.1007/s40295-015-0068-7.
 
     """
-    consider: np.ndarray = Property(default=None,
-                                    doc="The boolean vector of 'consider' parameters. True "
-                                        "indicates considered, False are state parameters to be "
-                                        "estimated. If undefined these default to all False, i.e."
-                                        "the standard Kalman filter.")
+    consider: np.ndarray = prop(default=None,
+                                doc="The boolean vector of 'consider' parameters. True "
+                                    "indicates considered, False are state parameters to be "
+                                    "estimated. If undefined these default to all False, i.e."
+                                    "the standard Kalman filter.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -855,13 +855,13 @@ class CubatureKalmanUpdater(KalmanUpdater):
     update equations.
 
     """
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="The measurement model to be used. This need not be defined if a "
             "measurement model is provided in the measurement. If no model "
             "specified on construction, or in the measurement, then error "
             "will be thrown.")
-    alpha: float = Property(
+    alpha: float = prop(
         default=1.0,
         doc="Scaling parameter. Default is 1.0. Lower values select points closer to the mean and "
             "vice versa.")
@@ -914,20 +914,20 @@ class StochasticIntegrationUpdater(KalmanUpdater):
     """
 
     # Can be non-linear and non-differentiable
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="The measurement model to be used. This need not be defined if a "
         "measurement model is provided in the measurement. If no model "
         "specified on construction, or in the measurement, then error "
         "will be thrown.",
     )
-    Nmax: int = Property(default=10, doc="maximal number of iterations of SIR")
-    Nmin: int = Property(
+    Nmax: int = prop(default=10, doc="maximal number of iterations of SIR")
+    Nmin: int = prop(
         default=5,
         doc="minimal number of iterations of stochastic integration rule (SIR)",
     )
-    Eps: float = Property(default=5e-4, doc="allowed threshold for integration error")
-    SIorder: int = Property(
+    Eps: float = prop(default=5e-4, doc="allowed threshold for integration error")
+    SIorder: int = prop(
         default=5, doc="order of SIR (orders 1, 3, 5 are currently supported)"
     )
 

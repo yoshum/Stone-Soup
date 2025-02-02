@@ -3,7 +3,7 @@ from abc import abstractmethod
 from scipy.stats import multivariate_normal
 import numpy as np
 
-from ..base import Base, Property
+from ..base import Base, prop
 from .kalman import KalmanUpdater
 from ..types.update import GaussianMixtureUpdate
 from ..types.state import TaggedWeightedGaussianState
@@ -18,20 +18,20 @@ class PointProcessUpdater(Base):
     Cardinalised Probability Hypothesis Density (CPHD) or
     Linear Complexity with Cumulants (LCC) filters
     """
-    updater: KalmanUpdater = Property(
+    updater: KalmanUpdater = prop(
         doc="Underlying updater used to perform the \
              single target Kalman Update.")
-    clutter_spatial_density: float = Property(
+    clutter_spatial_density: float = prop(
         default=1e-26,
         doc="Spatial density of the clutter process uniformly\
              distributed across the state space.")
-    normalisation: bool = Property(
+    normalisation: bool = prop(
         default=True,
         doc="Flag for normalisation")
-    prob_detection: Probability = Property(
+    prob_detection: Probability = prop(
         default=1,
         doc="Probability of a target being detected at the current timestep")
-    prob_survival: Probability = Property(
+    prob_survival: Probability = prop(
         default=1,
         doc="Probability of a target surviving until the next timestep")
 
@@ -163,10 +163,10 @@ class LCCUpdater(PointProcessUpdater):
         Information Fusion (FUSION). 2018. DOI: 10.
         23919/ICIF.2018.8455331. https://ieeexplore.ieee.org/document/8455331..
     """
-    mean_number_of_false_alarms: float = Property(
+    mean_number_of_false_alarms: float = prop(
         default=1,
         doc="Mean number of false alarms (clutter) expected per timestep")
-    variance_of_false_alarms: float = Property(
+    variance_of_false_alarms: float = prop(
         default=1,
         doc="Variance on the number of false alarms (clutter) expected per timestep")
 

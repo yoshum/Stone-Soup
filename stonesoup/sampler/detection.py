@@ -3,7 +3,7 @@ from abc import abstractmethod
 import numpy as np
 
 from .base import Sampler
-from ..base import Property
+from ..base import prop
 from ..models.measurement.linear import LinearModel
 from ..functions import jacobian, gm_sample
 from ..types.state import ParticleState, StateVectors
@@ -39,7 +39,7 @@ class GaussianDetectionParticleSampler(DetectionSampler):
     Gaussian detections and will either return samples from a single or mixture of Gaussians
     depending on which is provided."""
 
-    nsamples: int = Property(
+    nsamples: int = prop(
         default=1,
         doc="Number of samples to return")
 
@@ -113,10 +113,10 @@ class SwitchingDetectionSampler(DetectionSampler):
     :meth:`sample` method.
     """
 
-    detection_sampler: DetectionSampler = Property(
+    detection_sampler: DetectionSampler = prop(
         doc="Sampler for generating samples from detections")
 
-    backup_sampler: Sampler = Property(
+    backup_sampler: Sampler = prop(
         doc="Sampler for generating samples in the absence of detections")
 
     def sample(self, detections, timestamp=None, **kwargs):

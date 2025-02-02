@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..types.array import CovarianceMatrix
 from .kalman import KalmanUpdater, ExtendedKalmanUpdater
 
@@ -25,7 +25,7 @@ class SlidingInnovationUpdater(KalmanUpdater):
     1. S. A. Gadsden and M. Al-Shabi, "The Sliding Innovation Filter," in IEEE Access, vol. 8,
        pp. 96129-96138, 2020, doi: 10.1109/ACCESS.2020.2995345.
     """
-    layer_width: np.ndarray = Property(
+    layer_width: np.ndarray = prop(
         doc="Sliding boundary layer width :math:`\\mathbf{\\delta}`. A tunable parameter in "
             "measurement space. An example initial value provided in original paper is "
             ":math:`10 \\times \\text{diag}(R)`")

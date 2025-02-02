@@ -5,7 +5,7 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
-from ..base import Property
+from ..base import prop
 from .base import MetricGenerator, MetricTableGenerator
 
 
@@ -20,7 +20,7 @@ class RedGreenTableGenerator(MetricTableGenerator):
     # needed because of MetricGenerator parent class
     generator_name: str = ""
 
-    metrics: Collection[MetricGenerator] = Property(doc="Set of metrics to put in the table")
+    metrics: Collection[MetricGenerator] = prop(doc="Set of metrics to put in the table")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

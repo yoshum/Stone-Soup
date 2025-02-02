@@ -2,7 +2,7 @@ import numpy as np
 from scipy.stats import multivariate_normal
 
 from .base import GaussianInitiator, ParticleInitiator, Initiator
-from ..base import Property
+from ..base import prop
 from ..dataassociator import DataAssociator
 from ..deleter import Deleter
 from ..models.base import LinearModel, ReversibleModel
@@ -27,8 +27,8 @@ class SinglePointInitiator(GaussianInitiator):
     provided :attr:`prior_state` for each unassociated detection.
     """
 
-    prior_state: GaussianState = Property(doc="Prior state information")
-    measurement_model: MeasurementModel = Property(
+    prior_state: GaussianState = prop(doc="Prior state information")
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="Measurement model. Can be left as None if all detections have a "
             "valid measurement model.")
@@ -84,13 +84,13 @@ class SimpleMeasurementInitiator(GaussianInitiator):
     covariance matrix is positive definite, especially for subsequent Cholesky
     decompositions.
     """
-    prior_state: GaussianState = Property(doc="Prior state information")
-    measurement_model: MeasurementModel = Property(
+    prior_state: GaussianState = prop(doc="Prior state information")
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="Measurement model. Can be left as None if all detections have a "
             "valid measurement model.")
-    skip_non_reversible: bool = Property(default=False)
-    diag_load: float = Property(default=0.0, doc="Positive float value for diagonal loading")
+    skip_non_reversible: bool = prop(default=False)
+    diag_load: float = prop(default=0.0, doc="Positive float value for diagonal loading")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -169,26 +169,26 @@ class MultiMeasurementInitiator(GaussianInitiator):
     initiated only to then be removed shortly after.
     Does cause slight delay in initiation to tracker."""
 
-    prior_state: GaussianState = Property(doc="Prior state information")
-    deleter: Deleter = Property(doc="Deleter used to delete the track.")
-    data_associator: DataAssociator = Property(
+    prior_state: GaussianState = prop(doc="Prior state information")
+    deleter: Deleter = prop(doc="Deleter used to delete the track.")
+    data_associator: DataAssociator = prop(
         doc="Association algorithm to pair predictions to detections.")
-    updater: Updater = Property(
+    updater: Updater = prop(
         doc="Updater used to update the track object to the new state.")
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="Measurement model. Can be left as None if all detections have a "
             "valid measurement model.")
-    min_points: int = Property(
+    min_points: int = prop(
         default=2, doc="Minimum number of track points required to confirm a track.")
-    updates_only: bool = Property(
+    updates_only: bool = prop(
         default=True, doc="Whether :attr:`min_points` only counts :class:`~.Update` states.")
-    initiator: Initiator = Property(
+    initiator: Initiator = prop(
         default=None,
         doc="Initiator used to create tracks. If None, a :class:`SimpleMeasurementInitiator` will "
             "be created using :attr:`prior_state` and :attr:`measurement_model`. Otherwise, these "
             "attributes are ignored.")
-    skip_non_reversible: bool = Property(
+    skip_non_reversible: bool = prop(
         default=False, doc="Skip measurements that do not have a reversible measurement model. "
                            "Only allow measurements with a measurement model that is an instance "
                            "of a :class:`~.LinearModel` or a :class:`~.ReversibleModel`.")
@@ -254,11 +254,11 @@ class GaussianParticleInitiator(ParticleInitiator):
     :class:`~.ParticleState`.
     """
 
-    initiator: GaussianInitiator = Property(
+    initiator: GaussianInitiator = prop(
         doc="Gaussian Initiator which will be used to generate tracks.")
-    number_particles: int = Property(
+    number_particles: int = prop(
         default=200, doc="Number of particles for initial track state")
-    use_fixed_covar: bool = Property(
+    use_fixed_covar: bool = prop(
         default=False,
         doc="If `True`, the Gaussian state covariance is used for the "
             ":class:`~.ParticleState` as a fixed covariance. Default `False`.")
@@ -329,7 +329,7 @@ class GaussianMixtureInitiator(GaussianInitiator):
     :class:`~.GaussianMixture`.
     """
 
-    initiator: GaussianInitiator = Property(
+    initiator: GaussianInitiator = prop(
         doc="Gaussian Initiator which will be used to generate tracks.")
 
     def __init__(self, *args, **kwargs):
@@ -392,9 +392,9 @@ class ASDGaussianInitiator(GaussianInitiator):
     :class:`~.ASDGaussianState`.
     """
 
-    initiator: GaussianInitiator = Property(
+    initiator: GaussianInitiator = prop(
         doc="Gaussian Initiator which will be used to generate tracks.")
-    max_nstep: int = Property(
+    max_nstep: int = prop(
         default=0,
         doc="Decides when the state is pruned in a prediction step. If 0 then there is no pruning")
 
@@ -455,9 +455,9 @@ class EnsembleInitiator(GaussianInitiator):
     :class:`~.EnsembleState`.
     """
 
-    initiator: GaussianInitiator = Property(
+    initiator: GaussianInitiator = prop(
         doc="Gaussian Initiator which will be used to generate tracks.")
-    ensemble_size: int = Property(
+    ensemble_size: int = prop(
         default=100,
         doc="Integer to determine the size of the Gaussian Ensemble State.")
 
@@ -511,7 +511,7 @@ class ParticleGaussianInitiator(GaussianInitiator):
     overwriting with a :class:`~.GaussianState`.
     """
 
-    initiator: ParticleInitiator = Property(
+    initiator: ParticleInitiator = prop(
         doc="Particle Initiator which will be used to generate tracks.")
 
     def initiate(self, detections, timestamp, **kwargs):

@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 from .base import DataAssociator
-from ..base import Property
+from ..base import prop
 from ..hypothesiser import Hypothesiser
 from ..types.hypothesis import SingleHypothesis, JointHypothesis, \
     ProbabilityHypothesis
@@ -17,7 +17,7 @@ class NearestNeighbour(DataAssociator):
     Neighbour method.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Generate a set of hypotheses for each prediction-detection pair")
 
     def associate(self, tracks, detections, timestamp, **kwargs):
@@ -60,7 +60,7 @@ class GlobalNearestNeighbour(DataAssociator):
     Nearest Neighbour method, assuming a distance-based hypothesis score.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Generate a set of hypotheses for each prediction-detection pair")
 
     def associate(self, tracks, detections, timestamp, **kwargs):
@@ -142,7 +142,7 @@ class GNNWith2DAssignment(DataAssociator):
     distances and a "shortest path" assignment algorithm.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Generate a set of hypotheses for each prediction-detection pair")
 
     def associate(self, tracks, detections, timestamp, **kwargs):

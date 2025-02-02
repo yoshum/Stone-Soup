@@ -3,7 +3,7 @@ from collections.abc import Iterator, Sequence
 
 import numpy as np
 
-from ...base import Property
+from ...base import prop
 from ...sensormanager.action import ActionGenerator, Action
 from ...types.state import StateVector
 
@@ -19,19 +19,19 @@ class MovePositionAction(Action):
 class GridActionGenerator(ActionGenerator):
     """This is the base class for generators that generate actions in a grid like fashion."""
 
-    action_space: np.ndarray = Property(
+    action_space: np.ndarray = prop(
         default=None,
         doc="The bounds of the action space that should not be exceeded. Of shape (ndim, 2) "
             "where ndim is the length of the action_mapping. For example, "
             ":code:`np.array([[xmin, xmax], [ymin, ymax]])`."
     )
 
-    action_mapping: Sequence[int] = Property(
+    action_mapping: Sequence[int] = prop(
         default=(0, 1),
         doc="The state dimensions that actions are applied to."
     )
 
-    resolution: float = Property(
+    resolution: float = prop(
         default=1,
         doc="The size of each grid cell. Cells are assumed square."
     )
@@ -65,13 +65,13 @@ class NStepDirectionalGridActionGenerator(GridActionGenerator):
     can move by a number of steps in positive and negative directions along
     the specified dimensions."""
 
-    n_steps: int = Property(
+    n_steps: int = prop(
         default=1,
         doc="The number of steps that can be moved in either direction "
             "along specified dimensions"
     )
 
-    step_size: int = Property(
+    step_size: int = prop(
         default=1,
         doc="The number of grid cells per step"
     )

@@ -1,7 +1,7 @@
 import datetime
 import matplotlib.image as mpimg
 
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.sensordata import ImageFrame
 from .base import FrameReader
@@ -12,7 +12,7 @@ class SingleImageFileReader(FileReader, FrameReader):
     """ImageFileReader
     A reader that reads a single image file from a given directory.
     """
-    timestamp: datetime.datetime = Property(
+    timestamp: datetime.datetime = prop(
         doc="Timestamp given to the returned frame",
         default=None)
 

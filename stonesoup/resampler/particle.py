@@ -2,7 +2,7 @@ import numpy as np
 from enum import Enum
 
 from .base import Resampler
-from ..base import Property
+from ..base import prop
 from ..types.state import ParticleState
 
 
@@ -70,13 +70,13 @@ class ESSResampler(Resampler):
 
     """
 
-    threshold: float = Property(default=None,
-                                doc='Threshold compared with ESS to decide whether to resample. \
-                                    Default is number of particles divided by 2, \
-                                        set in resample method')
-    resampler: Resampler = Property(default=SystematicResampler(),
-                                    doc='Resampler to wrap, which is called \
-                                        when ESS below threshold')
+    threshold: float = prop(default=None,
+                            doc='Threshold compared with ESS to decide whether to resample. \
+                                Default is number of particles divided by 2, \
+                                    set in resample method')
+    resampler: Resampler = prop(default=SystematicResampler(),
+                                doc='Resampler to wrap, which is called \
+                                    when ESS below threshold')
 
     def resample(self, particles, nparts=None):
         """
@@ -220,9 +220,9 @@ class ResidualResampler(Resampler):
     Should be a more computationally efficient method than resampling all particles from a CDF.
     Cannot be used to upsample or downsample.
     """
-    residual_method: ResidualMethod = Property(default=ResidualMethod.MULTINOMIAL,
-                                               doc="Method used to resample particles from the "
-                                                   "residuals.")
+    residual_method: ResidualMethod = prop(default=ResidualMethod.MULTINOMIAL,
+                                           doc="Method used to resample particles from the "
+                                               "residuals.")
 
     def resample(self, particles, nparts=None):
         """Resample the particles.

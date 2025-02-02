@@ -1,6 +1,6 @@
 import datetime
 
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.hypothesiser import Hypothesiser
 from stonesoup.predictor import Predictor
 from stonesoup.types.detection import MissedDetection, Detection
@@ -16,15 +16,15 @@ class SimpleHypothesiser(Hypothesiser):
     Generate track predictions at detection times and create hypotheses for
     each detection, as well as a missed detection hypothesis.
     """
-    predictor: Predictor = Property(doc="Predict tracks to detection times")
-    updater: Updater = Property(
+    predictor: Predictor = prop(doc="Predict tracks to detection times")
+    updater: Updater = prop(
         default=None,
         doc="Updater used to get measurement prediction. Only required if "
             "`predict_measurement` is `True`. Default is `None`")
-    check_timestamp: bool = Property(
+    check_timestamp: bool = prop(
         default=True,
         doc="Check that all detections have the same timestamp. Default is `True`")
-    predict_measurement: bool = Property(
+    predict_measurement: bool = prop(
         default=False,
         doc="Predict measurement for each detection. Default is `True`")
 

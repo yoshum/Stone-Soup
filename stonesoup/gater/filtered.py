@@ -1,5 +1,5 @@
 from .base import Gater
-from ..base import Property
+from ..base import prop
 
 
 class FilteredDetectionsGater(Gater):
@@ -9,9 +9,9 @@ class FilteredDetectionsGater(Gater):
     they are fed into the hypothesiser.
     """
 
-    metadata_filter: str = Property(
+    metadata_filter: str = prop(
         doc="Metadata attribute used to filter which detections tracks are valid for association.")
-    match_missing: bool = Property(
+    match_missing: bool = prop(
         default=True,
         doc="Match detections with missing metadata. Default 'True'.")
 

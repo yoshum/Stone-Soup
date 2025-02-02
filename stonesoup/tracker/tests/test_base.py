@@ -4,7 +4,7 @@ import heapq
 import pytest
 
 from ..base import Tracker, _TrackerMixInUpdate, _TrackerMixInNext
-from ...base import Property
+from ...base import prop
 from ...types.detection import Detection
 from ...types.track import Track
 
@@ -26,7 +26,7 @@ class TrackerNextWithoutDetector(_TrackerMixInNext, Tracker):
 
 
 class TrackerNextWithDetector(TrackerNextWithoutDetector):
-    detector: list = Property(default=[])
+    detector: list = prop(default=[])
 
 
 class TrackerUpdateWithoutDetector(_TrackerMixInUpdate, Tracker):
@@ -47,7 +47,7 @@ class TrackerUpdateWithoutDetector(_TrackerMixInUpdate, Tracker):
 
 
 class TrackerUpdateWithDetector(TrackerUpdateWithoutDetector):
-    detector: list = Property(default=[])
+    detector: list = prop(default=[])
 
 
 @pytest.fixture

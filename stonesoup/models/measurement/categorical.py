@@ -3,7 +3,7 @@ from collections.abc import Sequence
 import numpy as np
 
 from ..measurement import MeasurementModel
-from ...base import Property
+from ...base import prop
 from ...types.array import Matrix, StateVector
 
 
@@ -27,14 +27,14 @@ class MarkovianMeasurementModel(MeasurementModel):
 
     Intended to be used in conjunction with the :class:`~.CategoricalState` type.
     """
-    emission_matrix: Matrix = Property(
+    emission_matrix: Matrix = prop(
         doc=r"Matrix of emission/output probabilities "
             r":math:`E_t^{ij} = E^{ij} = P(\zeta_t^i | \phi_t^j)`, determining the conditional "
             r"probability that a measurement is category :math:`\zeta^i` at 'time' :math:`t` "
             r"given that the true state category is :math:`\phi^j` at 'time' :math:`t`. "
             r"Columns will be normalised.")
-    measurement_categories: Sequence[str] = Property(doc="Sequence of measurement category names. "
-                                                         "Defaults to a list of integers",
+    measurement_categories: Sequence[str] = prop(doc="Sequence of measurement category names. "
+                                                     "Defaults to a list of integers",
                                                      default=None)
 
     def __init__(self, *args, **kwargs):

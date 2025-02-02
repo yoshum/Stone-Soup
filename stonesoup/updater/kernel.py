@@ -8,7 +8,7 @@ from ..kernel import QuadraticKernel, Kernel
 from ..types.array import StateVectors
 from ..types.prediction import MeasurementPrediction
 from ..types.update import Update
-from ..base import Property
+from ..base import prop
 
 
 class AdaptiveKernelKalmanUpdater(Updater):
@@ -17,10 +17,10 @@ class AdaptiveKernelKalmanUpdater(Updater):
      Additionally, the updater generates new proposal particles at every step to refine the state
      estimate.
     """
-    kernel: Kernel = Property(
+    kernel: Kernel = prop(
         default=None,
         doc="Default is None. If None, the default :class:`QuadraticKernel` is used.")
-    lambda_updater: float = Property(
+    lambda_updater: float = prop(
         default=1e-3,
         doc="Used to incorporate prior knowledge of the distribution. If the "
             "true distribution is Gaussian, the value of 2 is optimal. "

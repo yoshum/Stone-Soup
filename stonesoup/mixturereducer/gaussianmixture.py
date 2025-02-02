@@ -4,7 +4,7 @@ import numpy as np
 from ordered_set import OrderedSet
 from scipy.spatial import KDTree
 
-from ..base import Property
+from ..base import prop
 from .base import MixtureReducer
 from ..types.state import TaggedWeightedGaussianState, WeightedGaussianState
 from ..measures import SquaredMahalanobis
@@ -33,21 +33,21 @@ class GaussianMixtureReducer(MixtureReducer):
     pp. 4091–4104, 2006..
     """
 
-    prune_threshold: float = Property(default=1e-9, doc='Mixture component weight '
-                                      'threshold for pruning')
-    merge_threshold: float = Property(default=16, doc='Squared Mahalanobis distance '
-                                      'threshold for merging')
-    max_number_components: int = Property(default=np.iinfo(np.int64).max,
-                                          doc='Maximum number of components to keep '
-                                              'in the Gaussian mixture')
-    merging: bool = Property(default=True, doc='Flag for merging')
-    pruning: bool = Property(default=True,
-                             doc='Flag for pruning components whose weight is below '
-                                 ':attr:`prune_threshold`')
-    truncating: bool = Property(default=True,
-                                doc='Flag for truncating components, keeping a maximum '
-                                    'of :attr:`max_number_components` components')
-    kdtree_max_distance: float = Property(
+    prune_threshold: float = prop(default=1e-9, doc='Mixture component weight '
+                                                    'threshold for pruning')
+    merge_threshold: float = prop(default=16, doc='Squared Mahalanobis distance '
+                                                  'threshold for merging')
+    max_number_components: int = prop(default=np.iinfo(np.int64).max,
+                                      doc='Maximum number of components to keep '
+                                          'in the Gaussian mixture')
+    merging: bool = prop(default=True, doc='Flag for merging')
+    pruning: bool = prop(default=True,
+                         doc='Flag for pruning components whose weight is below '
+                             ':attr:`prune_threshold`')
+    truncating: bool = prop(default=True,
+                            doc='Flag for truncating components, keeping a maximum '
+                                'of :attr:`max_number_components` components')
+    kdtree_max_distance: float = prop(
         default=None,
         doc="This defines the max Euclidean search distance for a kd-tree, "
             "used as part of the merge process as a coarse gate. Default "

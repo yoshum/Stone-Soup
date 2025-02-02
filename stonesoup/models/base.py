@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Union, Optional
 import numpy as np
 from scipy.stats import multivariate_normal
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..functions import jacobian as compute_jac
 from ..types.array import StateVector, StateVectors, CovarianceMatrix
 from ..types.numeric import Probability
@@ -217,7 +217,7 @@ class GaussianModel(Model):
     """GaussianModel class
 
     Base/Abstract class for all Gaussian models"""
-    seed: Optional[int] = Property(default=None, doc="Seed for random number generation")
+    seed: Optional[int] = prop(default=None, doc="Seed for random number generation")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -6,7 +6,7 @@ from scipy.special import gamma
 import numpy as np
 
 from .base import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..measures import SquaredMahalanobis
 from ..types.detection import MissedDetection
 from ..types.hypothesis import SingleProbabilityHypothesis
@@ -24,21 +24,21 @@ class PDAHypothesiser(Hypothesiser):
     detections.
     """
 
-    predictor: Predictor = Property(doc="Predict tracks to detection times")
-    updater: Updater = Property(doc="Updater used to get measurement prediction")
-    clutter_spatial_density: float = Property(
+    predictor: Predictor = prop(doc="Predict tracks to detection times")
+    updater: Updater = prop(doc="Updater used to get measurement prediction")
+    clutter_spatial_density: float = prop(
         default=None,
         doc="Spatial density of clutter - tied to probability of false detection. Default is None "
             "where the clutter spatial density is calculated based on assumption that "
             "all but one measurement within the validation region of the track are clutter.")
-    prob_detect: Probability = Property(
+    prob_detect: Probability = prop(
         default=Probability(0.85),
         doc="Target Detection Probability")
-    prob_gate: Probability = Property(
+    prob_gate: Probability = prop(
         default=Probability(0.95),
         doc="Gate Probability - prob. gate contains true measurement "
             "if detected")
-    include_all: bool = Property(
+    include_all: bool = prop(
         default=False,
         doc="If `True`, hypotheses outside probability gates will be returned. This requires "
             "that the clutter spatial density is also provided, as it may not be possible to"

@@ -1,7 +1,7 @@
 import datetime
 
 from .base import Tracker, _TrackerMixInNext
-from ..base import Property
+from ..base import prop
 from ..hypothesiser.gaussianmixture import GaussianMixtureHypothesiser
 from ..mixturereducer.gaussianmixture import GaussianMixtureReducer
 from ..reader import DetectionReader
@@ -17,18 +17,18 @@ class PointProcessMultiTargetTracker(_TrackerMixInNext, Tracker):
     Base class for Gaussian Mixture (GM) style implementations of
     point process derived filters
     """
-    detector: DetectionReader = Property(
+    detector: DetectionReader = prop(
         doc="Detector used to generate detection objects.")
-    updater: Updater = Property(
+    updater: Updater = prop(
         doc="Updater used to update the objects to their new state.")
-    hypothesiser: GaussianMixtureHypothesiser = Property(
+    hypothesiser: GaussianMixtureHypothesiser = prop(
         doc="Association algorithm to pair predictions to detections")
-    reducer: GaussianMixtureReducer = Property(
+    reducer: GaussianMixtureReducer = prop(
         doc="Reducer used to reduce the number of components in the mixture.")
-    extraction_threshold: Probability = Property(
+    extraction_threshold: Probability = prop(
         default=0.9,
         doc="Threshold to extract components from the mixture.")
-    birth_component: TaggedWeightedGaussianState = Property(
+    birth_component: TaggedWeightedGaussianState = prop(
         default=None,
         doc="The birth component. The weight should be "
             "equal to the mean of the expected number of "

@@ -5,7 +5,7 @@ import numpy as np
 import itertools as it
 from typing import TYPE_CHECKING
 
-from ..base import Base, Property
+from ..base import Base, prop
 
 if TYPE_CHECKING:
     from ..sensor.sensor import Sensor
@@ -27,13 +27,13 @@ class SensorManager(Base, ABC):
     which communicate with other sensor managers in a networked fashion.
 
     """
-    sensors: set['Sensor'] = Property(
+    sensors: set['Sensor'] = prop(
         default=None, doc="The sensor(s) which the sensor manager is managing.")
 
-    platforms: set['Platform'] = Property(
+    platforms: set['Platform'] = prop(
         default=None, doc="The platform(s) which the sensor manager is managing.")
 
-    reward_function: Callable = Property(
+    reward_function: Callable = prop(
         default=None, doc="A function or class designed to work out the reward associated with an "
                           "action or set of actions. For an example see :class:`~.RewardFunction`."
                           " This may also incorporate a notion of the "
@@ -41,7 +41,7 @@ class SensorManager(Base, ABC):
                           "vector in the case of multi-objective optimisation. Metrics may be of "
                           "any type and in any units.")
 
-    take_sensors_from_platforms: bool = Property(
+    take_sensors_from_platforms: bool = prop(
         default=True, doc="Whether to include sensors that are on the "
                           "platform(s) but not explicitly passed to the sensor manager. "
                           "Any sensors not added "

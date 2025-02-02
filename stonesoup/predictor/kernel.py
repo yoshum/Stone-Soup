@@ -4,7 +4,7 @@ import numpy as np
 
 from ._utils import predict_lru_cache
 from .kalman import KalmanPredictor
-from ..base import Property
+from ..base import prop
 from ..kernel import Kernel, QuadraticKernel
 from ..types.prediction import Prediction
 from ..types.state import State
@@ -39,10 +39,10 @@ class AdaptiveKernelKalmanPredictor(KalmanPredictor):
     The transition matrix :math:`\Gamma_{k}` represents the change of sample representation, and
     :math:`{V}_{k}` represents the finite matrix representation of the transition residual matrix.
     """
-    kernel: Kernel = Property(
+    kernel: Kernel = prop(
         default=None,
         doc="Default is None. If None, the default :class:`~QuadraticKernel` is used.")
-    lambda_predictor: float = Property(
+    lambda_predictor: float = prop(
         default=1e-3,
         doc=r":math:`\lambda_{\tilde{K}}`. Regularisation parameter used to stabilise the inverse "
             r"Gram matrix. Range is :math:`\left[10^{-4}, 10^{-2}\right]`")

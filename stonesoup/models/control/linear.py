@@ -2,7 +2,7 @@ import numpy as np
 
 from .base import ControlModel
 from ..base import LinearModel, GaussianModel
-from ...base import Property
+from ...base import prop
 from ...types.array import StateVector
 
 
@@ -20,9 +20,9 @@ class LinearControlModel(ControlModel, LinearModel, GaussianModel):
 
     """
 
-    control_matrix: np.ndarray = Property(
+    control_matrix: np.ndarray = prop(
         doc="Control input model matrix at time :math:`k`, :math:`B_k`")
-    control_noise: np.ndarray = Property(
+    control_noise: np.ndarray = prop(
         default=None,
         doc="Control input noise covariance at time :math:`k`")
 

@@ -1,5 +1,5 @@
 from .base import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..measures import Measure
 from ..predictor import Predictor
 from ..types.detection import MissedDetection
@@ -16,17 +16,17 @@ class DistanceHypothesiser(Hypothesiser):
     :class:`~.Measure` class.
     """
 
-    predictor: Predictor = Property(doc="Predict tracks to detection times")
-    updater: Updater = Property(doc="Updater used to get measurement prediction")
-    measure: Measure = Property(
+    predictor: Predictor = prop(doc="Predict tracks to detection times")
+    updater: Updater = prop(doc="Updater used to get measurement prediction")
+    measure: Measure = prop(
         doc="Measure class used to calculate the distance between two states.")
-    missed_distance: float = Property(
+    missed_distance: float = prop(
         default=float('inf'),
         doc="Distance for a missed detection. Default is set to infinity")
-    include_all: bool = Property(
+    include_all: bool = prop(
         default=False,
         doc="If `True`, hypotheses beyond missed distance will be returned. Default `False`")
-    predict_with_measurements: bool = Property(
+    predict_with_measurements: bool = prop(
         default=False,
         doc="Whether to pass measurement/detection to the predictor. Default `False`"
     )

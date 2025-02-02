@@ -6,7 +6,7 @@ import numpy as np
 
 from ..sensormanager.action import Actionable
 from .base import PlatformMountable
-from ..base import Property
+from ..base import prop
 from ..models.clutter.clutter import ClutterModel
 from ..types.detection import TrueDetection, Detection
 from ..types.groundtruth import GroundTruthState
@@ -77,7 +77,7 @@ class Sensor(PlatformMountable, Actionable):
 
 class SimpleSensor(Sensor, ABC):
 
-    clutter_model: ClutterModel = Property(
+    clutter_model: ClutterModel = prop(
         default=None,
         doc="An optional clutter generator that adds a set of simulated "
             ":class:`Clutter` objects to the measurements at each time step. "
@@ -143,9 +143,9 @@ class SensorSuite(Sensor):
     Can append information of the sensors to the metadata of their corresponding detections.
     """
 
-    sensors: Sequence[Sensor] = Property(doc="Suite of sensors to get detections from.")
+    sensors: Sequence[Sensor] = prop(doc="Suite of sensors to get detections from.")
 
-    attributes_inform: set[str] = Property(
+    attributes_inform: set[str] = prop(
         doc="Names of attributes to store the value of at time of detection."
     )
 

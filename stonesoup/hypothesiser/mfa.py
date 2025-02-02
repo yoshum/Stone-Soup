@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .base import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..types.multihypothesis import MultipleHypothesis
 from ..types.prediction import TaggedWeightedGaussianStatePrediction
 
@@ -21,7 +21,7 @@ class MFAHypothesiser(Hypothesiser):
        J. Adv. Information Fusion, 14(2), pp. 213–235.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Underlying hypothesiser used to generate detection-target pairs")
 
     def hypothesise(self, track, detections, timestamp, detections_tuple, **kwargs):

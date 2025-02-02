@@ -2,7 +2,7 @@ import datetime
 from collections import defaultdict
 from typing import Union
 
-from ..base import Property
+from ..base import prop
 from ..measures.state import Measure
 from ..types.groundtruth import GroundTruthPath
 from ..types.metric import Metric, TimeRangeMetric
@@ -33,17 +33,17 @@ class ClearMotMetrics(MetricGenerator):
         [1] Evaluating Multiple Object Tracking Performance: The CLEAR MOT Metrics,
         Bernardin et al, 2008
     """
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated metrics "
-                                       "from MultiManager",
-                                   default='clearmot_generator')
-    tracks_key: str = Property(doc='Key to access set of tracks added to MetricManager',
-                               default='tracks')
-    truths_key: str = Property(doc="Key to access set of ground truths added to MetricManager. "
-                                   "Or key to access a second set of tracks for track-to-track "
-                                   "metric generation",
-                               default='groundtruth_paths')
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated metrics "
+                                   "from MultiManager",
+                               default='clearmot_generator')
+    tracks_key: str = prop(doc='Key to access set of tracks added to MetricManager',
+                           default='tracks')
+    truths_key: str = prop(doc="Key to access set of ground truths added to MetricManager. "
+                               "Or key to access a second set of tracks for track-to-track "
+                               "metric generation",
+                           default='groundtruth_paths')
 
-    distance_measure: Measure = Property(
+    distance_measure: Measure = prop(
         doc="Distance measure used in calculating the MOTP score.")
 
     def compute_metric(self, manager: MultiManager, **kwargs) -> list[Metric]:

@@ -2,7 +2,7 @@ from collections.abc import Sequence, Iterable
 from itertools import chain
 from typing import Union
 
-from ..base import Property
+from ..base import prop
 from ..dataassociator import Associator
 from ..platform import Platform
 from ..types.detection import Detection
@@ -18,8 +18,8 @@ class MultiManager(MetricManager):
     :class:`~.Track`, :class:`~.Detection` and :class:`~.GroundTruthPath`
     objects passed in as dictionaries.
     """
-    generators: Sequence[MetricGenerator] = Property(doc='List of generators to use', default=None)
-    associator: Associator = Property(doc="Associator to combine tracks and truth", default=None)
+    generators: Sequence[MetricGenerator] = prop(doc='List of generators to use', default=None)
+    associator: Associator = prop(doc="Associator to combine tracks and truth", default=None)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -133,8 +133,8 @@ class SimpleManager(MultiManager):
     :class:`~.Track`, :class:`~.Detection` and :class:`~.GroundTruthPath`
     objects.
     """
-    generators: Sequence[MetricGenerator] = Property(doc='List of generators to use', default=None)
-    associator: Associator = Property(doc="Associator to combine tracks and truth", default=None)
+    generators: Sequence[MetricGenerator] = prop(doc='List of generators to use', default=None)
+    associator: Associator = prop(doc="Associator to combine tracks and truth", default=None)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

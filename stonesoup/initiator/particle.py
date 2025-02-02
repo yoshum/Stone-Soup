@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.special import logsumexp
 
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.hypothesiser.simple import SimpleHypothesiser
 from stonesoup.initiator.base import ParticleInitiator
 from stonesoup.predictor.particle import SMCPHDPredictor
@@ -34,18 +34,18 @@ class SMCPHDInitiator(ParticleInitiator):
            fr Informatik, October 2011.
     """
 
-    prior_state: ParticleState = Property(
+    prior_state: ParticleState = prop(
         doc="Prior particle state used to initialise the PHD density")
-    predictor: SMCPHDPredictor = Property(doc="SMC-PHD predictor used to predict the PHD density")
-    updater: SMCPHDUpdater = Property(doc="SMC-PHD updater used to update the PHD density")
-    threshold: float = Property(
+    predictor: SMCPHDPredictor = prop(doc="SMC-PHD predictor used to predict the PHD density")
+    updater: SMCPHDUpdater = prop(doc="SMC-PHD updater used to update the PHD density")
+    threshold: float = prop(
         default=0.9,
         doc="Existence probability threshold for initiating tracks. Default is 0.9")
-    num_track_samples: int = Property(
+    num_track_samples: int = prop(
         default=None,
         doc="Number of particles for initiated tracks. Default is None in which case the "
             "number of particles will be set to the number of particles in the prior state.")
-    resampler: Resampler = Property(
+    resampler: Resampler = prop(
         default=None,
         doc='Resampler used to resample the particles of output tracks before returning. Default '
             'is None in which case the resampler of the updater will be used.')

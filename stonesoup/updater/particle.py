@@ -9,7 +9,7 @@ from scipy.special import logsumexp
 
 from .base import Updater
 from .kalman import KalmanUpdater, ExtendedKalmanUpdater
-from ..base import Property
+from ..base import prop
 from ..functions import cholesky_eps, sde_euler_maruyama_integration
 from ..predictor.particle import MultiModelPredictor, RaoBlackwellisedMultiModelPredictor
 from ..resampler import Resampler
@@ -31,8 +31,8 @@ class ParticleUpdater(Updater):
     required).
     """
 
-    resampler: Resampler = Property(default=None, doc='Resampler to prevent particle degeneracy')
-    regulariser: Regulariser = Property(
+    resampler: Resampler = prop(default=None, doc='Resampler to prevent particle degeneracy')
+    regulariser: Regulariser = prop(
         default=None,
         doc='Regulariser to prevent particle impoverishment. The regulariser '
             'is normally used after resampling. If a :class:`~.Resampler` is defined, '
@@ -40,7 +40,7 @@ class ParticleUpdater(Updater):
             'resampled. If the :class:`~.Resampler` is not defined but a '
             ':class:`~.Regulariser` is, then regularisation will be conducted under the '
             'assumption that the user intends for this to occur.')
-    constraint_func: Callable = Property(
+    constraint_func: Callable = prop(
         default=None,
         doc="Callable, user defined function for applying "
             "constraints to the states. This is done by setting the weights "
@@ -214,7 +214,7 @@ class GromovFlowKalmanParticleUpdater(GromovFlowParticleUpdater):
     .. [#] Ding, Tao & Coates, Mark J., "Implementation of the Daum-Huang
        Exact-Flow Particle Filter" 2012
     """
-    kalman_updater: KalmanUpdater = Property(
+    kalman_updater: KalmanUpdater = prop(
         default=None,
         doc="Kalman updater to use. Default `None` where a new instance of"
             ":class:`~.ExtendedKalmanUpdater` will be created utilising the"
@@ -265,7 +265,7 @@ class GromovFlowKalmanParticleUpdater(GromovFlowParticleUpdater):
 class MultiModelParticleUpdater(ParticleUpdater):
     """Particle Updater for the Multi Model system"""
 
-    predictor: MultiModelPredictor = Property(
+    predictor: MultiModelPredictor = prop(
         doc="Predictor which hold holds transition matrix")
 
     def update(self, hypothesis, **kwargs):
@@ -310,7 +310,7 @@ class MultiModelParticleUpdater(ParticleUpdater):
 class RaoBlackwellisedParticleUpdater(MultiModelParticleUpdater):
     """Particle Updater for the Raoblackwellised scheme"""
 
-    predictor: RaoBlackwellisedMultiModelPredictor = Property(
+    predictor: RaoBlackwellisedMultiModelPredictor = prop(
         doc="Predictor which hold holds transition matrix, models and mappings")
 
     def update(self, hypothesis, **kwargs):
@@ -411,28 +411,28 @@ class BernoulliParticleUpdater(ParticleUpdater):
        2013, IEEE Transactions on Signal Processing, 61(13), 3406-3430.
     """
 
-    birth_probability: float = Property(
+    birth_probability: float = prop(
         default=0.01,
         doc="Probability of target birth.")
 
-    survival_probability: float = Property(
+    survival_probability: float = prop(
         default=0.98,
         doc="Probability of target survival")
 
-    clutter_rate: int = Property(
+    clutter_rate: int = prop(
         default=1,
         doc="Average number of clutter measurements per time step. Implementation assumes number "
             "of clutter measurements follows a Poisson distribution")
 
-    clutter_distribution: float = Property(
+    clutter_distribution: float = prop(
         default=None,
         doc="Distribution used to describe clutter measurements. This is usually assumed uniform "
             "in the measurement space.")
-    detection_probability: float = Property(
+    detection_probability: float = prop(
         default=None,
         doc="Probability of detection assigned to the generated samples of the birth distribution."
             " If None, it will inherit from the input.")
-    nsurv_particles: float = Property(
+    nsurv_particles: float = prop(
         default=None,
         doc="Number of particles describing the surviving distribution, which will be output from "
             "the update algorithm.")
@@ -547,12 +547,12 @@ class SMCPHDUpdater(ParticleUpdater):
            confirm tracks in a multi-target environment,” in 2011 Jahrestagung der Gesellschaft
            fr Informatik, October 2011.
     """
-    prob_detect: Probability = Property(
+    prob_detect: Probability = prop(
         default=Probability(0.85),
         doc="Target Detection Probability")
-    clutter_intensity: float = Property(
+    clutter_intensity: float = prop(
         doc="Average number of clutter measurements per time step, per unit volume")
-    num_samples: int = Property(
+    num_samples: int = prop(
         default=None,
         doc="The number of particles to be output by the updater, after resampling. If the "
             "corresponding predictor has been configured in ``'expansion'`` mode, users should set"

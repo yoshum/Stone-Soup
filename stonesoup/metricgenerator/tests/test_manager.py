@@ -10,13 +10,13 @@ from ...types.groundtruth import GroundTruthPath
 from ...types.metric import Metric
 from ...types.state import State
 from ...types.track import Track
-from ...base import Property
+from ...base import prop
 
 
 class DummyMetricGenerator(MetricGenerator):
-    generator_name: str = Property(default='test_generator')
-    tracks_key: str = Property(default='tracks')
-    truths_key: str = Property(default='groundtruth_paths')
+    generator_name: str = prop(default='test_generator')
+    tracks_key: str = prop(default='tracks')
+    truths_key: str = prop(default='groundtruth_paths')
 
     def compute_metric(self, manager, *args, **kwargs):
         return Metric(title="Test metric1",
@@ -195,7 +195,7 @@ def test_list_timestamps_simplemanager():
 
 def test_generate_metrics_multimanager():
     class DummyGenerator1(MetricGenerator):
-        generator_name: str = Property()
+        generator_name: str = prop()
 
         def compute_metric(self, *args, **kwargs):
             return Metric(title="Test metric2",
@@ -203,7 +203,7 @@ def test_generate_metrics_multimanager():
                           generator=self)
 
     class DummyGenerator2(MetricGenerator):
-        generator_name: str = Property()
+        generator_name: str = prop()
 
         def compute_metric(self, *args, **kwargs):
             return Metric(title="Test metric3 at times",
@@ -240,7 +240,7 @@ def test_generate_metrics_multimanager():
 
 def test_generate_metrics_simplemanager():
     class DummyGenerator1(MetricGenerator):
-        generator_name: str = Property()
+        generator_name: str = prop()
 
         def compute_metric(self, *args, **kwargs):
             return Metric(title="Test metric4",
@@ -248,7 +248,7 @@ def test_generate_metrics_simplemanager():
                           generator=self)
 
     class DummyGenerator2(MetricGenerator):
-        generator_name: str = Property()
+        generator_name: str = prop()
 
         def compute_metric(self, *args, **kwargs):
             return Metric(title="Test metric5 at times",

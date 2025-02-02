@@ -3,7 +3,7 @@ from typing import Union
 import numpy as np
 from scipy.stats import multivariate_normal as mvn
 
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.models.transition import TransitionModel
 from stonesoup.proposal.base import Proposal
 from stonesoup.types.array import StateVector, StateVectors
@@ -21,7 +21,7 @@ class PriorAsProposal(Proposal):
     This proposal uses the dynamics model to predict the next state, and then
     uses the predicted state as the prior for the measurement model.
     """
-    transition_model: TransitionModel = Property(
+    transition_model: TransitionModel = prop(
         doc="The transition model used to make the prediction")
 
     def rvs(self, prior: State, measurement=None, time_interval=None,
@@ -65,9 +65,9 @@ class KFasProposal(Proposal):
     """This proposal uses the Kalman filter prediction and update steps to
     generate new set of particles and weights
     """
-    predictor: Predictor = Property(
+    predictor: Predictor = prop(
         doc="predictor to use the various values")
-    updater: Updater = Property(
+    updater: Updater = prop(
         doc="Updater used for update the values")
 
     def rvs(self, prior: State, measurement: Detection = None, time_interval=None,

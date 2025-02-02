@@ -10,7 +10,7 @@ except ImportError as error:
 
 
 from .base import Reader, DetectionReader, GroundTruthReader
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.detection import Detection
 from ..types.groundtruth import GroundTruthPath, GroundTruthState
@@ -41,11 +41,11 @@ class _OpenSkyNetworkReader(Reader):
         3: "FLARM",
     }
 
-    bbox: tuple[float, float, float, float] = Property(
+    bbox: tuple[float, float, float, float] = prop(
         default=None,
         doc="Bounding box to filter data to (left, bottom, right, top). "
             "Default `None` which will include global data.")
-    timestep: datetime.timedelta = Property(
+    timestep: datetime.timedelta = prop(
         default=datetime.timedelta(seconds=15),
         doc="Time of each poll after reported time from OpenSky. "
             "Must be greater than 10 seconds. Default 15 seconds.")

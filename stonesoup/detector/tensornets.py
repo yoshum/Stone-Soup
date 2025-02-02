@@ -22,7 +22,7 @@ except ImportError as error:
         from error
 
 from ._video import _VideoAsyncBoxDetector
-from ..base import Property
+from ..base import prop
 from ..types.detection import Detection
 
 
@@ -53,7 +53,7 @@ class TensorNetsBoxObjectDetector(_VideoAsyncBoxDetector):
     This uses pre-trained networks from TensorNets for object detection in video
     frames. Supported networks are listed in :class:`Networks`.
     """
-    net: Networks = Property(doc="TensorNet network to use for object detection")
+    net: Networks = prop(doc="TensorNet network to use for object detection")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

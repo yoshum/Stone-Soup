@@ -16,7 +16,7 @@ import numpy as np
 from dateutil.parser import parse
 
 from .base import DetectionReader, Reader, GroundTruthReader
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.array import StateVector
 from ..types.detection import Detection
@@ -24,28 +24,28 @@ from ..types.groundtruth import GroundTruthPath, GroundTruthState
 
 
 class _KafkaReader(Reader):
-    topic: str = Property(doc="The Kafka topic on which to listen for messages.")
-    kafka_config: dict[str, str] = Property(
+    topic: str = prop(doc="The Kafka topic on which to listen for messages.")
+    kafka_config: dict[str, str] = prop(
         doc="Configuration properties for the underlying kafka consumer. See the "
             "`confluent-kafka documentation <https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html#kafka-client-configuration>`_ " # noqa
             "for more details.")
-    state_vector_fields: list[str] = Property(
+    state_vector_fields: list[str] = prop(
         doc="List of columns names to be used in state vector.")
-    time_field: str = Property(
+    time_field: str = prop(
         doc="Name of column to be used as time field.")
-    time_field_format: str = Property(
+    time_field_format: str = prop(
         default=None, doc="Optional datetime format.")
-    timestamp: bool = Property(
+    timestamp: bool = prop(
         default=False, doc="Treat time field as a timestamp from epoch.")
-    metadata_fields: Collection[str] = Property(
+    metadata_fields: Collection[str] = prop(
         default=None, doc="List of columns to be saved as metadata, default all.")
-    buffer_size: int = Property(
+    buffer_size: int = prop(
         default=0,
         doc="Size of the frame buffer. The frame buffer is used to cache frames in "
             "cases where the stream generates messages faster than they are ingested "
             "by the reader. If `buffer_size` is less than or equal to zero, the buffer "
             "size is infinite.")
-    timeout: bool = Property(
+    timeout: bool = prop(
         default=None,
         doc="Timeout (in seconds) when reading from buffer. Defaults to None in which case the "
             "reader will block until new data becomes available.")
@@ -165,7 +165,7 @@ class KafkaGroundTruthReader(GroundTruthReader, _KafkaReader):
     Parameters
     ----------
     """
-    path_id_field: str = Property(doc="Name of column to be used as path ID.")
+    path_id_field: str = prop(doc="Name of column to be used as path ID.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

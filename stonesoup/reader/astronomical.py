@@ -7,7 +7,7 @@ from datetime import datetime
 import numpy as np
 from astropy.io import fits
 
-from ..base import Property
+from ..base import prop
 from .base import Reader
 from .file import FileReader, TextFileReader
 
@@ -52,7 +52,7 @@ class TLEDictReader(Reader):
        [CelesTrak](https://celestrak.com/columns/v04n03/)
 
     """
-    tle: dict = Property(doc="")
+    tle: dict = prop(doc="")
 
     # Unit conversions
     _rad_deg = np.pi / 180

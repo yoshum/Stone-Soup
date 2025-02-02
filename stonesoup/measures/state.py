@@ -6,7 +6,7 @@ import numpy as np
 from scipy.spatial import distance
 
 from .base import BaseMeasure
-from ..base import Property
+from ..base import prop
 from ..types.state import State, ParticleState, GaussianState
 
 
@@ -16,12 +16,12 @@ class Measure(BaseMeasure):
     A measure provides a means to assess the separation between two
     :class:`~.State` objects state1 and state2.
     """
-    mapping: np.ndarray = Property(
+    mapping: np.ndarray = prop(
         default=None,
         doc="Mapping array which specifies which elements within the"
             " state vectors are to be assessed as part of the measure"
     )
-    mapping2: np.ndarray = Property(
+    mapping2: np.ndarray = prop(
         default=None,
         doc="A second mapping for when the states being compared exist "
             "in different parameter spaces. Defaults to the same as the"
@@ -114,7 +114,7 @@ class EuclideanWeighted(Measure):
     :class:`Measure` objects must be created with the specific weighting
 
     """
-    weighting: np.ndarray = Property(doc="Weighting vector for the Euclidean calculation")
+    weighting: np.ndarray = prop(doc="Weighting vector for the Euclidean calculation")
 
     def __call__(self, state1, state2):
         r"""Calculate the weighted Euclidean distance between a pair of state
@@ -160,7 +160,7 @@ class SquaredMahalanobis(Measure):
 
 
     """
-    state_covar_inv_cache_size: int = Property(
+    state_covar_inv_cache_size: int = prop(
         default=128,
         doc="Number of covariance matrix inversions to cache. Setting to `0` will disable the "
             "cache, whilst setting to `None` will not limit the size of the cache. Default is "

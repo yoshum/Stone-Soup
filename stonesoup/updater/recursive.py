@@ -6,7 +6,7 @@ import scipy
 
 from .ensemble import EnsembleUpdater
 from .kalman import ExtendedKalmanUpdater
-from ..base import Property
+from ..base import prop
 from ..types.prediction import Prediction, EnsembleStatePrediction
 from ..types.state import State
 from ..types.update import Update
@@ -17,7 +17,7 @@ class BayesianRecursiveUpdater(ExtendedKalmanUpdater):
     """
     Recursive extension of the ExtendedKalmanUpdater.
     """
-    number_steps: int = Property(doc="Number of recursive steps",
+    number_steps: int = prop(doc="Number of recursive steps",
                                  default=1)
 
     @classmethod
@@ -181,7 +181,7 @@ class RecursiveEnsembleUpdater(ExtendedKalmanUpdater, EnsembleUpdater):
     Recursive version of EnsembleUpdater. Uses calculated posterior ensemble as prior ensemble to
     recursively update number_steps times.
     """
-    number_steps: int = Property(doc="Number of recursive steps")
+    number_steps: int = prop(doc="Number of recursive steps")
 
     def update(self, hypothesis, **kwargs):
         r"""The BayesianRecursiveEnsembleUpdater update method. The Ensemble Kalman filter
@@ -272,9 +272,9 @@ class RecursiveLinearisedEnsembleUpdater(ExtendedKalmanUpdater, EnsembleUpdater)
     1. K. Michaelson, A. A. Popov and R. Zanetti,
     "Ensemble Kalman Filter with Bayesian Recursive Update"
     """
-    number_steps: int = Property(doc="Number of recursive steps")
-    inflation_factor: float = Property(default=1.,
-                                       doc="Parameter to control inflation")
+    number_steps: int = prop(doc="Number of recursive steps")
+    inflation_factor: float = prop(default=1.,
+                                   doc="Parameter to control inflation")
 
     def update(self, hypothesis, **kwargs):
         r"""The RecursiveLinearisedEnsembleUpdater update method. Uses an alternative form of
@@ -383,7 +383,7 @@ class VariableStepBayesianRecursiveUpdater(BayesianRecursiveUpdater):
     1. K. Michaelson, A. A. Popov and R. Zanetti,
     "Bayesian Recursive Update for Ensemble Kalman Filters"
     """
-    number_steps: int = Property(doc="Number of recursive steps",
+    number_steps: int = prop(doc="Number of recursive steps",
                                  default=1)
 
     @classmethod
@@ -406,13 +406,13 @@ class ErrorControllerBayesianRecursiveUpdater(BayesianRecursiveUpdater):
     "Bayesian Recursive Update for Ensemble Kalman Filters"
 
     """
-    atol: float = Property(default=1.e-3,
-                           doc="Absolute tolerance value")
-    rtol: float = Property(default=1.e-3,
-                           doc="Relative tolerance value")
-    f: float = Property(doc="Nominal value for step size scale factor")
-    fmin: float = Property(doc="Minimum value for step size scale factor")
-    fmax: float = Property(doc="Maximum value for step size scale factor")
+    atol: float = prop(default=1.e-3,
+                       doc="Absolute tolerance value")
+    rtol: float = prop(default=1.e-3,
+                       doc="Relative tolerance value")
+    f: float = prop(doc="Nominal value for step size scale factor")
+    fmin: float = prop(doc="Minimum value for step size scale factor")
+    fmax: float = prop(doc="Maximum value for step size scale factor")
 
     def update(self, hypothesis, **kwargs):
         """

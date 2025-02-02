@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ..base import Property
+from ..base import prop
 from ..serialise import YAML
 from ..reader import DetectionReader, GroundTruthReader, SensorDataReader
 from ..tracker import Tracker
@@ -9,11 +9,11 @@ from .base import Writer
 
 class YAMLWriter(Writer):
     """YAML Writer"""
-    path: Path = Property(doc="File to save data to. Str will be converted to Path")
-    groundtruth_source: GroundTruthReader = Property(default=None)
-    sensor_data_source: SensorDataReader = Property(default=None)
-    detections_source: DetectionReader = Property(default=None)
-    tracks_source: Tracker = Property(default=None)
+    path: Path = prop(doc="File to save data to. Str will be converted to Path")
+    groundtruth_source: GroundTruthReader = prop(default=None)
+    sensor_data_source: SensorDataReader = prop(default=None)
+    detections_source: DetectionReader = prop(default=None)
+    tracks_source: Tracker = prop(default=None)
 
     def __init__(self, path, *args, **kwargs):
         if not isinstance(path, Path):

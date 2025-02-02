@@ -9,7 +9,7 @@ from .state import State, GaussianState, ParticleState, EnsembleState, \
     SqrtGaussianState, InformationState, CategoricalState, ASDGaussianState, \
     WeightedGaussianState, TaggedWeightedGaussianState, \
     MultiModelParticleState, RaoBlackwellisedParticleState, BernoulliParticleState
-from ..base import Property
+from ..base import prop
 
 
 class Update(Type, CreatableFromState):
@@ -18,7 +18,7 @@ class Update(Type, CreatableFromState):
     The base update class. Updates are returned by :class:'~.Updater' objects
     and contain the information that was used to perform the updating"""
 
-    hypothesis: Hypothesis = Property(doc="Hypothesis used for updating")
+    hypothesis: Hypothesis = prop(doc="Hypothesis used for updating")
 
 
 class StateUpdate(Update, State):
@@ -112,8 +112,8 @@ class KernelParticleStateUpdate(Update, KernelParticleState):
 
     This is a Kernel Particle state update object.
     """
-    proposal: StateVectors = Property(default=None,
-                                      doc='Kernel covariance value. Default `None`.')
+    proposal: StateVectors = prop(default=None,
+                                  doc='Kernel covariance value. Default `None`.')
 
 
 class EnsembleStateUpdate(Update, EnsembleState):
@@ -141,7 +141,7 @@ class CompositeUpdate(Update, CompositeState):
     Composition of :class:`~.Update`.
     """
 
-    sub_states: Sequence[Update] = Property(
+    sub_states: Sequence[Update] = prop(
         doc="Sequence of sub-updates comprising the composite update. All sub-updates must have "
             "matching timestamp. Must not be empty.")
-    hypothesis: CompositeHypothesis = Property(doc="Hypothesis used for updating")
+    hypothesis: CompositeHypothesis = prop(doc="Hypothesis used for updating")

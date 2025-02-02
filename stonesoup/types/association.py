@@ -2,7 +2,7 @@ import datetime
 from itertools import combinations
 from typing import Union
 
-from ..base import Property
+from ..base import prop
 from .base import Type
 from .time import TimeRange, CompoundTimeRange
 
@@ -14,7 +14,7 @@ class Association(Type):
     """
 
     # TODO: Should probably add a link to the associator that produced it
-    objects: set = Property(doc="set of objects being associated.")
+    objects: set = prop(doc="set of objects being associated.")
 
 
 class AssociationPair(Association):
@@ -37,7 +37,7 @@ class SingleTimeAssociation(Association):
     time.
     """
 
-    timestamp: datetime.datetime = Property(
+    timestamp: datetime.datetime = prop(
         default=None,
         doc="Timestamp of the association. Default is None.")
 
@@ -49,7 +49,7 @@ class TimeRangeAssociation(Association):
     range of times.
     """
 
-    time_range: Union[CompoundTimeRange, TimeRange] = Property(
+    time_range: Union[CompoundTimeRange, TimeRange] = prop(
         default=None, doc="Range of times that association exists over. Default is None.")
 
     @property
@@ -65,7 +65,7 @@ class AssociationSet(Type):
     associations.
     """
 
-    associations: set[Association] = Property(default=None, doc="set of independent associations.")
+    associations: set[Association] = prop(default=None, doc="set of independent associations.")
 
     def __init__(self, associations=None, *args, **kwargs):
         super().__init__(associations, *args, **kwargs)

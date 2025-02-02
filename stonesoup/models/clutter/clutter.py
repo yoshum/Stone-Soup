@@ -5,7 +5,7 @@ from typing import Union, Optional
 from abc import ABC
 
 from ..base import Model
-from ...base import Property
+from ...base import prop
 from ...types.detection import Clutter
 from ...types.groundtruth import GroundTruthState
 from ...types.array import StateVector, StateVectors
@@ -25,16 +25,16 @@ class ClutterModel(Model, ABC):
     as they operate in the same state space.
     """
 
-    clutter_rate: float = Property(
+    clutter_rate: float = prop(
         default=1.0,
         doc="The average number of clutter points per time step. The actual "
             "number is Poisson distributed")
-    distribution: Callable = Property(
+    distribution: Callable = prop(
         default=np.random.default_rng().uniform,
         doc="A function which represents the distribution of the clutter over the "
             "measurement space. The function should return a single value (ie, do "
             "not use multivariate distributions).")
-    dist_params: tuple = Property(
+    dist_params: tuple = prop(
         default=((-200, 200), (-200, 200)),
         doc="The required parameters for the clutter distribution function. The "
         "length of the list must be equal to the number of state dimensions "
@@ -42,7 +42,7 @@ class ClutterModel(Model, ABC):
         "The default defines the space for a uniform distribution in 2D. The call "
         "`np.array([self.distribution(*arg) for arg in self.dist_params])` "
         "must return a numpy array of length equal to the number of dimensions.")
-    seed: Optional[Union[int, np.random.RandomState]] = Property(
+    seed: Optional[Union[int, np.random.RandomState]] = prop(
         default=None,
         doc="Seed or state for random number generation. If defined as an integer, "
         "it will be used to create a numpy RandomState. Or it can be defined directly "

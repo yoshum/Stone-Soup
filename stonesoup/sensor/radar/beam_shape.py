@@ -2,12 +2,12 @@ from abc import abstractmethod
 
 import numpy as np
 
-from ...base import Property, Base
+from ...base import prop, Base
 
 
 class BeamShape(Base):
     """Base class for beam shape"""
-    peak_power: float = Property(doc="peak power of the main lobe in Watts")
+    peak_power: float = prop(doc="peak power of the main lobe in Watts")
 
     @abstractmethod
     def beam_power(self, azimuth, elevation, beam_width, **kwargs):

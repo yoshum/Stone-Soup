@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..types.track import Track
 from ..types.update import Update
 
@@ -11,8 +11,8 @@ class Deleter(Base):
     Proposes tracks for deletion.
     """
 
-    delete_last_pred: bool = Property(default=False, doc="Remove the state that caused a track to "
-                                                         "be deleted if it is a prediction.")
+    delete_last_pred: bool = prop(default=False, doc="Remove the state that caused a track to "
+                                                     "be deleted if it is a prediction.")
 
     @abstractmethod
     def check_for_deletion(self, track: Track, **kwargs) -> bool:

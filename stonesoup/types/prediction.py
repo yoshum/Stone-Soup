@@ -9,7 +9,7 @@ from .state import (State, GaussianState, EnsembleState,
                     SqrtGaussianState, InformationState, TaggedWeightedGaussianState,
                     WeightedGaussianState, CategoricalState, ASDGaussianState,
                     BernoulliParticleState, KernelParticleState)
-from ..base import Property
+from ..base import prop
 from ..models.transition.base import TransitionModel
 from ..types.state import CreatableFromState, CompositeState, PointMassState
 
@@ -18,9 +18,9 @@ class Prediction(Type, CreatableFromState):
     """ Prediction type
 
     This is the base prediction class. """
-    transition_model: TransitionModel = Property(
+    transition_model: TransitionModel = prop(
         default=None, doc='The transition model used to make the prediction')
-    prior: State = Property(default=None)
+    prior: State = prop(default=None)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -75,7 +75,7 @@ class ASDGaussianStatePrediction(Prediction, ASDGaussianState):
     This is a simple ASDGaussian state prediction object, which, as the name
     suggests, is described by a Gaussian distribution.
     """
-    act_timestamp: datetime.datetime = Property(
+    act_timestamp: datetime.datetime = prop(
         doc="The timestamp for which the state is predicted")
 
 
@@ -113,7 +113,7 @@ class GaussianMeasurementPrediction(MeasurementPrediction, GaussianState):
     suggests, is described by a Gaussian distribution.
     """
 
-    cross_covar: CovarianceMatrix = Property(
+    cross_covar: CovarianceMatrix = prop(
         default=None, doc="The state-measurement cross covariance matrix")
 
     def __init__(self, *args, **kwargs):
@@ -131,7 +131,7 @@ CreatableFromState.class_mapping[MeasurementPrediction][SqrtGaussianState] = \
 
 class ASDGaussianMeasurementPrediction(MeasurementPrediction, ASDGaussianState):
     """ASD Gaussian Measurement Prediction"""
-    cross_covar: CovarianceMatrix = Property(
+    cross_covar: CovarianceMatrix = prop(
         doc="The state-measurement cross covariance matrix", default=None)
 
 
@@ -225,7 +225,7 @@ class CompositePrediction(Prediction, CompositeState):
     Composition of :class:`~.Prediction`.
     """
 
-    sub_states: Sequence[Prediction] = Property(
+    sub_states: Sequence[Prediction] = prop(
         doc="Sequence of sub-predictions comprising the composite prediction. All sub-predictions "
             "must have matching timestamp. Must not be empty.")
 
@@ -239,7 +239,7 @@ class CompositeMeasurementPrediction(MeasurementPrediction, CompositeState):
     Composition of :class:`~.MeasurementPrediction`.
     """
 
-    sub_states: Sequence[MeasurementPrediction] = Property(
+    sub_states: Sequence[MeasurementPrediction] = prop(
         default=None,
         doc="Sequence of sub-measurement-predictions comprising the composite measurement "
             "prediction. All sub-measurement-predictions must have matching timestamp.")

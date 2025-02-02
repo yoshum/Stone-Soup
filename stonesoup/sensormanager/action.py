@@ -4,20 +4,20 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence, Iterator
 from typing import Any
 
-from stonesoup.base import Base, Property
+from stonesoup.base import Base, Property, prop
 
 
 class Action(Base):
     """The base class for an action that can be taken by a sensor or platform with an
     :class:`~.ActionableProperty`."""
 
-    generator: Any = Property(default=None,
-                              readonly=True,
-                              doc="Action generator that created the action.")
-    end_time: datetime.datetime = Property(readonly=True,
-                                           doc="Time at which modification of the "
-                                               "attribute ends.")
-    target_value: Any = Property(doc="Target value.")
+    generator: Any = prop(default=None,
+                          readonly=True,
+                          doc="Action generator that created the action.")
+    end_time: datetime.datetime = prop(readonly=True,
+                                       doc="Time at which modification of the "
+                                           "attribute ends.")
+    target_value: Any = prop(doc="Target value.")
 
     def act(self, current_time, timestamp, init_value, **kwargs):
         """Return the attribute modified.
@@ -50,11 +50,11 @@ class Action(Base):
 class ActionGenerator(Base):
     """The base class for an action generator."""
 
-    owner: object = Property(doc="Actionable object that has the attribute to be modified.")
-    attribute: str = Property(doc="The name of the attribute to be modified.")
-    start_time: datetime.datetime = Property(doc="Start time of action.")
-    end_time: datetime.datetime = Property(doc="End time of action.")
-    resolution: float = Property(default=None, doc="Resolution of action space")
+    owner: object = prop(doc="Actionable object that has the attribute to be modified.")
+    attribute: str = prop(doc="The name of the attribute to be modified.")
+    start_time: datetime.datetime = prop(doc="Start time of action.")
+    end_time: datetime.datetime = prop(doc="End time of action.")
+    resolution: float = prop(default=None, doc="Resolution of action space")
 
     @abstractmethod
     def __contains__(self, item):

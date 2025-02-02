@@ -2,7 +2,7 @@ from functools import lru_cache
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..updater import Updater
 from ..types.prediction import MeasurementPrediction
 from ..types.update import Update
@@ -55,15 +55,15 @@ class AlphaBetaUpdater(Updater):
 
     """
 
-    alpha: float = Property(doc="The alpha parameter. Controls the weight given to the "
-                                "measurements over the transition model.")
-    beta: float = Property(doc="The beta parameter. Controls the amount of variation allowed in "
-                               "the velocity component.")
+    alpha: float = prop(doc="The alpha parameter. Controls the weight given to the "
+                            "measurements over the transition model.")
+    beta: float = prop(doc="The beta parameter. Controls the amount of variation allowed in "
+                           "the velocity component.")
 
-    vmap: np.ndarray = Property(default=None, doc="Binary map of the velocity elements in the "
-                                                  "state vector. If left default, the class will "
-                                                  "assume that the velocity elements interleave "
-                                                  "the position elements in the state vector.")
+    vmap: np.ndarray = prop(default=None, doc="Binary map of the velocity elements in the "
+                                              "state vector. If left default, the class will "
+                                              "assume that the velocity elements interleave "
+                                              "the position elements in the state vector.")
 
     @lru_cache()
     def predict_measurement(self, prediction, measurement_model=None, measurement_noise=False,

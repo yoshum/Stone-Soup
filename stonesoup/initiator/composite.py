@@ -2,7 +2,7 @@ import warnings
 from typing import Sequence
 
 from .base import Initiator
-from ..base import Property
+from ..base import prop
 from ..types.detection import MissedDetection
 from ..types.hypothesis import SingleHypothesis, CompositeHypothesis
 from ..types.state import CompositeState
@@ -19,7 +19,7 @@ class CompositeUpdateInitiator(Initiator):
     composite prior state
     """
 
-    sub_initiators: Sequence[Initiator] = Property(
+    sub_initiators: Sequence[Initiator] = prop(
         doc="Sequence of sub-initiators comprising the composite initiator. Must not be empty."
     )
 

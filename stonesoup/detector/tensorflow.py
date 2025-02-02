@@ -12,7 +12,7 @@ except ImportError as error:
         from error
 
 from ._video import _VideoAsyncBoxDetector
-from ..base import Property
+from ..base import prop
 from ..types.array import StateVector
 from ..types.detection import Detection
 
@@ -44,11 +44,11 @@ class TensorFlowBoxObjectDetector(_VideoAsyncBoxDetector):
     
     """  # noqa
 
-    model_path: Path = Property(
+    model_path: Path = prop(
         doc="Path to ``saved_model`` directory. This is the directory that contains the "
             "``saved_model.pb`` file.")
 
-    labels_path: Path = Property(
+    labels_path: Path = prop(
         doc="Path to label map (``*.pbtxt`` file). This is the file that contains mapping of "
             "object/class ids to meaningful names")
 

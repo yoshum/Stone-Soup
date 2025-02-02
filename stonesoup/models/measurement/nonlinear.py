@@ -8,7 +8,7 @@ import numpy as np
 from scipy.linalg import inv, pinv, block_diag
 from scipy.stats import multivariate_normal
 
-from ...base import Property, clearable_cached_property
+from ...base import prop, clearable_cached_property
 from ...types.numeric import Probability
 
 from ...functions import cart2pol, pol2cart, \
@@ -32,7 +32,7 @@ class CombinedReversibleGaussianMeasurementModel(ReversibleModel, GaussianModel,
     :exc:`NotImplementedError` if any model isn't either a
     :class:`~.LinearModel` or :class:`~.ReversibleModel`.
     """
-    model_list: Sequence[GaussianModel] = Property(doc="list of Measurement Models.")
+    model_list: Sequence[GaussianModel] = prop(doc="list of Measurement Models.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -101,8 +101,8 @@ class NonLinearGaussianMeasurement(MeasurementModel, GaussianModel, ABC):
     GaussianModel classes. It is not meant to be instantiated directly \
     but subclasses should be derived from this class.
     """
-    noise_covar: CovarianceMatrix = Property(doc="Noise covariance")
-    rotation_offset: StateVector = Property(
+    noise_covar: CovarianceMatrix = prop(doc="Noise covariance")
+    rotation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array of angles (rad), specifying the clockwise rotation "
             "around each Cartesian axis in the order :math:`x,y,z`. "
@@ -239,7 +239,7 @@ class CartesianToElevationBearingRange(_AngleNonLinearGaussianMeasurement, Rever
 
     """  # noqa:E501
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the Cartesian origin offset in terms of :math:`x,y,z` "
             "coordinates.")
@@ -356,7 +356,7 @@ class CartesianToBearingRange(_AngleNonLinearGaussianMeasurement, ReversibleMode
 
     """  # noqa:E501
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 2x1 array specifying the origin offset in terms of :math:`x,y` coordinates.")
 
@@ -482,7 +482,7 @@ class CartesianToElevationBearing(_AngleNonLinearGaussianMeasurement):
 
     """  # noqa:E501
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the origin offset in terms of :math:`x,y,z` coordinates.")
 
@@ -558,7 +558,7 @@ class Cartesian2DToBearing(_AngleNonLinearGaussianMeasurement):
 
     """  # noqa:E501
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 2x1 array specifying the origin offset in terms of :math:`x,y` coordinates.")
 
@@ -669,13 +669,13 @@ class CartesianToBearingRangeRate(_AngleNonLinearGaussianMeasurement):
     expects a 6D state space.
     """
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the origin offset in terms of :math:`x,y` coordinates.")
-    velocity_mapping: tuple[int, int, int] = Property(
+    velocity_mapping: tuple[int, int, int] = prop(
         default=(1, 3, 5),
         doc="Mapping to the targets velocity within its state space")
-    velocity: StateVector = Property(
+    velocity: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the sensor velocity in terms of :math:`x,y,z` coordinates.")
 
@@ -796,13 +796,13 @@ class CartesianToElevationBearingRangeRate(_AngleNonLinearGaussianMeasurement, R
     expects a 6D state space.
     """
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the origin offset in terms of :math:`x,y,z` coordinates.")
-    velocity_mapping: tuple[int, int, int] = Property(
+    velocity_mapping: tuple[int, int, int] = prop(
         default=(1, 3, 5),
         doc="Mapping to the targets velocity within its state space")
-    velocity: StateVector = Property(
+    velocity: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the sensor velocity in terms of :math:`x,y,z` coordinates.")
 
@@ -1053,8 +1053,8 @@ class RangeRangeRateBinning(CartesianToElevationBearingRangeRate):
     expects a 6D state space.
     """
 
-    range_res: float = Property(doc="Size of the range bins in m")
-    range_rate_res: float = Property(doc="Size of the velocity bins in m/s")
+    range_res: float = prop(doc="Size of the range bins in m")
+    range_rate_res: float = prop(doc="Size of the velocity bins in m/s")
 
     @property
     def ndim_meas(self):
@@ -1237,7 +1237,7 @@ class CartesianToAzimuthElevationRange(_AngleNonLinearGaussianMeasurement, Rever
 
     """  # noqa:E501
 
-    translation_offset: StateVector = Property(
+    translation_offset: StateVector = prop(
         default=None,
         doc="A 3x1 array specifying the Cartesian origin offset in terms of :math:`x,y,z` "
             "coordinates.")

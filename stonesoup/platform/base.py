@@ -1,7 +1,7 @@
 import uuid
 from collections.abc import MutableSequence
 
-from ..base import Property, Base
+from ..base import prop, Base
 from ..movable import Movable, FixedMovable, MovingMovable, MultiTransitionMovable
 from ..sensor.sensor import Sensor
 from ..types.groundtruth import GroundTruthPath
@@ -31,16 +31,16 @@ class Platform(Base):
         :class:`~.MovingPlatform`
     """
 
-    movement_controller: Movable = Property(
+    movement_controller: Movable = prop(
         default=None,
         doc=":class:`~.Movable` object to control the Platform's movement. Default is None, but "
             "it can be constructed transparently by passing Movable's constructor parameters to "
             "the Platform constructor.")
-    sensors: MutableSequence[Sensor] = Property(
+    sensors: MutableSequence[Sensor] = prop(
         default=None, readonly=True,
         doc="A list of N mounted sensors. Defaults to an empty list.")
 
-    id: str = Property(
+    id: str = prop(
         default=None,
         doc="The unique platform ID. Default `None` where random UUID is generated.")
 

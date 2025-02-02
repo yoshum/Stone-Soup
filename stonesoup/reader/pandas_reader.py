@@ -11,7 +11,7 @@ except ImportError as error:
     raise ImportError(
         "Pandas Readers require dependency 'pandas' being installed. ") from error
 
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..reader.base import GroundTruthReader, DetectionReader, Reader
 from ..types.detection import Detection
@@ -19,15 +19,15 @@ from ..types.groundtruth import GroundTruthPath, GroundTruthState
 
 
 class _DataFrameReader(Reader):
-    state_vector_fields: Sequence[str] = Property(
+    state_vector_fields: Sequence[str] = prop(
         doc='List of columns names to be used in state vector')
-    time_field: str = Property(
+    time_field: str = prop(
         doc='Name of column to be used as time field')
-    time_field_format: str = Property(
+    time_field_format: str = prop(
         default=None, doc='Optional datetime format')
-    timestamp: bool = Property(
+    timestamp: bool = prop(
         default=False, doc='Treat time field as a timestamp from epoch')
-    metadata_fields: Collection[str] = Property(
+    metadata_fields: Collection[str] = prop(
         default=None, doc='List of columns to be saved as metadata, default all')
 
     def _get_metadata(self, row):
@@ -70,8 +70,8 @@ class DataFrameGroundTruthReader(GroundTruthReader, _DataFrameReader):
     Parameters
     ----------
     """
-    dataframe: pd.DataFrame = Property(doc="DataFrame containing the ground truth data.")
-    path_id_field: str = Property(doc='Name of column to be used as path ID')
+    dataframe: pd.DataFrame = prop(doc="DataFrame containing the ground truth data.")
+    path_id_field: str = prop(doc='Name of column to be used as path ID')
 
     @BufferedGenerator.generator_method
     def groundtruth_paths_gen(self):
@@ -113,7 +113,7 @@ class DataFrameDetectionReader(DetectionReader, _DataFrameReader):
     Parameters
     ----------
     """
-    dataframe: pd.DataFrame = Property(doc="DataFrame containing the ground truth data.")
+    dataframe: pd.DataFrame = prop(doc="DataFrame containing the ground truth data.")
 
     @BufferedGenerator.generator_method
     def detections_gen(self):

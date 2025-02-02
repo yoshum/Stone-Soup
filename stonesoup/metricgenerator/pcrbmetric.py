@@ -5,7 +5,7 @@ import numpy as np
 from numpy.linalg import inv
 
 from .base import MetricGenerator
-from ..base import Property
+from ..base import prop
 from ..types.state import GaussianState
 from ..types.groundtruth import GroundTruthState, GroundTruthPath
 from ..types.array import StateVectors
@@ -29,27 +29,27 @@ class PCRBMetric(MetricGenerator):
         discrete-time nonlinear filtering," in IEEE Transactions on Signal Processing, vol. 46,
         no. 5, pp. 1386-1396, May 1998, doi: 10.1109/78.668800.
     """
-    prior: GaussianState = Property(doc="The prior used to initiate the track")
-    transition_model: TransitionModel = Property(
+    prior: GaussianState = prop(doc="The prior used to initiate the track")
+    transition_model: TransitionModel = prop(
         doc="The transition model used to propagate the track's state")
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         doc="The measurement model that projects a track into measurement space (and vice versa")
-    sensor_locations: StateVectors = Property(
+    sensor_locations: StateVectors = prop(
         doc="The locations of the sensors (currently assuming sensors are static)")
-    position_mapping: Sequence[int] = Property(
+    position_mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping for position coordinates. Default `None`, which uses the measurement model"
             "mapping")
-    velocity_mapping: Sequence[int] = Property(
+    velocity_mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping for velocity coordinates. Default `None`, in which case velocity RMSE is not "
             "computed")
-    irf: float = Property(doc="Information reduction factor. Default is 1", default=1.)
-    truths_key: str = Property(doc="Key to access set of ground truths added to MetricManager",
+    irf: float = prop(doc="Information reduction factor. Default is 1", default=1.)
+    truths_key: str = prop(doc="Key to access set of ground truths added to MetricManager",
                                default='groundtruth_paths')
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated "
-                                       "metrics from MultiManager",
-                                   default='pcrb_generator')
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated "
+                                   "metrics from MultiManager",
+                               default='pcrb_generator')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

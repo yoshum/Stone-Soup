@@ -4,7 +4,7 @@ from typing import Any
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..functions import dotproduct
 from ..functions.orbital import keplerian_to_rv, tru_anom_from_mean_anom
 from . import Type
@@ -119,55 +119,55 @@ class Orbital(Type):
 
     """
 
-    coordinates: CoordinateSystem = Property(
+    coordinates: CoordinateSystem = prop(
         default=CoordinateSystem.CARTESIAN,
         doc="The parameterisation used on initiation. Acceptable values "
             "are 'CARTESIAN' (default), 'KEPLERIAN', 'TLE', or 'EQUINOCTIAL'. "
             "All other inputs will return errors. Will accept string inputs."
     )
 
-    grav_parameter: float = Property(
+    grav_parameter: float = prop(
         default=3.986004418e14,
         doc=r"Standard gravitational parameter :math:`\mu = G M`. The default "
             r"is :math:`3.986004418 \times 10^{14} \,` "
             r":math:`\mathrm{m}^3 \mathrm{s}^{-2}`.")
 
     # The following nine attributes provide support for two-line element representations
-    catalogue_number: int = Property(
+    catalogue_number: int = prop(
         default=None, doc="NORAD Catalog Number: a unique identifier for each earth-orbiting "
                           "artificial satellite")
 
-    classification: str = Property(
+    classification: str = prop(
         default=None, doc="Classification (U=Unclassified, C=Classified, S=Secret")
 
-    international_designator: str = Property(
+    international_designator: str = prop(
         default=None, doc="International designator incorporates the year of launch, launch "
                           "number that year and place of launch.")
 
-    ballistic_coefficient: float = Property(
+    ballistic_coefficient: float = prop(
         default=None, doc=r"The ballistic coefficient is the first derivative of the mean "
                           r"motion. (units of :math:`mathrm{rad s}^{-2}`)")
 
-    second_derivative_mean_motion: float = Property(
+    second_derivative_mean_motion: float = prop(
         default=None, doc=r"The second derivative of the mean motion. "
                           r"(:math:`mathrm{rad s}^{-3}`)")
 
-    bstar: float = Property(
+    bstar: float = prop(
         default=None, doc=r"The TLE drag coefficient. :math:`B* = \frac{B \rho_0}{2}` where "
                           r":math:`\rho_0` is density of a standard atmosphere and "
                           r":math:B = \frac{C_D A}{m}` for coefficient of drag :math:`C_D`, "
                           r"cross-sectional area :math:`A` and mass :math:`m` is the mass.")
 
-    ephemeris_type: int = Property(
+    ephemeris_type: int = prop(
         default=None, doc="Ephemeris type (NORAD use). Zero in distributed TLE data.")
 
-    element_set_number: int = Property(
+    element_set_number: int = prop(
         default=None, doc="Element set number in the TLE. Incremented when a new TLE is "
                           "generated for this object.")
 
-    revolution_number: int = Property(default=None, doc="Number of revolutions at the epoch")
+    revolution_number: int = prop(default=None, doc="Number of revolutions at the epoch")
 
-    metadata: Mapping[Any, Any] = Property(
+    metadata: Mapping[Any, Any] = prop(
         default=None, doc="Dictionary containing metadata about orbit."
     )
 

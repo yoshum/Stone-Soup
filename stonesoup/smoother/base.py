@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..models.transition import TransitionModel
 
 
@@ -16,7 +16,7 @@ class Smoother(Base):
 
     """
 
-    transition_model: TransitionModel = Property(default=None, doc="Transition Model.")
+    transition_model: TransitionModel = prop(default=None, doc="Transition Model.")
 
     @abstractmethod
     def smooth(self, *args, **kwargs):

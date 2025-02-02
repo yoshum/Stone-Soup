@@ -1,7 +1,7 @@
 """Base classes for Stone Soup feeder"""
 from abc import abstractmethod
 
-from ..base import Property
+from ..base import prop
 from ..reader import Reader, DetectionReader, GroundTruthReader
 from ..buffered_generator import BufferedGenerator
 
@@ -13,7 +13,7 @@ class Feeder(Reader):
     modify the sequence, duplicate or drop data.
     """
 
-    reader: Reader = Property(doc="Source of detections")
+    reader: Reader = prop(doc="Source of detections")
 
     @abstractmethod
     @BufferedGenerator.generator_method

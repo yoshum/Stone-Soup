@@ -3,7 +3,7 @@ import pytest
 
 from datetime import datetime, timedelta
 from stonesoup.sensormanager.action import Actionable, ActionableProperty
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.types.array import StateVector
 
 from ..tilt_action import TiltActionsGenerator, ChangeTiltAction
@@ -13,8 +13,8 @@ class DummyTiltActionable(Actionable):
     tilt_centre: StateVector = ActionableProperty(doc="Actionable Tilt.",
                                                   generator_cls=TiltActionsGenerator,
                                                   generator_kwargs_mapping={'rpm': 'rpm'})
-    timestamp: datetime = Property(doc="Current time that actionable exists at.")
-    rpm: float = Property(doc="Rotations per minute.")
+    timestamp: datetime = prop(doc="Current time that actionable exists at.")
+    rpm: float = prop(doc="Rotations per minute.")
     min_tilt = np.radians(-90)
     max_tilt = np.radians(90)
 

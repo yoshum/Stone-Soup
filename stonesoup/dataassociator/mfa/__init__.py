@@ -1,7 +1,7 @@
 import numpy as np
 
 from .. import DataAssociator
-from ...base import Property
+from ...base import prop
 from ...hypothesiser.mfa import MFAHypothesiser
 from ...types.multihypothesis import MultipleHypothesis
 from ._init import init_hyp_info, Hyp
@@ -19,9 +19,9 @@ class MFADataAssociator(DataAssociator):
 
     """
 
-    hypothesiser: MFAHypothesiser = Property(
+    hypothesiser: MFAHypothesiser = prop(
         doc='Generate a set of hypotheses for each prediction-detection pair')
-    slide_window: int = Property(doc='Length of MFA slide window')
+    slide_window: int = prop(doc='Length of MFA slide window')
 
     def associate(self, tracks, detections, timestamp, **kwargs):
         # No tracks, nothing to do

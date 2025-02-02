@@ -2,7 +2,7 @@ from abc import abstractmethod
 
 import numpy as np
 
-from .base import Base, Property
+from .base import Base, prop
 from .types.array import StateVectors
 from .types.state import State
 
@@ -60,11 +60,11 @@ class QuadraticKernel(Kernel):
          \mathtt{k}\left(\mathbf{x}, \mathbf{x}'\right) =
          \left(\alpha \langle \mathbf{x}, \mathbf{x}' \rangle + c\right)^2
     """
-    c: float = Property(
+    c: float = prop(
         default=1,
         doc="Free parameter trading off the influence of higher-order versus lower-order "
             "terms in the polynomial. Default is 1.")
-    ialpha: float = Property(default=1e1, doc="Slope. Range is [1e0, 1e4].")
+    ialpha: float = prop(default=1e1, doc="Slope. Range is [1e0, 1e4].")
 
     def __call__(self, state1, state2=None):
         r"""Calculate the Quadratic Kernel transformation for a pair of state vectors
@@ -96,11 +96,11 @@ class QuarticKernel(Kernel):
          \mathtt{k}(\mathbf{x}, \mathbf{x}') =
          \left(\alpha \langle \mathbf{x}, \mathbf{x}' \rangle + c\right)^4
     """
-    c: float = Property(
+    c: float = prop(
         default=1,
         doc="Free parameter trading off the influence of higher-order versus lower-order "
             "terms in the polynomial. Default is 1.")
-    ialpha: float = Property(default=1e1, doc="Slope. Range is [1e0, 1e4].")
+    ialpha: float = prop(default=1e1, doc="Slope. Range is [1e0, 1e4].")
 
     def __call__(self, state1, state2=None):
         r"""Calculate the Quartic Kernel transformation for a pair of state vectors
@@ -132,7 +132,7 @@ class GaussianKernel(Kernel):
          \mathtt{k}(\mathbf{x}, \mathbf{x}') =
          \mathrm{exp}\left(-\frac{||\mathbf{x} - \mathbf{x}'||^{2}}{2\pi\sigma^2}\right)
     """
-    variance: float = Property(
+    variance: float = prop(
         default=1e1,
         doc=r"Denoted as :math:`\sigma^2` in the equation above. Determines the width of the "
             r"Gaussian kernel. Range is [1e0, 1e2].")

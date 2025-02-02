@@ -8,7 +8,7 @@ from .base import Type
 from .detection import Detection, MissedDetection, CompositeDetection
 from .prediction import MeasurementPrediction, Prediction, CompositePrediction, \
     CompositeMeasurementPrediction
-from ..base import Property
+from ..base import prop
 from ..types.numeric import Probability
 
 
@@ -27,7 +27,7 @@ class Hypothesis(Type):
 
 
 class ProbabilityHypothesis(Hypothesis):
-    probability: Probability = Property(
+    probability: Probability = prop(
         doc="Probability that detection is true location of prediction")
 
     def __lt__(self, other):
@@ -54,9 +54,9 @@ class SingleHypothesis(Hypothesis):
     """A hypothesis based on a single measurement.
 
     """
-    prediction: Prediction = Property(doc="Predicted track state")
-    measurement: Detection = Property(doc="Detection used for hypothesis and updating")
-    measurement_prediction: MeasurementPrediction = Property(
+    prediction: Prediction = prop(doc="Predicted track state")
+    measurement: Detection = prop(doc="Detection used for hypothesis and updating")
+    measurement_prediction: MeasurementPrediction = prop(
         default=None, doc="Optional track prediction in measurement space")
 
     def __bool__(self):
@@ -73,7 +73,7 @@ class SingleDistanceHypothesis(SingleHypothesis):
     i.e. smaller distance is a greater likelihood.
     """
 
-    distance: float = Property(doc="Distance between detection and prediction")
+    distance: float = prop(doc="Distance between detection and prediction")
 
     def __lt__(self, other):
         return self.distance > other.distance
@@ -118,7 +118,7 @@ class JointHypothesis(Type, UserDict):
     Update, and Update imports Hypothesis, which is a circular import.
     """
 
-    hypotheses: Hypothesis = Property(doc='Association hypotheses')
+    hypotheses: Hypothesis = prop(doc='Association hypotheses')
 
     def __new__(cls, hypotheses):
         if all(isinstance(hypothesis, SingleDistanceHypothesis)
@@ -158,7 +158,7 @@ class JointHypothesis(Type, UserDict):
 class ProbabilityJointHypothesis(ProbabilityHypothesis, JointHypothesis):
     """Probability-scored Joint Hypothesis subclass."""
 
-    probability: Probability = Property(
+    probability: Probability = prop(
         default=None,
         doc="Probability that detection is true location of prediction. Defaults to `None`, "
             "whereby the probability is calculated as being the product of the constituent "
@@ -214,13 +214,13 @@ class CompositeHypothesis(SingleHypothesis):
     A composition of :class:`~.SingleHypothesis`.
     """
 
-    sub_hypotheses: Sequence[SingleHypothesis] = Property(
+    sub_hypotheses: Sequence[SingleHypothesis] = prop(
         doc="Sequence of sub-hypotheses comprising the composite hypothesis. Must not be empty.")
-    prediction: CompositePrediction = Property(
+    prediction: CompositePrediction = prop(
         doc="Predicted track state")
-    measurement: CompositeDetection = Property(
+    measurement: CompositeDetection = prop(
         doc="Detection used for hypothesis and updating")
-    measurement_prediction: CompositeMeasurementPrediction = Property(
+    measurement_prediction: CompositeMeasurementPrediction = prop(
         default=None, doc="Optional track prediction in measurement space")
 
     def __init__(self, *args, **kwargs):
@@ -298,11 +298,11 @@ class CompositeProbabilityHypothesis(CompositeHypothesis, SingleProbabilityHypot
     Probability is 1 if there are no sub-hypotheses.
     """
 
-    probability: Probability = Property(
+    probability: Probability = prop(
         default=None,
         doc="Probability that detection is true location of prediction. Default is `None`, "
             "whereby probability is calculated as the product of sub-hypotheses' probabilities")
-    sub_hypotheses: Sequence[SingleProbabilityHypothesis] = Property(
+    sub_hypotheses: Sequence[SingleProbabilityHypothesis] = prop(
         default=None,
         doc="Sequence of probability-scored sub-hypotheses comprising the composite hypothesis."
     )

@@ -1,12 +1,12 @@
 import pytest
 
-from ..base import Base, Property
+from ..base import Base, prop
 
 
 class _TestBase(Base):
-    property_a: int = Property()
-    property_b: str = Property()
-    property_c: int = Property(default=123)
+    property_a: int = prop()
+    property_b: str = prop()
+    property_c: int = prop(default=123)
 
 
 @pytest.fixture(scope='session')

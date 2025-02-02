@@ -3,7 +3,7 @@ from datetime import timedelta
 import numpy as np
 from scipy.stats import multinomial
 
-from .base import Property
+from .base import prop
 from ...models.transition import TransitionModel
 from ...types.array import Matrix, StateVector
 
@@ -21,7 +21,7 @@ class MarkovianTransitionModel(TransitionModel):
 
     Intended to be used in conjunction with the :class:`~.CategoricalState` type.
     """
-    transition_matrix: Matrix = Property(
+    transition_matrix: Matrix = prop(
         doc=r"Stochastic matrix :math:`F_t^{ij} = F^{ij} = P(\phi_t^i|\phi_{t-1}^j)` determining "
             r"the conditional probability that an object is category :math:`\phi^i` at 'time' "
             r":math:`t` given that it was category :math:`\phi^j` at 'time' :math:`t-1`. "

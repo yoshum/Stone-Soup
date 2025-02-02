@@ -3,7 +3,7 @@ from typing import Sequence
 import numpy as np
 
 from .base import Gater
-from ..base import Property
+from ..base import prop
 from ..measures import Measure
 from ..models.base import LinearModel, ReversibleModel
 from ..types.detection import MissedDetection
@@ -19,10 +19,10 @@ class DistanceGater(Gater):
     hypothised measurement, then removes any hypotheses whose calculated distance exceeds the
     specified gate threshold.
     """
-    measure: Measure = Property(
+    measure: Measure = prop(
         doc="Measure class used to calculate the distance between the measurement "
             "prediction and the hypothesised measurement.")
-    gate_threshold: float = Property(
+    gate_threshold: float = prop(
         doc="The gate threshold. Hypotheses whose calculated distance "
             "exceeds this threshold will be filtered out.")
 
@@ -48,13 +48,13 @@ class TrackingStateSpaceDistanceGater(Gater):
     removed.
     """
 
-    measure: Measure = Property(
+    measure: Measure = prop(
         doc="Measure class used to calculate the distance between the measurement (in state space)"
             " and the track prediction.")
-    gate_threshold: float = Property(
+    gate_threshold: float = prop(
         doc="The gate threshold. Measurements whose calculated distance "
             "exceeds this threshold will be filtered out.")
-    allow_non_reversible_detections: bool = Property(
+    allow_non_reversible_detections: bool = prop(
         default=True,
         doc="Should detections with non-reversible measurement models be allowed passed the gate.")
 

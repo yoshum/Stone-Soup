@@ -2,13 +2,13 @@
 from urllib.parse import ParseResult, urlparse
 
 from .base import Reader
-from ..base import Property
+from ..base import prop
 
 
 class UrlReader(Reader):
     """Base class for url based readers to read files from abstract URLs"""
 
-    url = Property(
+    url = prop(
         ParseResult,
         doc="URL path to be parsed. Str will be converted to url.")
 

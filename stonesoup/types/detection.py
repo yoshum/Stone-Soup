@@ -3,17 +3,17 @@ from collections.abc import MutableMapping, Sequence
 from .groundtruth import GroundTruthPath
 from .state import CategoricalState, CompositeState
 from .state import State, GaussianState, StateVector
-from ..base import Property
+from ..base import prop
 from ..models.measurement import MeasurementModel
 
 
 class Detection(State):
     """Detection type"""
-    measurement_model: MeasurementModel = Property(
+    measurement_model: MeasurementModel = prop(
         default=None,
         doc="The measurement model used to generate the detection (the default is ``None``)")
 
-    metadata: MutableMapping = Property(
+    metadata: MutableMapping = prop(
         default=None, doc='Dictionary of metadata items for Detections.')
 
     def __init__(self, state_vector, *args, **kwargs):
@@ -41,7 +41,7 @@ class TrueDetection(Detection):
     detections for metrics and analysis purposes.
     """
 
-    groundtruth_path: GroundTruthPath = Property(
+    groundtruth_path: GroundTruthPath = prop(
         doc="Ground truth path that this detection came from")
 
 
@@ -53,7 +53,7 @@ class MissedDetection(Detection):
     detections are associated with the specified track).
     """
 
-    state_vector: StateVector = Property(default=None, doc="State vector. Default `None`.")
+    state_vector: StateVector = prop(default=None, doc="State vector. Default `None`.")
 
     def __init__(self, state_vector=None, *args, **kwargs):
         super().__init__(state_vector, *args, **kwargs)
@@ -76,13 +76,13 @@ class CompositeDetection(CompositeState):
     Composition of :class:`~.Detection`.
     """
 
-    sub_states: Sequence[Detection] = Property(
+    sub_states: Sequence[Detection] = prop(
         doc="Sequence of sub-detections comprising the composite detection. All sub-detections "
             "must have matching timestamp. Must not be empty.")
-    groundtruth_path: GroundTruthPath = Property(
+    groundtruth_path: GroundTruthPath = prop(
         default=None,
         doc="Ground truth path that this detection came from.")
-    mapping: Sequence[int] = Property(
+    mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping of detections to composite state space. Defaults to `None`, where "
             "sub-detections map to sub-state spaces in order.")

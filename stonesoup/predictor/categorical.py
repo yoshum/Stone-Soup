@@ -1,4 +1,4 @@
-from ..base import Property
+from ..base import prop
 from ..models.transition.categorical import MarkovianTransitionModel
 from ..predictor import Predictor
 from ..predictor._utils import predict_lru_cache
@@ -11,7 +11,7 @@ class HMMPredictor(Predictor):
     Assumes transition model is time-invariant, and therefore care should be taken when predicting
     forward to the same time."""
 
-    transition_model: MarkovianTransitionModel = Property(
+    transition_model: MarkovianTransitionModel = prop(
         doc="The transition model used to predict states forward in `time`."
     )
 

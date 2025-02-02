@@ -2,7 +2,7 @@ from collections import defaultdict
 from collections.abc import Sequence
 
 from .base import Hypothesiser
-from ..base import Property
+from ..base import prop
 from ..predictor.composite import CompositePredictor
 from ..types.hypothesis import CompositeProbabilityHypothesis
 from ..types.multihypothesis import MultipleHypothesis
@@ -15,7 +15,7 @@ class CompositeHypothesiser(Hypothesiser):
         sub-state of a track-detection pair using a corresponding sub-hypothesiser.
     """
 
-    sub_hypothesisers: Sequence[Hypothesiser] = Property(
+    sub_hypothesisers: Sequence[Hypothesiser] = prop(
         doc="Sequence of sub-hypothesisers comprising the composite hypothesiser. Must not be "
             "empty. These must be hypothesisers that return probability-weighted hypotheses, in "
             "order for composite hypothesis weights to be calculated.")

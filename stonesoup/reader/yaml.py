@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..serialise import YAML
 from .base import DetectionReader, GroundTruthReader, SensorDataReader
@@ -10,7 +10,7 @@ from .file import FileReader
 
 class YAMLReader(FileReader, BufferedGenerator):
     """YAML Reader"""
-    path: Path = Property(doc="File to read data from")
+    path: Path = prop(doc="File to read data from")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

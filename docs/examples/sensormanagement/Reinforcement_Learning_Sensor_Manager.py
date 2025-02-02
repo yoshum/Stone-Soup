@@ -409,7 +409,7 @@ utils.validate_py_environment(train_env, episodes=5)
 # Stone Soup actions with tensorflow-agent actions.
 
 from stonesoup.sensormanager.base import SensorManager
-from stonesoup.base import Property
+from stonesoup.base import prop
 from tf_agents.environments import tf_py_environment
 
 
@@ -418,7 +418,7 @@ class ReinforcementSensorManager(SensorManager):
     The sensor manager trains on an environment to find an optimal policy, which is then exploited
     to choose actions.
     """
-    env: py_environment.PyEnvironment = Property(doc="The environment which the agent learns the policy with.")
+    env: py_environment.PyEnvironment = prop(doc="The environment which the agent learns the policy with.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

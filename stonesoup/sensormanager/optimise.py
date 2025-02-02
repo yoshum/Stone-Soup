@@ -5,7 +5,7 @@ import numpy as np
 from scipy.optimize import brute, basinhopping, fmin
 
 from . import BruteForceSensorManager
-from ..base import Property
+from ..base import prop
 
 
 class _OptimizeSensorManager(BruteForceSensorManager):
@@ -65,24 +65,24 @@ class OptimizeBruteSensorManager(_OptimizeSensorManager):
     Please see the Scipy documentation site for full details on what each parameter does.
     """
 
-    n_grid_points: int = Property(
+    n_grid_points: int = prop(
         default=10,
         doc="Number of grid points to search along axis. See Ns in "
             ":func:`~.scipy.optimize.brute`. "
             "Default is 10.")
-    generate_full_output: bool = Property(default=False,
-                                          doc="If True, returns the evaluation grid "
-                                              "and the objective "
-                                              "function's values on it.")
-    finish: bool = Property(default=False,
-                            doc="A polishing function can be applied to the result of brute "
-                                "force minimisation. If True this is set as "
-                                ":func:`~.scipy.optimize.fmin` which "
-                                "minimizes a function using the downhill simplex algorithm."
-                                "As a default no polishing function is applied.")
-    disp: bool = Property(default=False,
-                          doc="Set to True to print convergence messages from the finish "
-                              "callable.")
+    generate_full_output: bool = prop(default=False,
+                                      doc="If True, returns the evaluation grid "
+                                          "and the objective "
+                                          "function's values on it.")
+    finish: bool = prop(default=False,
+                        doc="A polishing function can be applied to the result of brute "
+                            "force minimisation. If True this is set as "
+                            ":func:`~.scipy.optimize.fmin` which "
+                            "minimizes a function using the downhill simplex algorithm."
+                            "As a default no polishing function is applied.")
+    disp: bool = prop(default=False,
+                      doc="Set to True to print convergence messages from the finish "
+                          "callable.")
 
     def _optimiser(self, optimise_func, all_action_generators):
         ranges = [
@@ -145,22 +145,22 @@ class OptimizeBasinHoppingSensorManager(_OptimizeSensorManager):
     Please see the Scipy documentation site for full details on what each parameter does.
     """
 
-    n_iter: int = Property(default=100,
-                           doc='The number of basin hopping iterations.')
-    T: float = Property(default=1.0,
-                        doc='The "temperature" parameter for the accept or reject criterion. '
-                            'Higher temperatures mean larger jumps in function value will be '
-                            'accepted.')
-    stepsize: float = Property(default=0.5,
-                               doc='Maximum step size for use in the random displacement.')
-    interval: int = Property(default=50,
-                             doc='Interval for how often to update the stepsize.')
-    disp: bool = Property(default=False,
-                          doc='Set to True to print status messages.')
-    niter_success: int = Property(default=None,
-                                  doc='Stop the run if the global minimum candidate '
-                                      'remains the same '
-                                      'for this number of iterations.')
+    n_iter: int = prop(default=100,
+                       doc='The number of basin hopping iterations.')
+    T: float = prop(default=1.0,
+                    doc='The "temperature" parameter for the accept or reject criterion. '
+                        'Higher temperatures mean larger jumps in function value will be '
+                        'accepted.')
+    stepsize: float = prop(default=0.5,
+                           doc='Maximum step size for use in the random displacement.')
+    interval: int = prop(default=50,
+                         doc='Interval for how often to update the stepsize.')
+    disp: bool = prop(default=False,
+                      doc='Set to True to print status messages.')
+    niter_success: int = prop(default=None,
+                              doc='Stop the run if the global minimum candidate '
+                                  'remains the same '
+                                  'for this number of iterations.')
 
     def _optimiser(self, optimise_func, all_action_generators):
         initial_values = [

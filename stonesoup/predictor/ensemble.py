@@ -1,4 +1,4 @@
-from .base import Property
+from .base import prop
 from ..models.transition import TransitionModel
 from .kalman import KalmanPredictor
 from ..types.prediction import Prediction
@@ -16,7 +16,7 @@ class EnsemblePredictor(KalmanPredictor):
         \hat{X}_k = [f(x_1), f(x_2), ..., f(x_M)]
 
     """
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
 
     def predict(self, prior, timestamp=None, **kwargs):
         """Ensemble Kalman Filter prediction step

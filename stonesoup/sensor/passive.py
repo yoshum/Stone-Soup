@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..models.measurement.nonlinear import CartesianToElevationBearing
 from ..sensor.sensor import SimpleSensor
 from ..types.array import CovarianceMatrix
@@ -18,14 +18,14 @@ class PassiveElevationBearing(SimpleSensor):
 
     """
 
-    ndim_state: int = Property(
+    ndim_state: int = prop(
         doc="Number of state dimensions. This is utilised by (and follows in\
             format) the underlying :class:`~.CartesianToElevationBearing`\
             model")
-    mapping: np.ndarray = Property(
+    mapping: np.ndarray = prop(
         doc="Mapping between the targets state space and the sensors\
             measurement capability")
-    noise_covar: CovarianceMatrix = Property(
+    noise_covar: CovarianceMatrix = prop(
         doc="The sensor noise covariance matrix. This is utilised by\
             (and follow in format) the underlying \
             :class:`~.CartesianToElevationBearing` model")

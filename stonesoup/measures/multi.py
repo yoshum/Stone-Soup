@@ -7,7 +7,7 @@ from typing import Optional
 
 from .base import BaseMeasure
 from .state import Measure
-from ..base import Property
+from ..base import prop
 from ..types.state import StateMutableSequence
 
 
@@ -27,7 +27,7 @@ class StateSequenceMeasure(MultipleMeasure):
     Applies a state measure to each state in the state sequence with matching times.
     """
 
-    state_measure: Measure = Property(doc="The measure used to compare individual states.")
+    state_measure: Measure = prop(doc="The measure used to compare individual states.")
 
     def __call__(self, state_sequence_1: StateMutableSequence,
                  state_sequence_2: StateMutableSequence,
@@ -77,8 +77,8 @@ class RecentStateSequenceMeasure(MultipleMeasure):
     matching times.
     """
 
-    state_measure: Measure = Property(doc="The measure used to compare individual states.")
-    n_states_to_compare: int = Property(doc="Maximum number of states to be compared.")
+    state_measure: Measure = prop(doc="The measure used to compare individual states.")
+    n_states_to_compare: int = prop(doc="Maximum number of states to be compared.")
 
     def __call__(self, state_sequence_1: StateMutableSequence,
                  state_sequence_2: StateMutableSequence) -> list[float]:
@@ -119,7 +119,7 @@ class MeanMeasure(BaseMeasure):
     """
     This class converts multiple measures into one mean average measure.
     """
-    measure: MultipleMeasure = Property()
+    measure: MultipleMeasure = prop()
 
     def __call__(self, *args, **kwargs) -> Optional[float]:
         measures: list[float] = self.measure(*args, **kwargs)

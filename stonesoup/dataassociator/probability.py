@@ -1,5 +1,5 @@
 from .base import DataAssociator
-from ..base import Property
+from ..base import prop
 from ..hypothesiser import Hypothesiser
 from ..hypothesiser.probability import PDAHypothesiser
 from ..types.detection import MissedDetection
@@ -18,7 +18,7 @@ class PDA(DataAssociator):
     probability that it is associated to each specific detection.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Generate a set of hypotheses for each prediction-detection pair")
 
     def associate(self, tracks, detections, timestamp, **kwargs):
@@ -53,7 +53,7 @@ class JPDA(DataAssociator):
     takes place in the function :meth:`enumerate_JPDA_hypotheses`.
     """
 
-    hypothesiser: PDAHypothesiser = Property(
+    hypothesiser: PDAHypothesiser = prop(
         doc="Generate a set of hypotheses for each prediction-detection pair")
 
     def associate(self, tracks, detections, timestamp, **kwargs):

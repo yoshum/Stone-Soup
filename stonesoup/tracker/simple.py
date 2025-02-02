@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 
 from .base import Tracker, _TrackerMixInNext
-from ..base import Property
+from ..base import prop
 from ..dataassociator import DataAssociator
 from ..deleter import Deleter
 from ..functions import gm_reduce_single
@@ -37,12 +37,12 @@ class SingleTargetTracker(_TrackerMixInNext, Tracker):
         Current track being maintained. Also accessible as the sole item in
         :attr:`tracks`
     """
-    initiator: Initiator = Property(doc="Initiator used to initialise the track.")
-    deleter: Deleter = Property(doc="Deleter used to delete tracks.")
-    detector: DetectionReader = Property(doc="Detector used to generate detection objects.")
-    data_associator: DataAssociator = Property(
+    initiator: Initiator = prop(doc="Initiator used to initialise the track.")
+    deleter: Deleter = prop(doc="Deleter used to delete tracks.")
+    detector: DetectionReader = prop(doc="Detector used to generate detection objects.")
+    data_associator: DataAssociator = prop(
         doc="Association algorithm to pair predictions to detections")
-    updater: Updater = Property(doc="Updater used to update the track object to the new state.")
+    updater: Updater = prop(doc="Updater used to update the track object to the new state.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,12 +91,12 @@ class SingleTargetMixtureTracker(_TrackerMixInNext, Tracker):
     Parameters
     ----------
     """
-    initiator: Initiator = Property(doc="Initiator used to initialise the track.")
-    deleter: Deleter = Property(doc="Deleter used to delete tracks.")
-    detector: DetectionReader = Property(doc="Detector used to generate detection objects.")
-    data_associator: DataAssociator = Property(
+    initiator: Initiator = prop(doc="Initiator used to initialise the track.")
+    deleter: Deleter = prop(doc="Deleter used to delete tracks.")
+    detector: DetectionReader = prop(doc="Detector used to generate detection objects.")
+    data_associator: DataAssociator = prop(
         doc="Association algorithm to pair predictions to detections")
-    updater: Updater = Property(doc="Updater used to update the track object to the new state.")
+    updater: Updater = prop(doc="Updater used to update the track object to the new state.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -186,12 +186,12 @@ class MultiTargetTracker(_TrackerMixInNext, Tracker):
     Parameters
     ----------
     """
-    initiator: Initiator = Property(doc="Initiator used to initialise the track.")
-    deleter: Deleter = Property(doc="Deleter used to delete tracks.")
-    detector: DetectionReader = Property(doc="Detector used to generate detection objects.")
-    data_associator: DataAssociator = Property(
+    initiator: Initiator = prop(doc="Initiator used to initialise the track.")
+    deleter: Deleter = prop(doc="Deleter used to delete tracks.")
+    detector: DetectionReader = prop(doc="Detector used to generate detection objects.")
+    data_associator: DataAssociator = prop(
         doc="Association algorithm to pair predictions to detections")
-    updater: Updater = Property(doc="Updater used to update the track object to the new state.")
+    updater: Updater = prop(doc="Updater used to update the track object to the new state.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -238,12 +238,12 @@ class MultiTargetMixtureTracker(_TrackerMixInNext, Tracker):
     Parameters
     ----------
     """
-    initiator: Initiator = Property(doc="Initiator used to initialise the track.")
-    deleter: Deleter = Property(doc="Deleter used to delete tracks.")
-    detector: DetectionReader = Property(doc="Detector used to generate detection objects.")
-    data_associator: DataAssociator = Property(
+    initiator: Initiator = prop(doc="Initiator used to initialise the track.")
+    deleter: Deleter = prop(doc="Deleter used to delete tracks.")
+    detector: DetectionReader = prop(doc="Detector used to generate detection objects.")
+    data_associator: DataAssociator = prop(
         doc="Association algorithm to pair predictions to detections")
-    updater: Updater = Property(doc="Updater used to update the track object to the new state.")
+    updater: Updater = prop(doc="Updater used to update the track object to the new state.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

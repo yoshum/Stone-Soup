@@ -5,7 +5,7 @@ from itertools import combinations
 
 import numpy as np
 
-from ..base import Property
+from ..base import prop
 from ..models.transition.base import TransitionModel
 from ..models.transition.linear import KnownTurnRate, ConstantVelocity, \
     CombinedLinearGaussianTransitionModel
@@ -169,11 +169,11 @@ class Point2PointConstantAcceleration(TransitionModel):
     distance travelled respectively.
     """
 
-    state: State = Property(doc="The initial state, assumed to have x and y cartesian position and"
-                                "velocities")
-    destination: tuple[float, float] = Property(doc="Destination coordinates in 2D cartesian"
-                                                    "coordinates (x, y)")
-    duration: timedelta = Property(doc="Duration of transition in seconds")
+    state: State = prop(doc="The initial state, assumed to have x and y cartesian position and"
+                            "velocities")
+    destination: tuple[float, float] = prop(doc="Destination coordinates in 2D cartesian"
+                                                "coordinates (x, y)")
+    duration: timedelta = prop(doc="Duration of transition in seconds")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -240,10 +240,10 @@ class Point2PointStop(TransitionModel):
     duration.
     """
 
-    state: State = Property(doc="The initial state, assumed to have x and y cartesian position and"
-                                "velocities")
-    destination: tuple[float, float] = Property(doc="Destination coordinates in 2D cartesian"
-                                                    "coordinates (x, y)")
+    state: State = prop(doc="The initial state, assumed to have x and y cartesian position and"
+                            "velocities")
+    destination: tuple[float, float] = prop(doc="Destination coordinates in 2D cartesian"
+                                                "coordinates (x, y)")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -328,15 +328,15 @@ class ConstantJerkSimulator(TransitionModel):
     -----
     Acceleration instantaneously changes at each target state
     """
-    position_mapping: Sequence[int] = Property(
+    position_mapping: Sequence[int] = prop(
         doc="Mapping between platform position and state vector.")
-    velocity_mapping: Sequence[int] = Property(
+    velocity_mapping: Sequence[int] = prop(
         default=None,
         doc="Mapping between platform velocity and state vector. Defaults to `[m+1 for m in "
             "position_mapping]`")
-    init_state: State = Property(
+    init_state: State = prop(
         doc="Initial state to move from. Must be `ndim_state` dimensions.")
-    final_state: State = Property(
+    final_state: State = prop(
         doc="Final state to move to. Must be `ndim_state` dimensions.")
 
     def __init__(self, *args, **kwargs):

@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 from .detection import MissedDetection
 from .numeric import Probability
-from ..base import Property
+from ..base import prop
 from ..types import Type
 from ..types.detection import Detection
 from ..types.hypothesis import SingleHypothesis, CompositeHypothesis
@@ -15,15 +15,15 @@ class MultipleHypothesis(Type, Sequence):
     A Multiple Hypothesis is a container to store a collection of hypotheses.
     """
 
-    single_hypotheses: Sequence[SingleHypothesis] = Property(
+    single_hypotheses: Sequence[SingleHypothesis] = prop(
         default=None,
         doc="The initial list of :class:`~.SingleHypothesis`. Default `None` "
             "which initialises with empty list.")
-    normalise: bool = Property(
+    normalise: bool = prop(
         default=False,
         doc="Normalise probabilities of :class:`~.SingleHypothesis`. Default "
             "is `False`.")
-    total_weight: float = Property(
+    total_weight: float = prop(
         default=1,
         doc="When normalising, weights will sum to this. Default is 1.")
 
@@ -127,14 +127,14 @@ class MultipleCompositeHypothesis(Type, Sequence):
     redefined.
     """
 
-    single_hypotheses: Sequence[CompositeHypothesis] = Property(
+    single_hypotheses: Sequence[CompositeHypothesis] = prop(
         default=None,
         doc="The initial list of :class:`~.CompositeHypothesis`. Default `None` which initialises "
             "with empty list.")
-    normalise: bool = Property(
+    normalise: bool = prop(
         default=False,
         doc="Normalise probabilities of :class:`~.CompositeHypothesis`. Default is `False`.")
-    total_weight: float = Property(
+    total_weight: float = prop(
         default=1,
         doc="When normalising, weights will sum to this. Default is 1.")
 

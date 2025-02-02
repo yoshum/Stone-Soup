@@ -7,7 +7,7 @@ from scipy.signal import fftconvolve
 from stonesoup.functions import grid_creation
 from stonesoup.types.state import PointMassState
 
-from ..base import Property
+from ..base import prop
 from ..types.array import StateVectors
 from .base import Predictor
 
@@ -20,7 +20,7 @@ class PointMassPredictor(Predictor):
     An implementation of a Point Mass Filter predictor.
     """
 
-    sFactor: float = Property(default=4., doc="How many sigma to cover by the grid")
+    sFactor: float = prop(default=4., doc="How many sigma to cover by the grid")
 
     def predict(self, prior, timestamp=None, **kwargs):
         """Point Mass Filter prediction step

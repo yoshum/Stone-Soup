@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 from .base import MetricGenerator
-from ..base import Property
+from ..base import prop
 from ..measures import Measure, Euclidean
 from ..types.state import State, StateMutableSequence
 from ..types.time import TimeRange
@@ -66,21 +66,21 @@ class GOSPAMetric(MetricGenerator):
         Generalized optimal sub-pattern assignment metric, 2016,
         [online] Available: http://arxiv.org/abs/1601.05585.
     """
-    p: float = Property(doc="1<=p<infty, exponent.")
-    c: float = Property(doc="c>0, cutoff distance.")
-    switching_penalty: float = Property(doc="Penalty term for switching.", default=0.0)
-    measure: Measure = Property(
+    p: float = prop(doc="1<=p<infty, exponent.")
+    c: float = prop(doc="c>0, cutoff distance.")
+    switching_penalty: float = prop(doc="Penalty term for switching.", default=0.0)
+    measure: Measure = prop(
         default=Euclidean(),
         doc="Distance measure to use. Default :class:`~.measures.Euclidean()`")
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated metrics "
-                                       "from MultiManager",
-                                   default='gospa_generator')
-    tracks_key: str = Property(doc='Key to access set of tracks added to MetricManager',
-                               default='tracks')
-    truths_key: str = Property(doc="Key to access set of ground truths added to MetricManager. "
-                                   "Or key to access a second set of tracks for track-to-track"
-                                   " metric generation",
-                               default='groundtruth_paths')
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated metrics "
+                                   "from MultiManager",
+                               default='gospa_generator')
+    tracks_key: str = prop(doc='Key to access set of tracks added to MetricManager',
+                           default='tracks')
+    truths_key: str = prop(doc="Key to access set of ground truths added to MetricManager. "
+                               "Or key to access a second set of tracks for track-to-track"
+                               " metric generation",
+                           default='groundtruth_paths')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -422,11 +422,11 @@ class OSPAMetric(GOSPAMetric):
         Filters, D. Schuhmacher, B. Vo and B. Vo, IEEE Trans. Signal Processing
         2008
     """
-    c: float = Property(doc='Maximum distance for possible association')
-    p: float = Property(doc='Norm associated to distance')
-    generator_name: str = Property(doc="Unique identifier to use when accessing generated metrics "
-                                       "from MultiManager",
-                                   default='ospa_generator')
+    c: float = prop(doc='Maximum distance for possible association')
+    p: float = prop(doc='Norm associated to distance')
+    generator_name: str = prop(doc="Unique identifier to use when accessing generated metrics "
+                                   "from MultiManager",
+                               default='ospa_generator')
 
     def compute_over_time(self, measured_states, meas_ids, truth_states, truth_ids):
         """Compute the OSPA metric at every timestep from a list of measured

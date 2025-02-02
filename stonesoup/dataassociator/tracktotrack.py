@@ -2,7 +2,7 @@ from operator import attrgetter
 
 from ordered_set import OrderedSet
 
-from ..base import Property
+from ..base import prop
 from ..measures import Euclidean, EuclideanWeighted, Measure
 from ..measures.base import TrackMeasure
 from ..types.association import Association, AssociationSet, TimeRangeAssociation
@@ -44,44 +44,44 @@ class TrackToTrackCounting(TwoTrackToTrackAssociator):
 
     """
 
-    association_threshold: float = Property(
+    association_threshold: float = prop(
         doc="Threshold distance measure which states must be within for an "
             "association to be recorded")
-    consec_pairs_confirm: int = Property(
+    consec_pairs_confirm: int = prop(
         default=3,
         doc="Number of consecutive time instances which track pairs are "
             "required to be within a specified threshold in order for an "
             "association to be formed. Default is 3")
-    consec_misses_end: int = Property(
+    consec_misses_end: int = prop(
         default=2,
         doc="Number of consecutive time instances which track pairs are "
             "required to exceed a specified threshold in order for an "
             "association to be ended. Default is 2")
-    measure: Measure = Property(
+    measure: Measure = prop(
         default=None,
         doc="Distance measure to use. Must use :class:`~.measures.EuclideanWeighted()` if "
             "`use_positional_only` set to True.  Default  is "
             ":class:`~.measures.EuclideanWeighted()` using :attr:`use_positional_only` "
             "and :attr:`pos_map`.  Note if neither are provided this is equivalent to a "
             "standard Euclidean")
-    pos_map: list = Property(
+    pos_map: list = prop(
         default=None,
         doc="List of items specifying the mapping of the position components "
             "of the state space for :attr:`tracks_set_1`.  "
             "Defaults to whole :class:`~.array.StateVector()`, but must be provided whenever "
             ":attr:`use_positional_only` is set to True")
-    use_positional_only: bool = Property(
+    use_positional_only: bool = prop(
         default=True,
         doc="If `True`, the differences in velocity/acceleration values for each state are "
             "ignored in the calculation for the association threshold.  Default is `True`"
     )
-    position_weighting: float = Property(
+    position_weighting: float = prop(
         default=0.6,
         doc="If :attr:`use_positional_only` is set to False, this decides how much to weight "
             "position components compared to others (such as velocity).  "
             "Default is 0.6"
     )
-    one_to_one: bool = Property(
+    one_to_one: bool = prop(
         default=False,
         doc="If True, it is ensured no two associations ever contain the same track "
             "at the same time"
@@ -219,20 +219,20 @@ class TrackToTruth(TwoTrackToTrackAssociator):
     Tracks (one-2-many relationship).
     """
 
-    association_threshold: float = Property(
+    association_threshold: float = prop(
         doc="Threshold distance measure which states must be within for an "
             "association to be recorded")
-    consec_pairs_confirm: int = Property(
+    consec_pairs_confirm: int = prop(
         default=3,
         doc="Number of consecutive time instances which track-truth pairs are "
             "required to be within a specified threshold in order for an "
             "association to be formed. Default is 3")
-    consec_misses_end: int = Property(
+    consec_misses_end: int = prop(
         default=2,
         doc="Number of consecutive time instances which track-truth pairs are "
             "required to exceed a specified threshold in order for an "
             "association to be ended. Default is 2")
-    measure: Measure = Property(
+    measure: Measure = prop(
         default=Euclidean(),
         doc="Distance measure to use. Default :class:`~.measures.Euclidean()`")
 
@@ -428,7 +428,7 @@ class TrackIDbased(TwoTrackToTrackAssociator):
 class OneToOneTrackAssociator(TwoTrackToTrackAssociator, OneToOneAssociator):
     """ Uses the :class:`~.OneToOneAssociator` to associate tracks together """
 
-    measure: TrackMeasure = Property()
+    measure: TrackMeasure = prop()
 
     def associate_tracks(self, *tracks_sets: set[Track]) -> AssociationSet:
         if len(tracks_sets) != 2:  # Should have two sets of tracks

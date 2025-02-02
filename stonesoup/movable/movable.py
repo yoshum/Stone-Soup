@@ -8,7 +8,7 @@ import numpy as np
 from math import cos, sin
 from scipy.linalg import expm
 
-from ..base import Property
+from ..base import prop
 from ..functions import cart2sphere, cart2pol, build_rotation_matrix, rotz
 from ..models.transition import TransitionModel
 from ..types.array import StateVector
@@ -17,18 +17,18 @@ from ..sensormanager.action import Actionable
 
 
 class Movable(StateMutableSequence, Actionable, ABC):
-    states: MutableSequence[State] = Property(
+    states: MutableSequence[State] = prop(
         doc="A list of States which enables the platform's history to be "
             "accessed in simulators and for plotting. Initiated as a "
             "state, for a static platform, this would usually contain its "
             "position coordinates in the form ``[x, y, z]``. For a moving "
             "platform it would contain position and velocity interleaved: "
             "``[x, vx, y, vy, z, vz]``")
-    position_mapping: Sequence[int] = Property(
+    position_mapping: Sequence[int] = prop(
         doc="Mapping between platform position and state vector. For a "
             "position-only 3d platform this might be ``[0, 1, 2]``. For a "
             "position and velocity platform: ``[0, 2, 4]``")
-    velocity_mapping: Optional[Sequence[int]] = Property(
+    velocity_mapping: Optional[Sequence[int]] = prop(
         default=None,
         doc="Mapping between platform velocity and state dims. If not "
             "set, it will default to ``[m+1 for m in position_mapping]``")
@@ -193,7 +193,7 @@ class FixedMovable(Movable):
 
         .. note:: Position and orientation are read/write properties in this class.
         """
-    orientation: StateVector = Property(
+    orientation: StateVector = prop(
         default=None,
         doc='A fixed orientation of the static platform. Defaults to the zero vector')
 
@@ -235,7 +235,7 @@ class MovingMovable(Movable):
 
     .. note:: Position and orientation are a read only properties in this class.
     """
-    transition_model: TransitionModel = Property(doc="Transition model")
+    transition_model: TransitionModel = prop(doc="Transition model")
 
     @property
     def velocity(self) -> StateVector:
@@ -355,9 +355,9 @@ class MultiTransitionMovable(MovingMovable):
     movement behaviour of the platform for given durations.
     """
 
-    transition_models: Sequence[TransitionModel] = Property(doc="list of transition models")
-    transition_times: Sequence[datetime.timedelta] = Property(doc="Durations for each listed "
-                                                                  "transition model")
+    transition_models: Sequence[TransitionModel] = prop(doc="list of transition models")
+    transition_times: Sequence[datetime.timedelta] = prop(doc="Durations for each listed "
+                                                              "transition model")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -44,7 +44,7 @@ import numpy as np
 import ruamel.yaml
 from ruamel.yaml.constructor import ConstructorError
 
-from .base import Base, Property
+from .base import Base, prop
 from .types.angle import Angle
 from .types.array import Matrix, StateVector
 from .types.numeric import Probability
@@ -139,8 +139,8 @@ def declarative_to_yaml(representer, node):
     node_properties = OrderedDict(type(node).properties)
     # Special case of a sensor with a default platform
     if isinstance(node, Sensor) and node._has_internal_controller:
-        node_properties['position'] = Property(StateVector)
-        node_properties['orientation'] = Property(StateVector)
+        node_properties['position'] = prop(StateVector)
+        node_properties['orientation'] = prop(StateVector)
     return representer.represent_omap(
         yaml_tag(type(node)),
         OrderedDict((name, getattr(node, name))

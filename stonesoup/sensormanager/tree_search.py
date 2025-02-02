@@ -8,7 +8,7 @@ import warnings
 import numpy as np
 
 from .base import SensorManager
-from ..base import Property
+from ..base import prop
 
 
 class MCTSBestChildPolicyEnum(Enum):
@@ -80,29 +80,29 @@ class MonteCarloTreeSearchSensorManager(SensorManager):
            decision making", MIT Press, 2022 (https://algorithmsbook.com/)
     """
 
-    reward_function: Callable = Property(
+    reward_function: Callable = prop(
         default=None, doc="A function or class designed to work out the reward associated with an "
                           "action or set of actions. This will be implemented to evaluate each "
                           "action within the rollout with the discounted sum being stored at "
                           "the node representing the first action.")
 
-    niterations: int = Property(
+    niterations: int = prop(
         default=100, doc="The number of iterations of the tree search process to be carried out.")
 
-    time_step: timedelta = Property(
+    time_step: timedelta = prop(
         default=timedelta(seconds=1), doc="The sample time between steps in the horizon.")
 
-    exploration_factor: float = Property(
+    exploration_factor: float = prop(
         default=1.0, doc="The exploration factor used in the upper confidence bound for trees.")
 
-    best_child_policy: MCTSBestChildPolicyEnum = Property(
+    best_child_policy: MCTSBestChildPolicyEnum = prop(
         default=MCTSBestChildPolicyEnum.MAXCREWARD,
         doc="The policy for selecting the best child. Options are ``'max_average_reward'`` for "
             "the maximum reward per visit to a node, ``'max_cumulative_reward'`` for the maximum "
             "total reward after all simulations and ``'max_visits'`` for the node with the "
             "maximum number of visits. Default is ``'max_cumulative_reward'``.")
 
-    discount_factor: float = Property(
+    discount_factor: float = prop(
         default=0.9,
         doc="The discount factor is applied to rewards beyond the immidiate future timestep "
             "to reduce the reward of future nodes to reflect the increasing level of uncertainty "
@@ -110,7 +110,7 @@ class MonteCarloTreeSearchSensorManager(SensorManager):
             "such that the factor will be raised by power of the number of timesteps "
             "beyond the immidiate future timestep.")
 
-    search_depth: int = Property(
+    search_depth: int = prop(
         default=None,
         doc="The maximum depth to apply to the search tree, specifying the maximum number of "
             "future timesteps to expand to.")
@@ -287,7 +287,7 @@ class MCTSRolloutSensorManager(MonteCarloTreeSearchSensorManager):
     Carlo rollout for more robust action simulation. All other details are consistent
     with :class:`~.MonteCarloTreeSearchSensorManager`"""
 
-    rollout_depth: int = Property(
+    rollout_depth: int = prop(
         default=None,
         doc="The depth of rollout to conduct for each node. This is only used when "
             ":attr:`search_depth` is not set or set to `None`.")

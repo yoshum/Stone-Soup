@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 
 from .base import Updater
-from ..base import Property
+from ..base import prop
 from ..types.hypothesis import CompositeHypothesis
 from ..types.update import CompositeUpdate
 
@@ -12,7 +12,7 @@ class CompositeUpdater(Updater):
     A composition of sub-updaters (:class:`~.Updater`).
     """
 
-    sub_updaters: Sequence[Updater] = Property(
+    sub_updaters: Sequence[Updater] = prop(
         doc="Sequence of sub-updaters comprising the composite updater. Must not be empty.")
 
     def __init__(self, *args, **kwargs):

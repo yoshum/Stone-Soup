@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..models.measurement import MeasurementModel
 
 
@@ -19,7 +19,7 @@ class Updater(Base):
 
     """
 
-    measurement_model: MeasurementModel = Property(doc="measurement model")
+    measurement_model: MeasurementModel = prop(doc="measurement model")
 
     def _check_measurement_model(self, measurement_model):
         """Check that the measurement model passed actually exists. If not

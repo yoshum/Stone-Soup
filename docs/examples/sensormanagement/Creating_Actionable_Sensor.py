@@ -119,13 +119,13 @@ class ChangeDirectionAction(Action):
 #   whether this is possible by simply asking "is this IN my generator?".
 
 from stonesoup.sensormanager.action import ActionGenerator
-from stonesoup.base import Property
+from stonesoup.base import prop
 from stonesoup.sensor.sensor import Sensor
 
 
 class DirectionActionsGenerator(ActionGenerator):
     """Return an action for each possible direction that the sensor can look at by `end_time`."""
-    owner: Sensor = Property(
+    owner: Sensor = prop(
         doc="Sensor with `timestamp`, `direction` and `potential_directions` attributes")
 
     @property

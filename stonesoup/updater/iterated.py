@@ -2,7 +2,7 @@ import copy
 import warnings
 
 from . import Updater
-from ..base import Property
+from ..base import prop
 from ..measures import Measure, KLDivergence
 from ..models.measurement import MeasurementModel
 from ..models.transition import TransitionModel
@@ -33,19 +33,19 @@ class DynamicallyIteratedUpdater(Updater):
     "Iterated Filters for Nonlinear Transition Models"
     """
     measurement_model = None
-    predictor: Predictor = Property(doc="Predictor to use for iterating over the predict step. "
-                                        "Probably should be the same predictor used for the "
-                                        "initial predict step")
-    updater: Updater = Property(doc="Updater to use for iterating over update step")
-    smoother: Smoother = Property(doc="Smoother used to smooth the prior ")
-    tolerance: float = Property(
+    predictor: Predictor = prop(doc="Predictor to use for iterating over the predict step. "
+                                    "Probably should be the same predictor used for the "
+                                    "initial predict step")
+    updater: Updater = prop(doc="Updater to use for iterating over update step")
+    smoother: Smoother = prop(doc="Smoother used to smooth the prior ")
+    tolerance: float = prop(
         default=1e-6,
         doc="The value of the difference in the measure used as a stopping criterion.")
-    measure: Measure = Property(
+    measure: Measure = prop(
         default=KLDivergence(),
         doc="The measure to use to test the iteration stopping criterion. Defaults to the "
             "Euclidean distance between current and prior posterior state estimate.")
-    max_iterations: int = Property(
+    max_iterations: int = prop(
         default=1000,
         doc="Number of iterations before while loop is exited and a non-convergence warning is "
             "returned")
@@ -126,8 +126,8 @@ class DynamicallyIteratedEKFUpdater(DynamicallyIteratedUpdater):
     predictor = None
     updater = None
     smoother = None
-    measurement_model: MeasurementModel = Property(doc="measurement model")
-    transition_model: TransitionModel = Property(doc="The transition model to be used.")
+    measurement_model: MeasurementModel = prop(doc="measurement model")
+    transition_model: TransitionModel = prop(doc="The transition model to be used.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

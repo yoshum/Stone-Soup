@@ -8,7 +8,7 @@ except ImportError as error:  # pragma: no cover
     ) from error
 
 from .base import Writer
-from ..base import Property
+from ..base import prop
 
 
 class KafkaWriter(Writer):
@@ -17,7 +17,7 @@ class KafkaWriter(Writer):
     Parameters
     ----------
     """
-    kafka_config: dict[str, str] = Property(
+    kafka_config: dict[str, str] = prop(
         doc="Configuration properties for the underlying kafka consumer. See the "
             "`confluent-kafka documentation <https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html#kafka-client-configuration>`_ " # noqa
             "for more details.")

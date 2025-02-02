@@ -6,7 +6,7 @@ from stonesoup.types.state import State
 from stonesoup.types.angle import mod_bearing
 from stonesoup.functions import cart2sphere, build_rotation_matrix_xyz
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..types.array import StateVector
 
 
@@ -21,19 +21,19 @@ class PlatformMountable(Base, ABC):
 
     """
 
-    rotation_offset: StateVector = Property(
+    rotation_offset: StateVector = prop(
         default=None,
         doc="A StateVector containing the sensor rotation "
             "offsets from the platform's primary axis (defined as the "
             "direction of motion). Defaults to a zero vector with the "
             "same length as the Platform's :attr:`velocity_mapping`")
-    mounting_offset: StateVector = Property(
+    mounting_offset: StateVector = prop(
         default=None,
         doc="A StateVector containing the sensor translation "
             "offsets from the platform's reference point. Defaults to "
             "a zero vector with length 3")
 
-    movement_controller: Movable = Property(
+    movement_controller: Movable = prop(
         default=None,
         doc="The :class:`~.`Movable` object that controls the movement of this sensor. Will be "
             "set by the platform if the sensor is assigned to a platform."

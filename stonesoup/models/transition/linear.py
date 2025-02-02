@@ -9,7 +9,7 @@ from scipy.linalg import block_diag
 from .base import TransitionModel, CombinedGaussianTransitionModel
 from ..base import (LinearModel, GaussianModel, TimeVariantModel,
                     TimeInvariantModel)
-from ...base import Property
+from ...base import prop
 from ...types.array import CovarianceMatrix
 
 
@@ -56,10 +56,10 @@ class LinearGaussianTimeInvariantTransitionModel(LinearGaussianTransitionModel,
                                                  TimeInvariantModel):
     r"""Generic Linear Gaussian Time Invariant Transition Model."""
 
-    transition_matrix: np.ndarray = Property(doc="Transition matrix :math:`\\mathbf{F}`.")
-    control_matrix: np.ndarray = Property(
+    transition_matrix: np.ndarray = prop(doc="Transition matrix :math:`\\mathbf{F}`.")
+    control_matrix: np.ndarray = prop(
         default=None, doc="Control matrix :math:`\\mathbf{B}`.")
-    covariance_matrix: CovarianceMatrix = Property(
+    covariance_matrix: CovarianceMatrix = prop(
         doc="Transition noise covariance matrix :math:`\\mathbf{Q}`.")
 
     def matrix(self, **kwargs):
@@ -111,10 +111,10 @@ class ConstantNthDerivative(LinearGaussianTransitionModel, TimeVariantModel):
     calculated as the terms of the taylor expansion of each state variable.
     """
 
-    constant_derivative: int = Property(
+    constant_derivative: int = prop(
         doc="The order of the derivative with respect to time to be kept constant, eg if 2 "
             "identical to constant acceleration")
-    noise_diff_coeff: float = Property(
+    noise_diff_coeff: float = prop(
         doc="The Nth derivative noise diffusion coefficient (Variance) :math:`q`")
 
     @property
@@ -159,7 +159,7 @@ class RandomWalk(ConstantNthDerivative):
         The target is assumed to be (almost) stationary, where
         target velocity is modelled as white noise.
         """
-    noise_diff_coeff: float = Property(doc="The position noise diffusion coefficient :math:`q`")
+    noise_diff_coeff: float = prop(doc="The position noise diffusion coefficient :math:`q`")
 
     @property
     def constant_derivative(self):
@@ -211,7 +211,7 @@ class ConstantVelocity(ConstantNthDerivative):
                         \frac{dt^2}{2} & dt
                 \end{bmatrix} q
     """
-    noise_diff_coeff: float = Property(doc="The velocity noise diffusion coefficient :math:`q`")
+    noise_diff_coeff: float = prop(doc="The velocity noise diffusion coefficient :math:`q`")
 
     @property
     def constant_derivative(self):
@@ -269,7 +269,7 @@ class ConstantAcceleration(ConstantNthDerivative):
                         \frac{dt^3}{6} & \frac{dt^2}{2} & dt
                       \end{bmatrix} q
     """
-    noise_diff_coeff: float = Property(
+    noise_diff_coeff: float = prop(
         doc="The acceleration noise diffusion coefficient :math:`q`")
 
     @property
@@ -299,11 +299,11 @@ class NthDerivativeDecay(LinearGaussianTransitionModel, TimeVariantModel):
     simply, but examples for N=1 and N=2 are given in
     :class:`~.OrnsteinUhlenbeck` and :class:`~.Singer` respectively.
         """
-    decay_derivative: int = Property(
+    decay_derivative: int = prop(
         doc="The derivative with respect to time to decay exponentially, eg if 2 identical to "
             "singer")
-    noise_diff_coeff: float = Property(doc="The noise diffusion coefficient :math:`q`")
-    damping_coeff: float = Property(doc="The Nth derivative damping coefficient :math:`K`")
+    noise_diff_coeff: float = prop(doc="The noise diffusion coefficient :math:`q`")
+    damping_coeff: float = prop(doc="The Nth derivative damping coefficient :math:`K`")
 
     @property
     def ndim_state(self):
@@ -406,8 +406,8 @@ class OrnsteinUhlenbeck(NthDerivativeDecay):
                 \end{bmatrix} q
     """
 
-    noise_diff_coeff: float = Property(doc="The velocity noise diffusion coefficient :math:`q`")
-    damping_coeff: float = Property(doc="The velocity damping coefficient :math:`K`")
+    noise_diff_coeff: float = prop(doc="The velocity noise diffusion coefficient :math:`q`")
+    damping_coeff: float = prop(doc="The velocity damping coefficient :math:`K`")
 
     @property
     def decay_derivative(self):
@@ -476,9 +476,9 @@ class Singer(NthDerivativeDecay):
                     \end{bmatrix}
     """
 
-    noise_diff_coeff: float = Property(
+    noise_diff_coeff: float = prop(
         doc="The acceleration noise diffusion coefficient :math:`q`")
-    damping_coeff: float = Property(doc=r"The reciprocal of the decorrelation time :math:`\alpha`")
+    damping_coeff: float = prop(doc=r"The reciprocal of the decorrelation time :math:`\alpha`")
 
     @property
     def decay_derivative(self):
@@ -590,11 +590,11 @@ class KnownTurnRateSandwich(LinearGaussianTransitionModel, TimeVariantModel):
     known (nearly) constant turn rate.
     """
 
-    turn_noise_diff_coeffs: np.ndarray = Property(
+    turn_noise_diff_coeffs: np.ndarray = prop(
         doc="The acceleration noise diffusion coefficients :math:`q`")
-    turn_rate: float = Property(
+    turn_rate: float = prop(
         doc=r"The turn rate :math:`\omega`")
-    model_list: Sequence[LinearGaussianTransitionModel] = Property(
+    model_list: Sequence[LinearGaussianTransitionModel] = prop(
         doc="List of Transition Models.")
 
     @property

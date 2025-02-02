@@ -6,7 +6,7 @@ from scipy.linalg import block_diag
 
 from .base import TransitionModel
 from ..base import GaussianModel, TimeVariantModel
-from ...base import Property
+from ...base import prop
 from ...types.array import CovarianceMatrix, StateVector, StateVectors
 
 
@@ -74,9 +74,9 @@ class ConstantTurn(GaussianTransitionModel, TimeVariantModel):
                           0 & 0 & 0 & 0 & q_\omega dt
                      \end{bmatrix}
     """
-    linear_noise_coeffs: np.ndarray = Property(
+    linear_noise_coeffs: np.ndarray = prop(
         doc=r"The acceleration noise diffusion coefficients :math:`[q_x, \: q_y]^T`")
-    turn_noise_coeff: float = Property(
+    turn_noise_coeff: float = prop(
         doc=r"The turn rate noise coefficient :math:`q_\omega`")
 
     @property
@@ -149,7 +149,7 @@ class ConstantTurnSandwich(ConstantTurn):
     The target is assumed to move with (nearly) constant velocity and also
     unknown (nearly) constant turn rate.
     """
-    model_list: Sequence[GaussianTransitionModel] = Property(
+    model_list: Sequence[GaussianTransitionModel] = prop(
         doc="List of Transition Models.")
 
     @property

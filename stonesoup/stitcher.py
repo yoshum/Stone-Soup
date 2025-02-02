@@ -6,7 +6,7 @@ from functools import lru_cache
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-from .base import Base, Property
+from .base import Base, prop
 from .hypothesiser import Hypothesiser
 from .models.measurement.linear import LinearGaussian
 from .types.detection import Detection
@@ -19,13 +19,13 @@ class TrackStitcher(Base):
     tracks. Contains functions for forward and backwards stitching, as well as the
     function to use both at the same time.
     """
-    forward_hypothesiser: Hypothesiser = Property(
+    forward_hypothesiser: Hypothesiser = prop(
         doc="Forward predicting hypothesiser.",
         default=None)
-    backward_hypothesiser: Hypothesiser = Property(
+    backward_hypothesiser: Hypothesiser = prop(
         doc="Backward predicting hypothesiser.",
         default=None)
-    search_window: timedelta = Property(
+    search_window: timedelta = prop(
         doc="Time window from current time to search in for potential track endpoints for "
             "association",
         default=timedelta(seconds=30))

@@ -2,7 +2,7 @@ import datetime
 from abc import abstractmethod
 from collections.abc import Mapping
 
-from ..base import Base, Property
+from ..base import Base, prop
 from ..hypothesiser import Hypothesiser
 from ..types.detection import Detection
 from ..types.hypothesis import Hypothesis
@@ -19,7 +19,7 @@ class DataAssociator(Base):
     from hypotheses generate from a :class:`~.Hypothesiser`.
     """
 
-    hypothesiser: Hypothesiser = Property(
+    hypothesiser: Hypothesiser = prop(
         doc="Generate a set of hypotheses for each track-detection pair")
 
     def generate_hypotheses(self, tracks, detections, timestamp, **kwargs):

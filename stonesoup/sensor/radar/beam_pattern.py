@@ -2,12 +2,12 @@ import datetime
 from abc import abstractmethod
 from collections.abc import Sequence
 
-from ...base import Property, Base
+from ...base import prop, Base
 
 
 class BeamTransitionModel(Base):
     """Base class for Beam Transition Model"""
-    centre: Sequence = Property(doc="Centre of the beam pattern")
+    centre: Sequence = prop(doc="Centre of the beam pattern")
 
     @abstractmethod
     def move_beam(self, timestamp, **kwargs):
@@ -35,11 +35,11 @@ class StationaryBeam(BeamTransitionModel):
 
 class BeamSweep(BeamTransitionModel):
     """This describes a beam moving in a raster pattern"""
-    init_time: datetime.datetime = Property(default=None, doc="The time the frame is started")
-    angle_per_s: float = Property(doc="The speed that the beam scans at")
-    frame: tuple[float, float] = Property(doc="Dimensions of search frame as [azimuth,elevation]")
-    separation: float = Property(doc="Separation of lines in elevation")
-    centre: tuple[float, float] = Property(
+    init_time: datetime.datetime = prop(default=None, doc="The time the frame is started")
+    angle_per_s: float = prop(doc="The speed that the beam scans at")
+    frame: tuple[float, float] = prop(doc="Dimensions of search frame as [azimuth,elevation]")
+    separation: float = prop(doc="Separation of lines in elevation")
+    centre: tuple[float, float] = prop(
         default=(0, 0),
         doc="Centre of the search frame in [azimuth,elevation]. Defaults to (0, 0)")
 

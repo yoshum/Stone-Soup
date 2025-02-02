@@ -3,7 +3,7 @@ from collections.abc import Collection
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-from ..base import Property
+from ..base import prop
 from ..dataassociator.base import Associator
 from ..measures.base import BaseMeasure
 from ..types.association import Association, AssociationSet
@@ -22,17 +22,17 @@ class OneToOneAssociator(Associator):
     Infinity can't be used, as it breaks the association algorithm.
     """
 
-    measure: BaseMeasure = Property(
+    measure: BaseMeasure = prop(
         doc="This will compare two objects that could be associated together and will provide an "
             "indication of the separation between the objects.")
-    association_threshold: float = Property(
+    association_threshold: float = prop(
         default=None,
         doc="The maximum (minimum if :attr:`~.maximise_measure` is true) value from the "
             ":attr:`~.measure` needed to associate two objects. If the default value of `None` is "
             "used then the association threshold is set to plus/minus an arbitrarily large number "
             "that shouldn't limit associations.")
 
-    maximise_measure: bool = Property(
+    maximise_measure: bool = prop(
         default=False, doc="Should the association algorithm attempt to maximise or minimise the "
                            "output of the measure.")
 

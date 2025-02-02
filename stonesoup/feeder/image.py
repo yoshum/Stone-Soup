@@ -7,7 +7,7 @@ except ImportError as error:
         from error
 
 from .base import Feeder
-from ..base import Property
+from ..base import prop
 from ..buffered_generator import BufferedGenerator
 from ..types.sensordata import ImageFrame
 
@@ -27,12 +27,12 @@ class CFAR(Feeder):
         objects. As such :attr:`~.ImageFrame.pixels` for all frames must be 2-D arrays, containing
         grayscale intensity values.
     """
-    train_size: int = Property(doc="The number of train pixels", default=10)
-    guard_size: int = Property(doc="The number of guard pixels", default=4)
-    alpha: float = Property(doc="The threshold value", default=1.)
-    squared: bool = Property(doc="If set to True, the threshold will be computed as a function of "
-                                 "the sum of squares. The default is False, in which case a "
-                                 "simple sum will be evaluated.", default=False)
+    train_size: int = prop(doc="The number of train pixels", default=10)
+    guard_size: int = prop(doc="The number of guard pixels", default=4)
+    alpha: float = prop(doc="The threshold value", default=1.)
+    squared: bool = prop(doc="If set to True, the threshold will be computed as a function of "
+                             "the sum of squares. The default is False, in which case a "
+                             "simple sum will be evaluated.", default=False)
 
     @BufferedGenerator.generator_method
     def data_gen(self):

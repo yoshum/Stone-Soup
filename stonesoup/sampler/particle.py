@@ -3,7 +3,7 @@ from collections.abc import Callable
 import numpy as np
 
 from .base import Sampler
-from ..base import Property
+from ..base import prop
 from ..types.state import ParticleState
 from ..types.array import StateVectors
 
@@ -15,13 +15,13 @@ class ParticleSampler(Sampler):
      :class:`numpy` and :class:`scipy`, that returns a :class:`~.ParticleState`
      """
 
-    distribution_func: Callable = Property(
+    distribution_func: Callable = prop(
         doc="Callable function that returns samples from the desired distribution.")
 
-    params: dict = Property(
+    params: dict = prop(
         doc="Dictionary containing the keyword arguments for :attr:`distribution_func`.")
 
-    ndim_state: int = Property(
+    ndim_state: int = prop(
         doc="Number of dimensions in each sample.")
 
     def sample(self, params=None, timestamp=None, **kwargs):
