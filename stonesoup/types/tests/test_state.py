@@ -536,8 +536,7 @@ def test_state_mutable_sequence_error_message():
     class TestSMS(StateMutableSequence):
         test_property: int = Property(default=3)
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+        def __post_init__(self):
             self.test_variable = 5
 
         def test_method(self):

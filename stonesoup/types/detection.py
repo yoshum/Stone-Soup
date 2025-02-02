@@ -16,8 +16,7 @@ class Detection(State):
     metadata: MutableMapping = Property(
         default=None, doc='Dictionary of metadata items for Detections.')
 
-    def __init__(self, state_vector, *args, **kwargs):
-        super().__init__(state_vector, *args, **kwargs)
+    def __post_init__(self):
         if self.metadata is None:
             self.metadata = {}
 
@@ -55,9 +54,6 @@ class MissedDetection(Detection):
 
     state_vector: StateVector = Property(default=None, doc="State vector. Default `None`.")
 
-    def __init__(self, state_vector=None, *args, **kwargs):
-        super().__init__(state_vector, *args, **kwargs)
-
     def __bool__(self):
         return False
 
@@ -87,8 +83,7 @@ class CompositeDetection(CompositeState):
         doc="Mapping of detections to composite state space. Defaults to `None`, where "
             "sub-detections map to sub-state spaces in order.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
 
         if self.mapping and len(self.mapping) != len(self.sub_states):
             raise ValueError("Mappings and sub-detections must have same count")

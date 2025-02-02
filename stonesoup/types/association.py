@@ -23,8 +23,7 @@ class AssociationPair(Association):
     An :class:`~.Association` representing the association of two objects.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if len(self.objects) != 2:
             raise ValueError("Only two objects can be associated in one "
                              "AssociationPair object.")
@@ -67,8 +66,7 @@ class AssociationSet(Type):
 
     associations: set[Association] = Property(default=None, doc="set of independent associations.")
 
-    def __init__(self, associations=None, *args, **kwargs):
-        super().__init__(associations, *args, **kwargs)
+    def __post_init__(self):
         if self.associations is None:
             self.associations = set()
         if not all(isinstance(member, Association) for member in self.associations):

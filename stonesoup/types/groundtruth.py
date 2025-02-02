@@ -10,8 +10,7 @@ class GroundTruthState(State):
     metadata: MutableMapping = Property(
         default=None, doc='Dictionary of metadata items for Detections.')
 
-    def __init__(self, state_vector, *args, **kwargs):
-        super().__init__(state_vector, *args, **kwargs)
+    def __post_init__(self):
         if self.metadata is None:
             self.metadata = {}
 
@@ -35,8 +34,7 @@ class GroundTruthPath(StateMutableSequence):
         doc="The unique path ID. Default `None` where random UUID is "
             "generated.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.id is None:
             self.id = str(uuid.uuid4())
 
@@ -51,9 +49,6 @@ class CompositeGroundTruthState(CompositeState):
     sub_states: Sequence[GroundTruthState] = Property(
         doc="Sequence of sub-states comprising the composite state. All sub-states must have "
             "matching timestamp and `metadata` attributes. Must not be empty.")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
     @property
     def metadata(self):

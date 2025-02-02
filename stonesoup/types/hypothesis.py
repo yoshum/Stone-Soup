@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from collections import UserDict
 from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -10,7 +11,8 @@ from .prediction import MeasurementPrediction, Prediction, CompositePrediction, 
     CompositeMeasurementPrediction
 from ..base import Property
 from ..types.numeric import Probability
-
+if TYPE_CHECKING:
+    from .track import Track
 
 class Hypothesis(Type):
     """Hypothesis base type
@@ -118,7 +120,7 @@ class JointHypothesis(Type, UserDict):
     Update, and Update imports Hypothesis, which is a circular import.
     """
 
-    hypotheses: Hypothesis = Property(doc='Association hypotheses')
+    hypotheses: dict['Track', Hypothesis] = Property(doc='Association hypotheses')
 
     def __new__(cls, hypotheses):
         if all(isinstance(hypothesis, SingleDistanceHypothesis)
@@ -130,8 +132,7 @@ class JointHypothesis(Type, UserDict):
         else:
             raise NotImplementedError
 
-    def __init__(self, hypotheses):
-        super().__init__(hypotheses)
+    def __post_init__(self):
         self.data = self.hypotheses
 
     @abstractmethod
@@ -164,8 +165,7 @@ class ProbabilityJointHypothesis(ProbabilityHypothesis, JointHypothesis):
             "whereby the probability is calculated as being the product of the constituent "
             "multiple-hypotheses' probabilities.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         self.probability = Probability(np.prod(
             [hypothesis.probability for hypothesis in self.hypotheses.values()]))
 
@@ -184,9 +184,6 @@ class DistanceJointHypothesis(JointHypothesis):
     As smaller distance is 'better', comparison logic is reversed
     i.e. smaller distance is a greater likelihood.
     """
-
-    def __init__(self, hypotheses):
-        super().__init__(hypotheses)
 
     @property
     def distance(self):
@@ -223,10 +220,7 @@ class CompositeHypothesis(SingleHypothesis):
     measurement_prediction: CompositeMeasurementPrediction = Property(
         default=None, doc="Optional track prediction in measurement space")
 
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
-
+    def __post_init__(self):
         if len(self.sub_hypotheses) == 0:
             raise ValueError("Cannot create an empty composite hypothesis")
 
@@ -307,10 +301,7 @@ class CompositeProbabilityHypothesis(CompositeHypothesis, SingleProbabilityHypot
         doc="Sequence of probability-scored sub-hypotheses comprising the composite hypothesis."
     )
 
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
-
+    def __post_init__(self):
         if any(not isinstance(sub_hypothesis, SingleProbabilityHypothesis)
                for sub_hypothesis in self.sub_hypotheses):
             raise ValueError(

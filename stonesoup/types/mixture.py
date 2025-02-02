@@ -25,8 +25,7 @@ class GaussianMixture(Type, MutableSequence):
         doc="""The initial list of :class:`WeightedGaussianState` components.
         Default `None` which initialises with empty list.""")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.components is None:
             self.components = []
         if any(not isinstance(component, (WeightedGaussianState, TaggedWeightedGaussianState))

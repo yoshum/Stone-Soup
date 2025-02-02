@@ -19,8 +19,7 @@ class Interval(Type):
     start: Union[int, float] = Property(doc="Lower bound of interval")
     end: Union[int, float] = Property(doc="Upper bound of interval")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.start >= self.end:
             raise ValueError('Must have left < right')
 
@@ -168,9 +167,7 @@ class Intervals(Type):
         default=None,
         doc="Container of :class:`Interval`")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
+    def __post_init__(self):
         if self.intervals is None:
             self.intervals = list()
         elif not isinstance(self.intervals, MutableSequence):

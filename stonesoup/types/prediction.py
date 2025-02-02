@@ -22,8 +22,7 @@ class Prediction(Type, CreatableFromState):
         default=None, doc='The transition model used to make the prediction')
     prior: State = Property(default=None)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.prior and hasattr(self.prior, 'hypothesis'):
             self.prior = copy.copy(self.prior)
             # Stop repeated linking back which will eat memory
@@ -116,8 +115,7 @@ class GaussianMeasurementPrediction(MeasurementPrediction, GaussianState):
     cross_covar: CovarianceMatrix = Property(
         default=None, doc="The state-measurement cross covariance matrix")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.cross_covar is not None \
                 and self.cross_covar.shape[1] != self.state_vector.shape[0]:
             raise ValueError("cross_covar should have the same number of "

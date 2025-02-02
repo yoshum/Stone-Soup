@@ -146,8 +146,7 @@ class CompoundTimeRange(Intervals):
     A container class representing one or more :class:`~.TimeRange` objects together
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if not isinstance(self.time_ranges, list):
             raise TypeError("Time_ranges must be a list")
         for component in self.time_ranges:

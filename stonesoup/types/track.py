@@ -31,9 +31,7 @@ class Track(StateMutableSequence):
         default={}, doc="Initial dictionary of metadata items for track. Default `None` which "
                         "initialises track metadata as an empty dictionary.")
 
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
 
         self.metadatas = list()
 

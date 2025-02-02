@@ -21,16 +21,15 @@ class State(Type):
     """State type.
 
     Most simple state type, which only has time and a state vector."""
+    state_vector: StateVector = Property(doc='State vector.')
     timestamp: datetime.datetime = Property(
         default=None, doc="Timestamp of the state. Default None.")
-    state_vector: StateVector = Property(doc='State vector.')
 
-    def __init__(self, state_vector, *args, **kwargs):
+    def __post_init__(self):
         # Don't cast away subtype of state_vector if not necessary
-        if state_vector is not None \
-                and not isinstance(state_vector, (StateVector, StateVectors)):
-            state_vector = StateVector(state_vector)
-        super().__init__(state_vector, *args, **kwargs)
+        if self.state_vector is not None \
+                and not isinstance(self.state_vector, (StateVector, StateVectors)):
+            self.state_vector = StateVector(self.state_vector)
 
     @property
     def ndim(self):
@@ -83,7 +82,8 @@ class State(Type):
 
 
 class CreatableFromState:
-    class_mapping = {}
+    class_mapping: dict[type['CreatableFromState'],
+                        dict[type[State], type['CreatableFromState']]] = {}
 
     def __init_subclass__(cls, **kwargs):
         bases = cls.__bases__
@@ -111,7 +111,7 @@ class CreatableFromState:
             cls,
             state: State,
             *args: Any,
-            target_type: Optional[type] = None,
+            target_type: Optional[type['CreatableFromState']] = None,
             **kwargs: Any) -> 'State':
         """
         Return new object instance of suitable type from an existing `state`.
@@ -222,16 +222,15 @@ class ASDState(Type):
     timestamps: Sequence[datetime.datetime] = Property(
         doc="List of all timestamps which have a state in the ASDState")
     max_nstep: int = Property(
+        default=0,
         doc="Decides when the state is pruned in a prediction step. If 0 then there is no pruning")
 
-    def __init__(self, multi_state_vector, timestamps,
-                 max_nstep=0, *args, **kwargs):
-        if multi_state_vector is not None and timestamps is not None:
-            multi_state_vector = StateVector(multi_state_vector)
-            if not isinstance(timestamps, Sequence):
-                timestamps = list([timestamps])
-            self.max_nstep = max_nstep
-        super().__init__(multi_state_vector, timestamps, max_nstep, *args, **kwargs)
+    def __post_init__(self):
+        if self.multi_state_vector is not None and self.timestamps is not None:
+            self.multi_state_vector = StateVector(self.multi_state_vector)
+            if not isinstance(self.timestamps, Sequence):
+                self.timestamps = list([self.timestamps])
+            self.max_nstep = self.max_nstep
 
     def __getitem__(self, item):
         if isinstance(item, Integral):
@@ -308,8 +307,7 @@ class StateMutableSequence(Type, MutableSequence):
         default=None,
         doc="The initial list of states. Default `None` which initialises with empty list.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.states is None:
             self.states = []
         elif not isinstance(self.states, Sequence):
@@ -424,11 +422,10 @@ class GaussianState(State):
     """
     covar: CovarianceMatrix = Property(doc='Covariance matrix of state.')
 
-    def __init__(self, state_vector, covar, *args, **kwargs):
+    def __post_init__(self):
         # Don't cast away subtype of covar if not necessary
-        if not isinstance(covar, CovarianceMatrix):
-            covar = CovarianceMatrix(covar)
-        super().__init__(state_vector, covar, *args, **kwargs)
+        if not isinstance(self.covar, CovarianceMatrix):
+            self.covar = CovarianceMatrix(self.covar)
         if self.state_vector.shape[0] != self.covar.shape[0]:
             raise ValueError(
                 "state vector and covariance should have same dimensions")
@@ -450,9 +447,8 @@ class SqrtGaussianState(State):
     sqrt_covar: CovarianceMatrix = Property(doc="A square root form of the Gaussian covariance "
                                                 "matrix.")
 
-    def __init__(self, state_vector, sqrt_covar, *args, **kwargs):
-        sqrt_covar = CovarianceMatrix(sqrt_covar)
-        super().__init__(state_vector, sqrt_covar, *args, **kwargs)
+    def __post_init__(self):
+        self.sqrt_covar = CovarianceMatrix(self.sqrt_covar)
 
     @property
     def mean(self):
@@ -539,8 +535,7 @@ class ASDGaussianState(ASDState):
             "and :math:`F_{l+1|l}` built in the Kalman predictor and Kalman updater, aligned to "
             ":attr:`timestamps`")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.correlation_matrices is None:
             self.correlation_matrices = []
 
@@ -638,8 +633,7 @@ class TaggedWeightedGaussianState(WeightedGaussianState):
     BIRTH = 'birth'
     '''Tag value used to signify birth component'''
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.tag is None:
             self.tag = str(uuid.uuid4())
 
@@ -835,8 +829,7 @@ class MultiModelParticleState(ParticleState):
         default=None,
         doc="Array of indices that identify which model is associated with each particle.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.particle_list and isinstance(self.particle_list, list):
             self.dynamic_model = \
                 np.array([particle.dynamic_model for particle in self.particle_list])
@@ -883,8 +876,7 @@ class RaoBlackwellisedParticleState(ParticleState):
             "Shape (n-models, m-particles)."
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.particle_list and isinstance(self.particle_list, list):
             self.model_probabilities = \
                 np.column_stack([particle.model_probabilities for particle in self.particle_list])
@@ -943,9 +935,6 @@ class BernoulliParticleState(ParticleState):
         doc="Target existence probability estimate"
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def __getitem__(self, item):
         if self.parent is not None:
             parent = copy.copy(self.parent)
@@ -992,8 +981,7 @@ class KernelParticleState(State):
                                               doc='Kernel covariance value. Default `None`.'
                                                   'If None, the identity matrix is used.')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.kernel_covar is None:
             self.kernel_covar = CovarianceMatrix(np.identity(self.state_vector.shape[1])
                                                  * (1/self.state_vector.shape[1]))
@@ -1130,9 +1118,7 @@ class CategoricalState(State):
     categories: Sequence[float] = Property(doc="Category names. Defaults to a list of integers.",
                                            default=None)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
+    def __post_init__(self):
         self.state_vector = self.state_vector / np.sum(self.state_vector)  # normalise state vector
 
         if self.categories is None:
@@ -1170,10 +1156,7 @@ class CompositeState(Type):
         doc="Default timestamp if no sub-states exist to attain timestamp from. Defaults to "
             "`None`, whereby sub-states will be required to have timestamps.")
 
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
-
+    def __post_init__(self):
         if len(self.sub_states) == 0:
             raise ValueError("Cannot create an empty composite state")
 

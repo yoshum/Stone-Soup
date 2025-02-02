@@ -16,8 +16,7 @@ class Particle(Type):
     weight: float = Property(doc='Weight of particle')
     parent: 'Particle' = Property(default=None, doc='Parent particle')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         if self.parent and self.parent.parent:
             self.parent.parent = weakref.ref(self.parent.parent)
         if self.state_vector is not None and not isinstance(self.state_vector, StateVector):
