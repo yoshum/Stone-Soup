@@ -185,6 +185,14 @@ class Property:
         return new_property
 
 
+class _DEFAULT_FACTORY_MARKER_CLASS:
+    def __repr__(self) -> str:
+        return "<default_factory>"
+
+
+_DEFAULT_FACTORY_MARKER = _DEFAULT_FACTORY_MARKER_CLASS()
+
+
 def _format_note(property_names):
     multiple = len(property_names) > 1
     prop_str = [f":attr:`{prop_name}`" for prop_name in property_names]
@@ -391,7 +399,11 @@ class BaseMeta(ABCMeta):
         parameters.extend(
             inspect.Parameter(
                 name, inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                default=property_.default, annotation=property_.cls)
+                default=(
+                    _DEFAULT_FACTORY_MARKER
+                    if property_.default_factory is not Property.empty
+                    else property_.default),
+                annotation=property_.cls)
             for name, property_ in cls._properties.items())
         parameters.extend(
             parameter
