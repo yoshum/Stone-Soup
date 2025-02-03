@@ -113,10 +113,15 @@ class Property:
     """
     empty = inspect.Parameter.empty
 
-    def __init__(self, cls=None, *, default=inspect.Parameter.empty, doc=None,
+    def __init__(self, cls=None, *, default=inspect.Parameter.empty,
+                 default_factory=inspect.Parameter.empty, doc=None,
                  readonly=False):
+        if (default is not inspect.Parameter.empty
+                and default_factory is not inspect.Parameter.empty):
+            raise ValueError("Cannot specify both default and default_factory")
         self.cls = cls
         self.default = default
+        self.default_factory = default_factory
         self.doc = self.__doc__ = doc
         # Fix for when ":" in doc string being interpreted as type in NumpyDoc
         if doc is not None and ':' in doc:
@@ -315,7 +320,8 @@ class BaseMeta(ABCMeta):
 
         for prop_name in list(properties):
             # Optional arguments must follow mandatory
-            if properties[prop_name].default is not Property.empty:
+            if not (properties[prop_name].default is Property.empty
+                    and properties[prop_name].default_factory is Property.empty):
                 properties.move_to_end(prop_name)
 
         if '__init__' not in namespace:
@@ -436,7 +442,10 @@ class Base(metaclass=BaseMeta):
         for name, prop in prop_iter:
             value = kwargs.pop(name, prop.default)
             if value is Property.empty:
-                raise TypeError(f'{cls.__name__} is missing a required argument: {name!r}')
+                if prop.default_factory is not Property.empty:
+                    value = prop.default_factory()
+                else:
+                    raise TypeError(f'{cls.__name__} is missing a required argument: {name!r}')
             setattr(self, name, value)
 
         if kwargs:
