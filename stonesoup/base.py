@@ -75,9 +75,14 @@ class Property:
     Python's duck typing.
 
     A default value can be specified to signify the property on the class is
-    optional. As ``None`` and ``False`` are reasonable default values,
-    :class:`inspect.Parameter.empty` is used to signify the argument is
-    mandatory. (Also aliased to :attr:`Property.empty` for ease)
+    optional. One can pass either ``default`` or ``default_factory`` but not
+    both. ``default`` is useful if the default value is immutable (e.g.
+    ``None``, ``0``, etc.). On the other hand, if a callable is provided as
+    ``default_factory``, it will be called to generate the default value. This
+    is useful if the default value is mutable (e.g. ``list``, ``dict``, etc.).
+    If neither are provided, or they are set to
+    :class:`inspect.Parameter.empty` (also aliased to :attr:`Property.empty`
+    for ease), then the property is mandatory.
 
     A description string can also be provided which will be rendered in the
     documentation.
@@ -96,7 +101,12 @@ class Property:
         and providing both will raise an error.
     default : any, optional
         A default value, which should be same type as class or None. Defaults
-        to :class:`inspect.Parameter.empty` (alias :attr:`Property.empty`)
+        to :class:`inspect.Parameter.empty` (alias :attr:`Property.empty`).
+        Cannot be used with `default_factory`.
+    default_factory: callable, optional
+        A callable that takes no arguments and returns the default value.
+        Defaults to :class:`inspect.Parameter.empty` (alias
+        :attr:`Property.empty`). Cannot be used with `default`.
     doc : str, optional
         Doc string for property
     readonly : bool, optional
@@ -106,6 +116,7 @@ class Property:
     ----------
     cls
     default
+    default_factory
     doc
     readonly
     empty : :class:`inspect.Parameter.empty`
